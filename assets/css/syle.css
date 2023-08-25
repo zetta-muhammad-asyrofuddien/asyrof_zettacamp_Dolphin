@@ -1,0 +1,226 @@
+@font-face {
+  font-family: fontsaya;
+  src: url(../font/nasalization-rg.otf);
+}
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-around;
+}
+
+nav a {
+  text-decoration: none;
+  padding: 5px 2px;
+  color: #ffffff;
+}
+nav a:hover {
+  color: rgb(0, 0, 0);
+  border-bottom: 2px solid black;
+}
+
+body {
+  margin: 0;
+}
+header {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  background: linear-gradient(#278cff, #a5adc6);
+  border-radius: 0px 0px 30px 30px;
+  box-shadow: 0px 1px 10px;
+  margin: 0;
+  padding: 10px 10px;
+  z-index: 1;
+}
+.active {
+  color: black;
+  font-weight: bold;
+  border-bottom: 2px solid black;
+}
+footer {
+  box-shadow: 0px 1px 10px;
+  bottom: 0;
+  text-align: center;
+}
+footer h2 {
+  color: white;
+  padding: 10px;
+  margin-bottom: 0;
+}
+.bg-color {
+  background: linear-gradient(#9c9a9ac2, #278cff);
+}
+* {
+  font-family: fontsaya;
+}
+.deskripsi {
+  margin: auto;
+  height: 30rem;
+  width: 60vw;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5)), url(../img/bg.png);
+  border-radius: 20px;
+  margin-top: 3rem;
+}
+.text-deskripsi {
+  text-align: left;
+  position: absolute;
+  top: 50%;
+  left: 25%;
+  right: 30%;
+  transform: translate(-50%, -50%);
+  color: #b6bbce;
+}
+.text-center {
+  text-align: center;
+}
+.multimedia {
+  margin: 7rem auto;
+  width: 58vw;
+}
+.review {
+  display: flex;
+  align-items: center;
+}
+.vid {
+  width: 40vw;
+  margin-left: 3.8rem;
+  margin-bottom: 3rem;
+}
+.kartu {
+  width: 300px;
+  text-align: center;
+  padding: 40px 10px;
+  border-radius: 10px 10px;
+  border: 1px inset bisque;
+  box-shadow: 1px 1px 10px 1px;
+  transition: 0.4s;
+  background-color: #fff !important;
+  margin: 2rem 0rem;
+  height: max-content;
+}
+.kartu .des {
+  width: 100%;
+  text-align: justify;
+}
+/* .kartu:hover {
+  box-shadow: 2px 2px 30px 2px;
+  cursor: pointer;
+  background-color: rgb(204, 203, 203);
+  transition: 0.4s;
+} */
+.flex {
+  margin: auto auto;
+  width: 60vw;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+}
+.button {
+  background-color: #295ba2;
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  padding: 10px 20px;
+  margin-top: 3rem;
+}
+.button:hover {
+  border: 1px solid black;
+  background-color: #8bb7eb;
+  color: rgb(0, 0, 0);
+  scale: 1.1;
+  transition: 0.5s;
+}
+.kartu a {
+  box-shadow: 0px 1px 10px;
+  position: relative;
+  bottom: 0;
+  text-align: center !important;
+}
+.des table {
+  width: 100%;
+}
+.container {
+  width: 60vw;
+
+  margin: auto auto;
+}
+.form-add {
+  text-align: center;
+}
+.form-control {
+  text-align: center;
+  font-size: 1.5rem;
+  width: 30rem;
+  height: 2.5rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  background-color: #e6e6e6;
+}
+.form-control:focus {
+  background-color: #ffffff;
+}
+.my-2 {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+.bold {
+  font-weight: bold;
+}
+.file {
+  border: 3px dotted black;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  width: 30rem;
+  height: 10vh;
+}
+.file a {
+  margin: auto;
+}
+.spec {
+  margin-top: 2rem;
+}
+.tambah-item {
+  display: flex;
+  justify-content: center;
+}
+.about {
+  text-align: center;
+}
+.about img {
+  margin-top: 2rem;
+  width: 100px;
+}
+
+.about-des {
+  text-align: justify;
+  padding: 0 15rem;
+}
+.visi li {
+  padding-left: 0;
+  text-align: justify;
+  margin-bottom: 3rem;
+}
+textarea {
+  margin-bottom: 2rem;
+  text-align: center;
+  font-size: 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  background-color: #e6e6e6;
+  width: 484px;
+  height: 182px;
+}
+.button-kritik {
+  background-color: #278cff;
+  color: #fff;
+  border-radius: 20px;
+  text-decoration: none;
+  padding: 10px 5rem;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
