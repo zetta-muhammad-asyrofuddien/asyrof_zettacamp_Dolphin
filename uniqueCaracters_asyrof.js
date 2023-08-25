@@ -13,7 +13,9 @@ function hasUniqueCharacters(str) {
   let result = true;
   // const string = str.toLowerCase();
   for (let i = 0; i < str.length; i++) {
+    //perulangan pertama
     for (let j = i + 1; j < str.length; j++) {
+      //perulangan kedua didalam perulangan pertama
       if (str[i] === str[j]) {
         result = false;
         break;
