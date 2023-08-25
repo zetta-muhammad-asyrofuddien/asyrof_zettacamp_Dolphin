@@ -1,0 +1,86 @@
+.bigger {
+  font-size: 1rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+}
+.smaller {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.8rem;
+}
+.smaller a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+p {
+  text-align: justify;
+}
+.kartu {
+  margin: 0px auto;
+  width: 300px;
+  text-align: center;
+  padding: 25px 10px;
+  border-radius: 10px 10px;
+  border: 1px inset bisque;
+  box-shadow: 1px 1px 10px 1px;
+  transition: 0.4s;
+}
+.satu {
+  display: flex;
+}
+.dua {
+  display: flex;
+}
+.tiga {
+  display: flex;
+  margin-bottom: 0;
+}
+.kartu:hover {
+  box-shadow: 5px 2px 30px 10px;
+  cursor: pointer;
+  background-color: rgb(204, 203, 203);
+  transition: 0.4s;
+}
+
+body {
+  background-color: aliceblue;
+  padding: 0px 100px;
+  margin-top: 0;
+}
+img {
+  width: 190px;
+  height: 200px;
+}
+
+header {
+  text-align: center;
+  background-color: rgb(0, 0, 0);
+}
+header h1 {
+  margin: 0 0;
+  padding: 10px 10px;
+}
+* {
+  font-family: 'Courier New', Courier, monospace;
+  color: rgb(72, 81, 90);
+}
+footer {
+  text-align: center;
+}
+.my-1 {
+  margin: 1rem 0rem;
+}
+.mt-0 {
+  margin-top: 0;
+}
+.bg-light {
+  background-color: rgb(216, 230, 241);
+}
+.mx-0 {
+  margin-right: 0;
+  margin-left: 0;
+}
+.px-0 {
+  padding-left: 0;
+  padding-right: 0;
+}

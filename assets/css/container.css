@@ -1,0 +1,22 @@
+.storage {
+  border: 1px solid black;
+  width: 50%;
+}
+.sold {
+  border: 1px solid black;
+  width: 50%;
+}
+.main {
+  display: flex;
+  margin: 0 10%;
+  height: 90vh;
+}
+.scroll li {
+  border: 1px solid black;
+  margin-right: 10%;
+  display: flex;
+}
+.scroll {
+  overflow-y: scroll;
+  height: 70vh;
+}
