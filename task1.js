@@ -40,9 +40,15 @@ function bookPurchasing(name, price, disc, tax, stock, amountOfBuy) {
       break;
     }
   }
+  if (stock !== 0) {
+    console.log('Stok Masih ada, Dapat dibeli');
+  } else if (stock === 0) {
+    console.log('Stok Habis');
+  }
+
   console.log('--------------------------------------------------');
   console.log('Total Harga Pembelian         : ' + totalPrice.toFixed(2));
 }
 
-bookPurchasing('Lanskar Pelangi', 1000000, 15, 2, 5, 3); // Example purchase
-bookPurchasing('Lanskar Pelangi', 1000000, 15, 2, 2, 3);
+// bookPurchasing('Lanskar Pelangi', 1000000, 15, 2, 5, 3); // Example purchase
+bookPurchasing('Lanskar Pelangi', 1000000, 15, 2, 2, 0);

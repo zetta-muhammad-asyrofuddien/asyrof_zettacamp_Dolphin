@@ -30,5 +30,5 @@ function hasUniqueCharacters(str) {
   return result;
 }
 
-console.log(hasUniqueCharacters('abc5defg')); // Output: true
+console.log(hasUniqueCharacters('acad')); // Output: true
 console.log(hasUniqueCharacters('hello')); // Output: false
