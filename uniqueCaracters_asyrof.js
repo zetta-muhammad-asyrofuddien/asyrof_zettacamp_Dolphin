@@ -11,7 +11,7 @@ console.log(hasUniqueCharacters("hello")); // Output: false
 
 function hasUniqueCharacters(str) {
   let result = true;
-
+  // const string = str.toLowerCase();
   for (let i = 0; i < str.length; i++) {
     for (let j = i + 1; j < str.length; j++) {
       if (str[i] === str[j]) {
