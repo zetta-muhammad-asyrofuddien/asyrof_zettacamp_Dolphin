@@ -1,0 +1,44 @@
+.bigger {
+  font-size: 3rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+  color: rgb(233, 150, 48);
+}
+.smaller {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1rem;
+}
+.smaller a {
+  text-decoration: none;
+  color: inherit;
+  font-weight: bold;
+}
+p {
+  text-align: justify;
+  color: rgb(128, 112, 93);
+}
+.kartu {
+  background-color: rgb(226, 226, 226);
+  margin: 20px auto;
+  margin-top: 70px;
+  width: 700px;
+  text-align: center;
+  padding: 25px;
+  border-radius: 300px 300px 50px 50px;
+  border: 10px inset bisque;
+  box-shadow: 5px 2px 50px 10px;
+}
+.kartu:hover {
+  box-shadow: 5px 2px 40px 10px;
+  cursor: pointer;
+  background-color: rgb(204, 203, 203);
+  transition: 0.3s;
+  color: rgb(100, 87, 71);
+}
+body {
+  background-color: aliceblue;
+}
+img {
+  border-radius: 20px;
+  border: inset;
+}

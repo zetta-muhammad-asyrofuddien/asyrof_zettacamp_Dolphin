@@ -1,0 +1,53 @@
+.bigger {
+  font-size: 1rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: bold;
+}
+.smaller {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.8rem;
+}
+.smaller a {
+  text-decoration: none;
+  color: black;
+  font-weight: bold;
+}
+p {
+  text-align: justify;
+}
+.kartu {
+  background-color: rgb(226, 226, 226);
+  margin: 60px auto;
+  width: 300px;
+  text-align: center;
+  padding: 25px 10px;
+  border-radius: 150px 10px;
+  border: 10px inset bisque;
+  box-shadow: 5px 2px 30px 10px;
+  transition: 0.4s;
+}
+.kartu:hover {
+  box-shadow: 5px 2px 30px 10px;
+  cursor: pointer;
+  background-color: rgb(204, 203, 203);
+  transition: 0.4s;
+  scale: 1.2;
+}
+
+body {
+  background-color: aliceblue;
+  padding: 10px 100px;
+}
+img {
+  width: 100px;
+}
+.satu {
+  display: flex;
+}
+header {
+  text-align: center;
+}
+* {
+  font-family: 'Courier New', Courier, monospace;
+  color: rgb(72, 81, 90);
+}
