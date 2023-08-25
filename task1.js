@@ -44,5 +44,5 @@ function bookPurchasing(name, price, disc, tax, stock, amountOfBuy) {
   console.log('Total Harga Pembelian         : ' + totalPrice.toFixed(2));
 }
 
-// bookPurchasing('Lanskar Pelangi', 1000000, 15, 2, 5, 3); // Example purchase
+bookPurchasing('Lanskar Pelangi', 1000000, 15, 2, 5, 3); // Example purchase
 bookPurchasing('Lanskar Pelangi', 1000000, 15, 2, 2, 3);
