@@ -1,0 +1,73 @@
+p {
+  text-align: justify;
+}
+.kartu {
+  width: 300px;
+  text-align: center;
+  padding: 0px 10px;
+  border-radius: 10px 10px;
+  border: 1px inset bisque;
+  box-shadow: 1px 1px 10px 1px;
+  transition: 0.4s;
+  background-color: #fff !important;
+  margin: 2rem 0rem;
+}
+.flex {
+  margin: auto auto;
+  width: 60vw;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-evenly;
+}
+.kartu:hover {
+  box-shadow: 5px 2px 30px 10px;
+  cursor: pointer;
+  background-color: rgb(204, 203, 203);
+  transition: 0.4s;
+}
+.title {
+  color: #fff;
+}
+body {
+  background-color: aliceblue;
+  padding: 0px 0px;
+  margin-top: 0;
+  margin: 0 0;
+}
+img {
+  width: 190px;
+  height: 200px;
+}
+
+header {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  background-color: #333;
+  color: #fff;
+  padding: 1px 0;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+header h1 {
+  margin: 0 0;
+  padding: 10px 10px;
+}
+* {
+  font-family: 'Courier New', Courier, monospace;
+  color: rgb(72, 81, 90);
+}
+footer {
+  text-align: center;
+}
+.my-1 {
+  margin: 1rem 0rem;
+}
+.mt-0 {
+  margin-top: 0;
+}
+.bg-light {
+  background-color: rgb(216, 230, 241);
+}
