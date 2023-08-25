@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      #form input {
+        height: 25px;
+        width: 200px;
+      }
+      #form #offYK,
+      #form #offBL,
+      #form #on {
+        height: 20px;
+        width: 15px;
+      }
+    </style>
+    <title>Form Input</title>
+  </head>
+  <body>
+    <header>
+      <h1>Form Pendaftaran ZettaCamp</h1>
+      <hr />
+    </header>
+    <section id="form">
+      <form action="/action_page.php">
+        <label for="fname"><b>First name</b></label
+        ><br />
+        <input type="text" id="fname" name="fname" placeholder="First Name" /><br /><br />
+
+        <label for="lname"><b>Last name</b></label
+        ><br />
+        <input type="text" id="lname" name="lname" placeholder="Last Name" /><br /><br />
+
+        <label for="email"><b>Email</b></label
+        ><br />
+        <input type="email" id="email" name="email" placeholder="example@gmail.com" /><br /><br />
+
+        <label for="tel"><b>Telephone</b></label
+        ><br />
+        <input type="number" id="tel" name="tel" placeholder="08xxxxxx" /><br /><br />
+
+        <label for="age"><b>Date of birth</b></label
+        ><br />
+        <input type="date" id="age" name="age" /><br /><br />
+
+        <label for="age"><b>Age</b></label
+        ><br />
+        <input type="number" id="age" name="age" /><br /><br />
+
+        <label for="gender"><b>Gender</b></label
+        ><br />
+        <select name="gender" id="gender">
+          <option value="male">Male</option>
+          <option value="female">Female</option></select
+        ><br /><br />
+
+        <p><b>Please select your method of BootCamp</b></p>
+        <input type="radio" id="offYK" name="method" value="offYK" /> <label for="offYK">Offline Yogyakarta</label><br />
+        <input type="radio" id="offBL" name="method" value="offBL" /> <label for="offBL">Offline Bali</label><br />
+        <input type="radio" id="on" name="method" value="on" /> <label for="in">Online</label><br /><br />
+
+        <label for="social"><b>Social Media</b></label
+        ><br />
+        <input type="url" id="social" name="social" placeholder="https://instagram.com/xxxxx" /><br /><br />
+
+        <label for="summary"><b>Describe Yourself</b></label
+        ><br />
+        <textarea name="summary" id="summary" cols="30" rows="10"></textarea><br /><br />
+
+        <label for="avatar"><b>Upload CV:</b></label>
+        <input type="file" id="avatar" name="avatar" accept="application/pdf" /><br /><br />
+
+        <input type="submit" value="Submit" />
+      </form>
+    </section>
+  </body>
+</html>
