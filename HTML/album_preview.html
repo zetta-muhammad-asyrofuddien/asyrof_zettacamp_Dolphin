@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Album Preview</title>
+    <style>
+      nav ul {
+        list-style: none;
+        display: flex;
+        justify-content: space-around;
+      }
+
+      nav a {
+        text-decoration: none;
+        color: #333;
+      }
+      li a:hover {
+        font-weight: bold;
+      }
+      .card {
+        border: 3px solid #ccc;
+        margin: 20px auto;
+        padding: 25px;
+        border-radius: 20px;
+        width: 100%;
+        height: 110vh;
+        box-shadow: 0 5px 0px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        margin-top: 100px;
+        padding: 0 15px;
+      }
+      table {
+        width: 100%;
+        text-align: left;
+      }
+      tr,
+      td {
+        padding-top: 20px;
+        padding-bottom: 20px;
+        border-bottom: 2px inset #ccc;
+      }
+      .button {
+        background-color: #4caf50; /* Green */
+        border: none;
+        color: white;
+        padding: 15px 50px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 25px;
+      }
+      .button:hover {
+        color: #4caf50;
+        background-color: white;
+        border-color: #333;
+        border: 1px solid #333;
+        font-weight: bold;
+        transition: 0.2s;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="nav">
+        <ul>
+          <li>
+            <a href="profile.html"> Profile</a>
+          </li>
+          <li>
+            <a href="song_listing.html">Song Listing</a>
+          </li>
+          <li>
+            <a href="album_preview.html"><b>Album Preview</b></a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+    <div class="container">
+      <div class="card">
+        <h1>Laskar Cinta</h1>
+        <img src="../Assets/img/dewa.jpg" alt="" width="200" />
+        <p>
+          Laskar Cinta adalah album ketujuh karya grup band Dewa. Album ini dirilis pada tahun 2004 di bawah label Aquarius Musikindo. Album
+          ini menghasilkan beberapa hits singel seperti "Pangeran Cinta, "Satu", "Hidup Ini Indah" dan "Cinta Gila". Album ini adalah album
+          terakhir Dewa bersama label Aquarius Musikindo karena pada tahun 2005 , Dewa berpindah label dari Aquarius ke EMI Music Indonesia.
+        </p>
+        <hr />
+        <h2>Artist Information</h2>
+        <h4>DEWA 19</h4>
+        <h4>Surabaya, Indonesia 1986</h4>
+        <hr />
+        <h2>Song List of the Album</h2>
+        <table>
+          <tr>
+            <td>Matahari Bintang Bulan</td>
+            <td>5:11</td>
+            <td>Atas Nama Cinta</td>
+            <td>4:33</td>
+            <td>Hidup ini Indah</td>
+            <td>4:47</td>
+          </tr>
+          <tr>
+            <td>Sweetes Place</td>
+            <td>4:16</td>
+            <td>Hadapi Dengan Senyuan</td>
+            <td>5:32</td>
+            <td>Cinta Gila</td>
+            <td>2:45</td>
+          </tr>
+          <tr>
+            <td>Shine On</td>
+            <td>4:10</td>
+            <td>Nonsens</td>
+            <td>2:18</td>
+            <td>Indonesia Saja</td>
+            <td>3:49</td>
+          </tr>
+          <tr>
+            <td>Pangeran Cinta</td>
+            <td>4:41</td>
+            <td>Aku Tetaplah Aku</td>
+            <td>4:21</td>
+            <td>Satu</td>
+            <td>2:34</td>
+          </tr>
+        </table>
+        <br />
+        <br />
+        <hr />
+        <hr />
+        <h2>Rp 150.000</h2>
+        <a href="#" class="button">Buy</a>
+      </div>
+    </div>
+  </body>
+</html>

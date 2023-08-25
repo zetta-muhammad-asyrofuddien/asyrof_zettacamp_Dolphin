@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spotitiw</title>
+    <style>
+      nav ul {
+        list-style: none;
+        display: flex;
+        justify-content: space-around;
+      }
+
+      nav a {
+        text-decoration: none;
+        color: #333;
+      }
+
+      /* Cards */
+      .card {
+        border: 3px solid #ccc;
+        margin: 20px auto;
+        padding: 10px;
+        border-radius: 20px;
+        width: 50%;
+        box-shadow: 0 5px 0px rgba(0, 0, 0, 0.1);
+      }
+      .card:hover {
+        box-shadow: 5px 5px 8px rgba(0, 0, 0, 0.1);
+        border: 3px solid #333;
+        transition: 0.5s;
+      }
+
+      /* Button */
+      .btn {
+        display: inline-block;
+        padding: 8px 12px;
+        background-color: #333;
+        color: #fff;
+        text-decoration: none;
+        border-radius: 4px;
+      }
+      .btn:hover {
+        background-color: #ccc;
+        color: #333;
+        font-weight: bold;
+        transition: 0.5s;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+      }
+
+      .text-center {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <nav class="nav">
+        <ul>
+          <li>
+            <a href="index.html"><b> Home</b></a>
+          </li>
+          <li><a href="HTML/about.html">About</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section id="pricing">
+      <div class="container">
+        <div class="text-center">
+          <h2>Mendengarkan musik sangat menyenangkan tanpa iklan</h2>
+          <p>LANGGANAN SEKARANG !!!</p>
+        </div>
+      </div>
+      <div class="container">
+        <div class="card">
+          <div class="text-center">
+            <h2>Free Plan</h2>
+            <h3>Rp 0 /<i>Bulan</i></h3>
+            <p>Mendengarkan lebih dari 1 juga lagu Gratis</p>
+            <p>Skip Iklan 10<i>x</i> / Hari</p>
+            <a href="HTML/register.html" class="btn">Register</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="text-center">
+            <h2>Personal Plan</h2>
+            <h3>Rp 1.500.000 /<i>Bulan</i></h3>
+            <p>Mendengarkan semua lagu secara Gratis</p>
+            <p>Skip Iklan sepuasnya</p>
+            <p>Akses mendengarkan album</p>
+            <button><a href="HTML/register.html" class="btn">Register</a></button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+</html>

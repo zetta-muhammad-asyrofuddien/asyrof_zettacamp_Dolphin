@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrasi</title>
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .card {
+        border: 3px solid #ccc;
+        margin: 20px auto;
+        padding: 25px;
+        border-radius: 20px;
+        width: 100%;
+        box-shadow: 0 5px 0px rgba(0, 0, 0, 0.1);
+        text-align: center;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+      }
+      label {
+        font-family: 'Courier New', Courier, monospace;
+        font-weight: bold;
+        font-size: 20px;
+      }
+      input {
+        height: 35px;
+        width: 250px;
+        border-radius: 20px;
+        text-align: center;
+        font-family: 'Times New Roman', Times, serif;
+      }
+      input.sub {
+        border-radius: 10px;
+        height: 25px;
+        width: 150px;
+        cursor: pointer;
+        background-color: aqua;
+      }
+      .sub:hover {
+        background-color: #ccc;
+      }
+      .radio input {
+        height: 12px;
+        width: 12px;
+        font-weight: normal;
+      }
+      .radio label {
+        margin-bottom: 12px;
+        font-size: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <section id="regist">
+        <div class="card">
+          <h1 style="text-align: center; margin-top: 0">Registration</h1>
+          <!-- bungkus setiap input -->
+          <form action="profile.html">
+            <label for="username">username</label><br />
+            <input type="text" id="username" name="username" placeholder="username" required /><br /><br />
+            <label for="email">email</label><br />
+            <input type="email" id="email" name="email" placeholder="example@gmail.com" required /><br /><br />
+            <label for="phone">phonenumber</label><br />
+            <input
+              type="number"
+              id="phone"
+              name="phone"
+              placeholder="08xx-xxxx-xxxx"
+              pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}"
+              required
+            /><br /><br />
+            <label><b>Type of account</b></label
+            ><br /><br />
+            <div class="radio">
+              <input type="radio" name="method" id="free" />
+              <label for="free">Free Plan</label>
+              <input type="radio" name="method" id="personal" />
+              <label for="personal">Personal Plan</label>
+            </div>
+            <br />
+            <label for="pw">Password</label><br />
+            <input type="password" id="pw" name="pw" placeholder="Password" required /><br /><br />
+            <br />
+            <br />
+            <input class="sub" type="submit" name="submit" value="Sign Up" />
+          </form>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>
