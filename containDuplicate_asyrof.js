@@ -16,13 +16,13 @@ console.log(containsDuplicate([1, 1, 1, 3, 3, 4, 3, 2, 4, 2])); // Output: true
 function containsDuplicate(nums) {
   // Your logic here
 
-  const numSet = new Set();
+  const numSet = new Set(); //objek yang menyimpan nilai unik
 
   for (const num of nums) {
     if (numSet.has(num)) {
       return true; // Ada elemen yang duplikat
     }
-    numSet.add(num); // Tambahkan elemen ke set
+    numSet.add(num); // Tambahkan elemen ke set kalo tidak ada dupilkat
   }
 
   return false; // Tidak ada elemen yang duplikat
