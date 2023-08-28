@@ -29,6 +29,7 @@ function containsDuplicate(nums) {
 
   ///////////////////////////////////////////////////////////////
   //////////////////////////////////////////////////////////////
+
   // let result = false;
   // for (let i = 0; i < nums.length; i++) {
   //   for (let j = i + 1; j < nums.length; j++) {
@@ -42,6 +43,6 @@ function containsDuplicate(nums) {
   // return result;
 }
 
-console.log(containsDuplicate([1, 2, 3, 1])); // Output: true
-console.log(containsDuplicate([1, 2, 3, 4])); // Output: false
-console.log(containsDuplicate([1, 1, 1, 3, 3, 4, 3, 2, 4, 2])); // Output: true
+// console.log(containsDuplicate([1, 2, 3, 1])); // Output: true
+console.log(containsDuplicate([1, 2, 3, 4, '1'])); // Output: false
+// console.log(containsDuplicate([1, 1, 1, 3, 3, 4, 3, 2, 4, 2])); // Output: true
