@@ -1,7 +1,7 @@
 function bookPurchasing(name, price, disc, tax, stock, amountOfBuy, creditDuration) {
   let title = 'Gramedia Store';
   const discount = disc !== 0;
-  const initialStock = stock;
+  // const initialStock = stock;
   let amountDisc;
   let afterDisc = price;
 
