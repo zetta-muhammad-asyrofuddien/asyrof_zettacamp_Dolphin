@@ -15,7 +15,9 @@ console.log(majorityElement([2, 2, 1, 1, 1, 2, 2])); // Output: 2
  */
 function majorityElement(nums) {
   // Your logic here
-  // nums.sort();
+
+  // nums.sort(); //Urutkan terlebih dahulu baru di bandingin
+
   let majority = nums[0]; // mulai dari awal indeks
   let count = 1;
 
@@ -33,11 +35,12 @@ function majorityElement(nums) {
       count--;
     }
   }
+
   // console.log(count);
   // if (count == 0) return 'Element Sama Banyak';
   // else return majority;
   return majority;
 }
 
-console.log(majorityElement([3, 2, 3])); // Output: 3
+console.log(majorityElement(['a', 4, 2, 'a'])); // Output: 3
 console.log(majorityElement([2, 2, 1, 1, 1, 2, 2])); // Output: 2

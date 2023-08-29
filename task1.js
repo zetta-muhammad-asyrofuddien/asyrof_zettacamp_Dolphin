@@ -48,10 +48,10 @@ function bookPurchasing(name, price, disc, tax, stock, amountOfBuy, creditDurati
     let bulan = currentDate.getMonth() + 2;
     let tahun = currentDate.getFullYear();
 
-    while (bulan > 12) {
-      bulan -= 12;
-      tahun++;
-    }
+    // while (bulan > 12) {
+    //   bulan -= 12;
+    //   tahun++;
+    // }
 
     const dueDate = new Date(tahun, bulan - 1, tanggal);
 
@@ -75,4 +75,4 @@ function bookPurchasing(name, price, disc, tax, stock, amountOfBuy, creditDurati
   console.log(term);
 }
 
-bookPurchasing('Lanskar Pelangi', 1200000, 15, 2, 5, 3, 8);
+bookPurchasing('Lanskar Pelangi', 1200000, 15, 2, 5, 3, 6);
