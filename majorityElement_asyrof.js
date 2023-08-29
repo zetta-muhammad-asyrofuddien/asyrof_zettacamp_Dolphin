@@ -15,6 +15,7 @@ console.log(majorityElement([2, 2, 1, 1, 1, 2, 2])); // Output: 2
  */
 function majorityElement(nums) {
   // Your logic here
+  // nums.sort();
   let majority = nums[0]; // mulai dari awal indeks
   let count = 1;
 
@@ -38,6 +39,5 @@ function majorityElement(nums) {
   return majority;
 }
 
-console.log(majorityElement([3, 2, 3, 2])); // Output: 3
+console.log(majorityElement([3, 2, 3])); // Output: 3
 console.log(majorityElement([2, 2, 1, 1, 1, 2, 2])); // Output: 2
-// console.log(majorityElement([1, 1, 2, 2, 1, 1, 1, 2, 2])); // Output: 2
