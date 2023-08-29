@@ -41,12 +41,12 @@ function bookPurchasing(name, price, disc, tax, stock, amountOfBuy, creditDurati
     }
   }
 
+  const amountTerm = totalPrice / creditDuration;
   const term = Array.from({ length: creditDuration }, (_, index) => {
     const currentDate = new Date();
     let tanggal = currentDate.getDate() + 30 * index;
     let bulan = currentDate.getMonth() + 2;
     let tahun = currentDate.getFullYear();
-    let amountTerm = totalPrice / creditDuration;
 
     while (bulan > 12) {
       bulan -= 12;
@@ -75,4 +75,4 @@ function bookPurchasing(name, price, disc, tax, stock, amountOfBuy, creditDurati
   console.log(term);
 }
 
-bookPurchasing('Lanskar Pelangi', 1200000, 15, 2, 5, 3, 3);
+bookPurchasing('Lanskar Pelangi', 1200000, 15, 2, 5, 3, 8);
