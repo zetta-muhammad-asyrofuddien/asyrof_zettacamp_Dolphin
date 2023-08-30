@@ -144,11 +144,36 @@ function songBasedGenre(data) {
 
   return songBasedGenre;
 }
+// function songBasedGenre(data,search) {
+//   const songBasedGenre = {};
+//   if(search === undefined){
+//     data.forEach((item) => {
+//       const genre = item.genre;
+//       if (!songBasedGenre[genre]) { // jika ada artis baru ->  membuat key baru / jika artis tidak sesuai maka akan dimasukkan ke dalam artis yang sesuai
+//         songBasedGenre[genre] = [];
+//       }
+//       songBasedGenre[genre].push({
+//         artist: item.artist,
+//         title: item.title,
+//         year: item.year,
+//         duration: item.duration,
+        
+//       });
+//     });
+//     return songBasedGenre;
+//   } else if(search) {
+//     const genreSongs = data.filter((item) => item.genre === search);
+//     return genreSongs;
+//   }
+ 
+
+  
+// }
 
   function Playlist(data){
     const PlaylistSongs = [];
     function convertToSeconds(duration) {
-      const [minutes, seconds] = duration.split(':');
+      const [minutes, seconds] = duration.split(':'); //sparator , desructure
       return parseInt(minutes) * 60 + parseInt(seconds);
     }
 
@@ -169,20 +194,18 @@ function songBasedGenre(data) {
 
     for (const song of shuffledData) {
       const songDurationInSeconds = convertToSeconds(song.duration); // menyimpan nilai detik dari lagu yang akan di tambah
-      if(totalDurationInSeconds / 60 + songDurationInSeconds / 60 <= 60) { //dicek jika total dutasi sebelumnya + durasi yang akan ditambah akan melebihi 60 menit atau tidak
+      if(totalDurationInSeconds  + songDurationInSeconds  <= 3600) { //dicek jika total dutasi sebelumnya + durasi yang akan ditambah akan melebihi 60 menit atau tidak
         PlaylistSongs.push(song); //jika iya push song lagi
         totalDurationInSeconds += convertToSeconds(song.duration); // durasi ditambah
-      } else{
-        break; //jika tidak program berhenti
-      }
+      } 
     }
     
     let totalMinutes = Math.floor(totalDurationInSeconds / 60);
     const totalSeconds = totalDurationInSeconds % 60;
     if(totalSeconds<10) {
-      console.log(`Total Durasi: ${totalMinutes}:0${totalSeconds}`);
+      console.log(`Total Durasi : ${totalMinutes}:0${totalSeconds}`);
     } else {
-      console.log(`Total Durasi: ${totalMinutes}:${totalSeconds}`);
+      console.log(`Total Durasi : ${totalMinutes}:${totalSeconds}`);
     }
     
     return PlaylistSongs;
@@ -195,6 +218,7 @@ console.log(songBasedArtist(songList));
 console.log('----------------------------------------------------------------------------------- ')
 console.log('Grouped by Genre : ')
 console.log(songBasedGenre(songList));
+// console.log(songBasedGenre(songList,'Rock'));
 console.log('----------------------------------------------------------------------------------- ')
-console.log('Playlist : ')
+console.log('Playlist     : ZettaCamp_Asyrof ')
 console.table(Playlist(songList));
