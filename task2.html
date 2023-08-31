@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>LocalStorage-Day1</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>CRUD operations using JSON and local storage in JavaScript</title>
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
     <link rel="stylesheet" href="../asyrof_zettacamp_Dolphin/assets/style.css">
@@ -13,18 +13,15 @@
         <br />
         <fieldset>
             <legend>
-                
                 Book List
             </legend>
-            <button type="button" class="btn btn-success btnAdd" onclick='addBook()' id="addData">+ Add Book</button>
-            <button type="button" class="btn btn-danger btnAdd" onclick='revomeAll()' id="addData">Remove All Book</button>
+            
             <br>
             <br>
             <table class="table table-striped table-hover table-bordered">
                 <thead>
                     <tr>
-                        
-                        <th >bookId</th>
+                        <th>bookId</th>
                         <th>Title</th>
                         <th>Author</th>
                         <th>Total</th>
@@ -36,13 +33,24 @@
 
                 </tbody>
             </table>
+            <div class="container">
+                <h1>Add Book List</h1>
+               <td class='td-data'></td>
+                <input class="form-control mb-2" type='text' id='name' placeholder='Book Name..'></td>
+                <input class="form-control mb-2" type='text' id='author' placeholder='Author..'></td>
+                <input class="form-control mb-2" type='number' id='total' placeholder='Total Book..'></td>
+                <textarea class="form-control mb-2" name='' id='desc' cols='30' rows='10' placeholder='Description'></textarea></td>
+                <button id= 'save' onclick='saveBook()' class='btn btn-success'> <i class='fa fa-plus-circle' aria-hidden='true'></i> Save</button>
+               
+            </div>
+            
         </fieldset>
+        <br>
+        <br>
     </div>
 </body>
 </html>
 <script>
-
-    /*JSON.parse() mengambil string JSON dan mengubahnya menjadi objek JavaScript. JSON.stringify() mengambil objek JavaScript dan mengubahnya menjadi string JSON.*/
     loadBook();
     function loadBook() {
         var book = JSON.parse(localStorage.getItem('bookData'));
@@ -66,8 +74,6 @@
                     + "</tr>";
                 document.getElementById('tblbody').innerHTML += tableRow;
             })
-        } else {
-            document.getElementById('tblbody').innerHTML = '<th colspan="6" class="text-center">No Data</th>'
         }
        
     }
@@ -75,17 +81,13 @@
     function addBook(){
        let btn = document.getElementById('addData');
        btn.disabled = true
-       
         var AddRow = "<tr>"
             + "<td class='td-data'></td>"
-            + "<td class='td-data'><input class='form-control' type='text' id='name' placeholder='Book Name..'></td>"
-            + "<td class='td-data'><input class='form-control' type='text' id='author' placeholder='Author..'></td>"
-            + "<td class='td-data'><input class='form-control' type='number' id='total' placeholder='Total Book..'></td>"
-            + "<td class='td-data'><textarea class='form-control' name='' id='desc' cols='30' rows='1' placeholder='Description'></textarea></td>"
-            +  "<td class='td-data td-action'>" 
-            + "<button id= 'save' onclick='saveBook()' class='btn btn-success'> <i class='fa fa-plus-circle' aria-hidden='true'></i> Save</button>" 
-            + "<button id= 'save' onclick='window.location.reload()' class='btn btn-danger btn-x'>X</button>" 
-            + "</td>"
+            + "<td class='td-data'><input type='text' id='name' placeholder='Book Name..'></td>"
+            + "<td class='td-data'><input type='text' id='author' placeholder='Author..'></td>"
+            + "<td class='td-data'><input type='number' id='total' placeholder='Total Book..'></td>"
+            + "<td class='td-data'><textarea name='' id='desc' cols='30' rows='1' placeholder='Description'></textarea></td>"
+            +  "<td class='td-data'>" + "<button id= 'save' onclick='saveBook()' class='btn btn-success'> <i class='fa fa-plus-circle' aria-hidden='true'></i> Save</button>" + "</td>"
             + "</tr>";
         document.getElementById('tblbody').innerHTML += AddRow;
         
@@ -168,7 +170,10 @@
             };
             addBookDataToLocalStorage(bookObj);
             let btn = document.getElementById('addData');
-            btn.disabled = false
+            document.getElementById('name').value = "";
+            document.getElementById('author').value = "";
+            document.getElementById('total').value = "";
+            document.getElementById('desc').value = "";
             loadBook();
         }
         
@@ -179,25 +184,17 @@
 
         var books = JSON.parse(localStorage.getItem('bookData'));
         if (books != null) {
-            var indexToRemove = books.findIndex(book => book.id == BookId)
-            
-            if (indexToRemove !== -1) {
-                books.splice(indexToRemove, 1);
-                localStorage.setItem('bookData', JSON.stringify(books));
-                console.log("Book with ID", BookId, "has been deleted.");
-            } else {
-                console.log("Book with ID", BookId, "was not found.");
-            }
+            books.splice(books.findIndex(a => a.id === BookId), 1)
+            localStorage.setItem('bookData', JSON.stringify(books));
         }
     }
-    function deleteRow(BookId) {       
+    function deleteRow(BookId) {
         deletedataFromLocalStorage(BookId);
         loadBook();
     }
 
     function showEditRow(BookId) {
-        let btnAdd = document.getElementById('addData');
-       btnAdd.disabled = true
+        
         var bookRow = document.getElementById(BookId); //this gives tr of  whose button was clicked
         var trdata = bookRow.querySelectorAll(".td-data");
         /*returns array of all elements with
@@ -207,11 +204,11 @@
         var author = trdata[2].innerHTML;
         var total = trdata[3].innerHTML;
         var desc = trdata[4].innerHTML;
-        trdata[0].innerHTML = '<input class="form-control" name="bookid"  disabled id="bookid" value="' + bookID + '"/>';
-        trdata[1].innerHTML = '<input class="form-control" name="name" id="name" value="' + name + '"/>';
-        trdata[2].innerHTML = '<input class="form-control" name="author" id="author" value="' + author + '"/>';
-        trdata[3].innerHTML = '<input class="form-control" name="total" id="total" value="' + total + '"/>';
-        trdata[4].innerHTML = '<input class="form-control" name="desc" id="desc" value="' + desc + '"/>';
+        trdata[0].innerHTML = '<input name="bookid"  disabled id="bookid" value="' + bookID + '"/>';
+        trdata[1].innerHTML = '<input name="name" id="name" value="' + name + '"/>';
+        trdata[2].innerHTML = '<input name="author" id="author" value="' + author + '"/>';
+        trdata[3].innerHTML = '<input name="total" id="total" value="' + total + '"/>';
+        trdata[4].innerHTML = '<input name="desc" id="desc" value="' + desc + '"/>';
         
         trdata[5].innerHTML =
             "<button class='btn btn-primary btn-sm btn-update' onclick='saveBook(" + bookID + ")'>" +
@@ -221,8 +218,7 @@
     }
     function cancel(BookId) {
         debugger;
-        let btn = document.getElementById('addData');
-       btn.disabled = false
+        
         var btneditId = "btnedit" + BookId;
         var btndeleteId = "btndelete" + BookId;
 
@@ -245,9 +241,5 @@
         var actionbtn = "<button id='" + btneditId + "' class='btn btn-info btn-sm btn-edit' onclick='showEditRow(" + BookId + ")'><i class='fa fa-pencil' aria-hidden='true'></i> Edit</button>" +
             "<button id='" + btndeleteId + "' class='btn btn-danger btn-sm btn-delete' onclick='deleteRow(" + BookId + ")'><i class='fa fa-trash' aria-hidden='true'> Delete</button>"
         data[5].innerHTML = actionbtn;
-    }
-    function revomeAll(){
-        localStorage.removeItem('bookData');
-        loadBook();
     }
 </script>
