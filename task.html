@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CRUD operations using JSON and local storage in JavaScript</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="../asyrof_zettacamp_Dolphin/assets/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Book Inventory (LocalStorage-Day1)</h1>
+        <br />
+        <fieldset>
+            <legend>
+                Book List
+            </legend>
+            <button type="button" class="btn btn-success" onclick='addBook()' id="addData">+ Add Book</button>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>bookId</th>
+                        <th>name</th>
+                        <th>author</th>
+                        <th>total</th>
+                        <th>descripton</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="tblbody">     
+
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+</body>
+</html>
+<script>
+    loadBook();
+    function loadBook() {
+        var book = JSON.parse(localStorage.getItem('bookData'));
+       // console.log(localStorage.getItem('bookData'))
+        if (book != null) {
+            document.getElementById('tblbody').innerHTML = "";
+            book.forEach(function (item, index) {
+                debugger;
+                var btnEditId = "btnedit" + item.id;
+                var btnDeleteId = "btndelete" + item.id;
+                var tableRow = "<tr Id='" + item.id + "'   data-bookID='" + item.id + "'   data-name='" + item.name + "' data-author='" + item.author + "' data-total='" + item.total + "' data-desc='" + item.desc + "'>"
+                    + "<td class='td-data'>" + item.id + "</td>"
+                    + "<td class='td-data'>" + item.name + "</td>"
+                    + "<td class='td-data'>" + item.author + "</td>"
+                    + "<td class='td-data'>" + item.total + "</td>"
+                    + "<td class='td-data'>" + item.desc + "</td>"
+                    + "<td class='td-data'>" +
+                    "<button id='" + btnEditId + "' class='btn btn-info btn-xs btn-editcustomer' onclick='showEditRow(" + item.id + ")'><i class='fa fa-pencil' aria-hidden='true'></i>Edit</button>" +
+                    "<button id='" + btnDeleteId + "' class='btn btn-danger btn-xs btn-deleteCustomer' onclick='deleteRow(" + item.id + ")'><i class='fa fa-trash' aria-hidden='true'>Delete</button>"
+                    + "</td>"
+                    + "</tr>";
+                document.getElementById('tblbody').innerHTML += tableRow;
+            })
+        }
+       
+    }
+
+    function addBook(){
+       
+        var AddRow = "<tr>"
+            + "<td class='td-data'></td>"
+            + "<td class='td-data'><input type='text' id='name' placeholder='Book Name..'></td>"
+            + "<td class='td-data'><input type='text' id='author' placeholder='Author..'></td>"
+            + "<td class='td-data'><input type='number' id='total' placeholder='Total Book..'></td>"
+            + "<td class='td-data'><textarea name='' id='desc' cols='30' rows='1' placeholder='Description'></textarea></td>"
+            +  "<td class='td-data'>" + "<button id= 'save' onclick='saveBook()' class='btn btn-success'> <i class='fa fa-plus-circle' aria-hidden='true'></i> Save</button>" + "</td>"
+            + "</tr>";
+        document.getElementById('tblbody').innerHTML += AddRow;
+        
+    }
+    function updateDataToLocalStorage(bookObj) {
+
+
+        var books = JSON.parse(localStorage.getItem('bookData'));
+        if (books != null) {
+            var book = books.filter((x) => x.id == bookObj.id).pop();
+            if (book != null) {
+                book.name = bookObj.name;
+                book.author = bookObj.author;
+                book.total = bookObj.total;
+                book.desc = bookObj.desc;
+            }
+            localStorage.setItem('bookData', JSON.stringify(books));
+        }
+    }
+
+    function addBookDataToLocalStorage(bookObj) {
+        var books = JSON.parse(localStorage.getItem('bookData'));
+    
+        if (books != null) {
+            books.push(bookObj);
+            localStorage.setItem('bookData', JSON.stringify(books));
+        } else {
+            var bookData = [bookObj];
+            localStorage.setItem('bookData', JSON.stringify(bookData));
+        }
+    }
+    function GetBookID() {
+        const ID = Date.now();  
+        return ID;
+    }
+    function saveBook(BookId) {
+        if(BookId){
+            var bookID = BookId;
+            var userRow = document.getElementById(BookId); //this gives tr of  whose button was clicked
+            var data = userRow.querySelectorAll(".td-data");
+            var name = data[1].querySelector("#name").value;
+            var author = data[2].querySelector("#author").value;
+            var total = data[3].querySelector("#total").value;
+            var desc = data[4].querySelector("#desc").value;
+            var userObj = {
+                "id": BookId,
+                "name": name,
+                "author": author,
+                "total": total,
+                "desc": desc
+            };
+            updateDataToLocalStorage(userObj);
+            loadBook();
+            
+        } else {
+            var bookId = GetBookID().toString().slice(-3);
+            var name = document.getElementById("name").value;
+            if (!name) {
+                alert('Please enter name!')
+                return false;
+            }
+            var author = document.getElementById("author").value;
+            if (!author) {
+                alert('Please enter Author!')
+                return false;
+            }
+            
+    
+    
+            var total = document.getElementById("total").value;
+            var desc = document.getElementById("desc").value;
+            var bookObj = {
+                "id": BookId,
+                "name": name,
+                "author": author,
+                "total": total,
+                "desc": desc
+            };
+            addBookDataToLocalStorage(bookObj);
+            loadBook();
+        }
+        
+        
+    };
+    function deletedataFromLocalStorage(BookId) {
+
+
+        var books = JSON.parse(localStorage.getItem('bookData'));
+        if (books != null) {
+            books.splice(books.findIndex(a => a.id === BookId), 1)
+            localStorage.setItem('bookData', JSON.stringify(books));
+        }
+    }
+    function deleteRow(BookId) {
+        deletedataFromLocalStorage(BookId);
+        loadBook();
+    }
+
+    function showEditRow(BookId) {
+        var bookRow = document.getElementById(BookId); //this gives tr of  whose button was clicked
+        var trdata = bookRow.querySelectorAll(".td-data");
+        /*returns array of all elements with
+        "row-data" class within the row with given id*/
+        var bookID = trdata[0].innerHTML;
+        var name = trdata[1].innerHTML;
+        var author = trdata[2].innerHTML;
+        var total = trdata[3].innerHTML;
+        var desc = trdata[4].innerHTML;
+        trdata[0].innerHTML = '<input name="bookid"  disabled id="bookid" value="' + bookID + '"/>';
+        trdata[1].innerHTML = '<input name="name" id="name" value="' + name + '"/>';
+        trdata[2].innerHTML = '<input name="author" id="author" value="' + author + '"/>';
+        trdata[3].innerHTML = '<input name="total" id="total" value="' + total + '"/>';
+        trdata[4].innerHTML = '<input name="desc" id="desc" value="' + desc + '"/>';
+        
+        trdata[5].innerHTML =
+            "<button class='btn btn-primary btn-xs btn-updateCustomer' onclick='saveBook(" + bookID + ")'>" +
+            "<i class='fa fa-pencil' aria-hidden='true'></i> Save</button>"
+            + "<button class='btn btn-warning btn-xs btn-cancelupdate ' onclick='cancel(" + bookID + ")'><i class='fa fa-times' aria-hidden='true'></i> Cancel</button>"
+            + "<button class='btn btn-danger btn-xs btn-deleteCustomer' onclick='deleteRow(" + bookID + ")'>"
+            + "<i class='fa fa-trash' aria-hidden='true'></i> Delete</button>"
+    }
+    function cancel(BookId) {
+        debugger;
+        var btneditId = "btnedit" + BookId;
+        var btndeleteId = "btndelete" + BookId;
+
+
+        var CustomerRow = document.getElementById(BookId); //this gives tr of  whose button was clicked
+        var data = CustomerRow.querySelectorAll(".td-data");
+
+
+        var name = CustomerRow.getAttribute("data-name");
+        var author = CustomerRow.getAttribute("data-author");
+        var total = CustomerRow.getAttribute("data-total");
+        var desc = CustomerRow.getAttribute("data-desc");
+
+
+        data[0].innerHTML = BookId;
+        data[1].innerHTML = name;
+        data[2].innerHTML = author;
+        data[3].innerHTML = total;
+        data[4].innerHTML = desc;
+        var actionbtn = "<button id='" + btneditId + "' class='btn btn-info btn-xs btn-editcustomer' onclick='showEditRow(" + BookId + ")'><i class='fa fa-pencil' aria-hidden='true'></i>Edit</button>" +
+            "<button id='" + btndeleteId + "' class='btn btn-danger btn-xs btn-deleteCustomer' onclick='deleteRow(" + BookId + ")'><i class='fa fa-trash' aria-hidden='true'>Delete</button>"
+        data[5].innerHTML = actionbtn;
+    }
+</script>
