@@ -71,12 +71,13 @@ function bookPurchasing(name, price, disc, tax, stock, amountOfBuy, creditDurati
       date: formatDate,
     };
   });
-
+  printTotal(totalPrice, term);
+}
+function printTotal(total, term) {
   console.log('--------------------------------------------------');
-  console.log('Total Harga Pembelian         : ' + totalPrice);
+  console.log('Total Harga Pembelian         : ' + total);
   console.log('--------------------------------------------------');
   console.log('Jadwal Pembayaran Cicilan:');
   console.log(term);
 }
-
 bookPurchasing('Lanskar Pelangi', 1200000, 15, 2, 5, 3, 6);
