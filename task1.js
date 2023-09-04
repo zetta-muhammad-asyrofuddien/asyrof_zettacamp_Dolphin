@@ -1,3 +1,5 @@
+const { printTotal } = require('./printTotal');
+
 function bookPurchasing(name, price, disc, tax, stock, amountOfBuy, creditDuration) {
   let title;
   title = 'Gramedia Store';
@@ -72,12 +74,7 @@ function bookPurchasing(name, price, disc, tax, stock, amountOfBuy, creditDurati
     };
   });
   printTotal(totalPrice, term);
+  // console.log('sawdw');
 }
-function printTotal(total, term) {
-  console.log('--------------------------------------------------');
-  console.log('Total Harga Pembelian         : ' + total);
-  console.log('--------------------------------------------------');
-  console.log('Jadwal Pembayaran Cicilan:');
-  console.log(term);
-}
+
 bookPurchasing('Lanskar Pelangi', 1200000, 15, 2, 5, 3, 6);
