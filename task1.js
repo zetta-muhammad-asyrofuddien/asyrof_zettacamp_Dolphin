@@ -1,10 +1,12 @@
 function bookPurchasing(name, price, disc, tax, stock, amountOfBuy, creditDuration) {
-  let title = 'Gramedia Store';
+  let title;
+  title = 'Gramedia Store';
   const discount = disc !== 0;
   // const initialStock = stock;
   let amountDisc;
   let afterDisc = price;
 
+  //kondisional statement false
   if (discount) {
     amountDisc = price * (disc / 100);
     afterDisc = price - amountDisc;
@@ -12,8 +14,10 @@ function bookPurchasing(name, price, disc, tax, stock, amountOfBuy, creditDurati
     amountDisc = 0;
   }
 
-  let amountTax = afterDisc * (tax / 100);
+  let amountTax;
+  amountTax = afterDisc * (tax / 100);
   let afterTax = afterDisc + amountTax;
+  afterTax = afterDisc + amountTax;
 
   console.log('--------------------------------------------------');
   console.log(title);
