@@ -77,4 +77,4 @@ function bookPurchasing(name, price, disc, tax, stock, amountOfBuy, creditDurati
   // console.log('sawdw');
 }
 
-bookPurchasing('Lanskar Pelangi', 1200000, 15, 2, 5, 3, 6);
+bookPurchasing('Lanskar Pelangi', 1200000, 15, 2, 0, 3, 6);
