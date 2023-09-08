@@ -73,7 +73,11 @@ function bookPurchasing(name, price, disc, tax, stock, amountOfBuy, creditDurati
       date: formatDate,
     };
   });
-  printTotal(totalPrice, term);
+  console.log('--------------------------------------------------');
+  console.log('Total Harga Pembelian         : ' + total);
+  console.log('--------------------------------------------------');
+  console.log('Jadwal Pembayaran Cicilan:');
+  console.log(term);
   // console.log('sawdw');
 }
 
