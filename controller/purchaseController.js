@@ -10,8 +10,11 @@ purchaseController.buy = (req, res) => {
   let amountOfBuy = req.body.amountOfBuy;
   const creditDuration = req.body.creditDuration;
   let desc;
+
   if (stock == 0) {
-    res.send('Buku Habis');
+    res.status(410).json({
+      msg: 'Buku Habis',
+    }); // Mengirim respons 404 jika stok habis
   } else {
     let amountDisc;
     let afterDisc = price;
@@ -68,20 +71,30 @@ purchaseController.buy = (req, res) => {
     });
 
     const purchase = {
-      title: title,
-      price: price,
-      stock: req.body.stock,
-      amountDisc: amountDisc,
-      afterDisc: afterDisc,
-      amountTax: amountTax,
-      afterTax: afterTax,
-      amountOfBuy: amountOfBuy,
-      totalPrice: totalPrice,
+      bookData: {
+        title: title,
+        price: price,
+        stock: req.body.stock,
+      },
+      buyData: {
+        discount: {
+          amountofDisc: amountDisc,
+          afterDisc: afterDisc,
+        },
+        tax: {
+          amountofTax: amountTax,
+          afterTax: afterTax,
+        },
+        sum: {
+          amountOfBuy: amountOfBuy,
+          totalPrice: totalPrice,
+        },
+      },
       term: term,
       desc: desc,
       restofStock: stock,
     };
-    res.json(purchase);
+    res.status(200).json(purchase);
   }
 };
 
