@@ -1,6 +1,16 @@
 const purchaseController = {};
 
 purchaseController.buy = (req, res) => {
+  const requiredFields = ['title', 'disc', 'price', 'tax', 'stock', 'amountOfBuy', 'creditDuration'];
+  const missingFields = requiredFields.filter((field) => !(field in req.body));
+
+  if (missingFields.length > 0) {
+    return res.status(400).json({
+      error: 'Missing required fields',
+      missingFields: missingFields,
+    });
+  }
+
   const title = req.body.title;
   const discount = req.body.disc !== 0;
   const disc = req.body.disc;
@@ -14,7 +24,7 @@ purchaseController.buy = (req, res) => {
   if (stock == 0) {
     res.status(410).json({
       msg: 'Buku Habis',
-    }); // Mengirim respons 404 jika stok habis
+    }); // if stock is 0 then it will send a 410 response with msg
   } else {
     let amountDisc;
     let afterDisc = price;
@@ -34,10 +44,10 @@ purchaseController.buy = (req, res) => {
       if (stock > 0) {
         stock--;
         totalPrice += afterTax;
-        //   console.log('Pembelian ke-' + (i + 1) + ' berhasil.');
+        // console.log('Pembelian ke-' + (i + 1) + ' berhasil.');
         desc = 'Pembelian Berhasil';
       } else {
-        //   console.log('Stok habis setelah pembelian ke-' + (i + 1) + '.');
+        // console.log('Stok habis setelah pembelian ke-' + (i + 1) + '.');
         amountOfBuy = i;
         desc = 'Stok habis di pembelian ke-' + (i + 1) + '.';
         break;
@@ -94,7 +104,7 @@ purchaseController.buy = (req, res) => {
       desc: desc,
       restofStock: stock,
     };
-    res.status(200).json(purchase);
+    res.status(200).json(purchase); // convert to JSON
   }
 };
 
