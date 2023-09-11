@@ -1,0 +1,38 @@
+Sycron adalah berurutan dari atas kebawah (default) fungsi A, B, C jadi B harus nunggu A selesai dan C nunggu B selesai 
+
+
+Asycn bisa berjalan tanpa harus menunggu fungsi sebelumnya selesai berjalan
+fect data harus ascyn
+
+awit jika data dibutuhkan dari fungsi lain
+
+try catch
+
+term salah satu
+
+buat parameter term amount
+
+buktikan dia pake await dan enggak pake await
+
+===============================================================================================
+
+Untuk task nomer 1 kita suruh buat fungsi baru untuk calculate terms of credits for book purchasing dan dislpay responsenya di postman, jika didisplay maka term tidak akan keluar hasilnya karena fungsi calculate term dijalankan bersamaan dengan fungsi yang memanggil calculate term dan nilai return dari fungsi asycn calculateterm belum ada atau belum selesai.
+
+Masalah yang ada pada hasil nomor satu bisa di atasi pada task nomor dua yaitu dengan cara menambahkan awit saat memanggil fungsi calculateterm, dimana awit ini berarti akan menunggu proses asycn fungsi yang di panggil selesai baru akan melanjutkan sintaks selanjutnya
+
+saya juga meng handle eror jika nilai yang seharusnya number diisi dengan bukan number maka akan terjadi eror dan akan diminta mengisi dengan benar
+
+untuk handle try catch saya berada di fungsi purchase book, jika terjadi erorr maka akan mengirim respon erorrnya ke consol dan pesan  respon 500 ke postmant dengan pesan Internal server Eror
+
+
+
+For task number 1, we are told to create a new function to calculate terms of credits for book purchasing and display the response in postman (displaying), if it is displayed, the term will not come out because the calculate term function is executed at the same time as the function that calls calculate term and the return value of the asycn calculateterm function is not there or not finished.
+
+The problem that exists in result number one can be overcome in task number two by adding awit when calling the calculateterm function, where this awit means that it will wait for the asycn process of the called function to finish and then continue the next syntax.
+
+I also handle errors if the value that should be a number is filled with a non-number then an error will occur, and will be asked to fill in correctly. (occur muncul)
+
+for the try catch handle I implemented it in the purchase book function, if an error occurs it will send an error response to the console and a 500 response message to postmant with the Internal server Error message.
+
+
+

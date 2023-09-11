@@ -14,10 +14,11 @@ app.use(bodyParser.json());
 app.use(basicAuthMiddleware('asyrof', 'uddien'));
 
 route(app);
-app.get('/', (req, res) => {
-  res.send('Hello World');
-});
 
-app.listen(port, () => {
-  console.log(`Server running in ${port}`);
-});
+try {
+  app.listen(port, () => {
+    console.log(`Server running in ${port}`);
+  });
+} catch (error) {
+  return 'ERORR msg : ' + error;
+}
