@@ -15,38 +15,53 @@ const calculateTerm = async (totalPrice, creditDuration, addPrice) => {
     });
     let amountTerm = totalPrice / creditDuration;
 
-    if (creditDuration < 2) {
+    if (creditDuration < 2 || index == creditDuration - 2) {
       paid += amountTerm + addPrice;
-      //jika index hanya 1
-      return {
-        term: index + 1,
-        additionalPrice: addPrice,
-        beforeAdd: amountTerm,
-        amountTerm: amountTerm + addPrice,
-        date: formatDate,
-        totalPaid: paid,
-      };
-    }
-    if (index == creditDuration - 2) {
-      paid += amountTerm + addPrice;
-      //index kedua terakhir
-      return {
-        term: index + 1,
-        additionalPrice: addPrice,
-        beforeAdd: amountTerm,
-        amountTerm: amountTerm + addPrice,
-        date: formatDate,
-        totalPaid: paid,
-      };
     } else {
       paid += amountTerm;
-      return {
-        term: index + 1,
-        amountTerm: amountTerm,
-        date: formatDate,
-        totalPaid: paid,
-      };
     }
+
+    return {
+      term: index + 1,
+      additionalPrice: index == creditDuration - 2 ? addPrice : 0,
+      beforeAdd: amountTerm,
+      amountTerm: amountTerm + (index == creditDuration - 2 ? addPrice : 0),
+      date: formatDate,
+      totalPaid: paid,
+    };
+
+    // if (creditDuration < 2) {
+    //   paid += amountTerm + addPrice;
+    //   //jika index hanya 1
+    //   return {
+    //     term: index + 1,
+    //     additionalPrice: addPrice,
+    //     beforeAdd: amountTerm,
+    //     amountTerm: amountTerm + addPrice,
+    //     date: formatDate,
+    //     totalPaid: paid,
+    //   };
+    // }
+    // if (index == creditDuration - 2) {
+    //   paid += amountTerm + addPrice;
+    //   //index kedua terakhir
+    //   return {
+    //     term: index + 1,
+    //     additionalPrice: addPrice,
+    //     beforeAdd: amountTerm,
+    //     amountTerm: amountTerm + addPrice,
+    //     date: formatDate,
+    //     totalPaid: paid,
+    //   };
+    // } else {
+    //   paid += amountTerm;
+    //   return {
+    //     term: index + 1,
+    //     amountTerm: amountTerm,
+    //     date: formatDate,
+    //     totalPaid: paid,
+    //   };
+    // }
   });
   return terms;
 };

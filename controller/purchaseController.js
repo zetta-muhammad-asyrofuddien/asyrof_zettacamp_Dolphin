@@ -21,6 +21,11 @@ purchaseController.buy = async (req, res) => {
           error: `${field} must be a number`,
         });
       }
+      if (req.body[field] < 0) {
+        return res.status(400).json({
+          error: `${field} must be a not minus`,
+        });
+      }
     }
 
     const title = req.body.title;
@@ -68,7 +73,13 @@ purchaseController.buy = async (req, res) => {
       }
 
       // const term = calculateTerm(totalPrice, creditDuration, addPrice);
-      const term = await calculateTerm(totalPrice, creditDuration, addPrice);
+      let term;
+      try {
+        term = await calculateTerm(totalPrice, creditDuration, addPrice);
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+      }
 
       const purchase = {
         bookData: {
