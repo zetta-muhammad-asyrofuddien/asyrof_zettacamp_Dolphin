@@ -24,15 +24,17 @@ saya juga meng handle eror jika nilai yang seharusnya number diisi dengan bukan 
 
 untuk handle try catch saya berada di fungsi purchase book, jika terjadi erorr maka akan mengirim respon erorrnya ke consol dan pesan  respon 500 ke postmant dengan pesan Internal server Eror
 
+AWAIT (mengindikasikan bahwa Anda ingin menunggu hasil dari promise tersebut sebelum melanjutkan eksekusi kode selanjutnya di dalam fungsi tersebut.)
 
 
 For task number 1, we are told to create a new function to calculate terms of credits for book purchasing and display the response in postman (displaying), if it is displayed, the term will not come out because the calculate term function is executed at the same time as the function that calls calculate term and the return value of the asycn calculateterm function is not there or not finished.
 
 The problem that exists in result number one can be overcome in task number two by adding awit when calling the calculateterm function, where this awit means that it will wait for the asycn process of the called function to finish and then continue the next syntax.
 
-I also handle errors if the value that should be a number is filled with a non-number then an error will occur, and will be asked to fill in correctly. (occur muncul)
+I also handle errors if the value that should be a number is filled with a non-number then an error will occur, and will be asked to fill in correctly. (occur = muncul)
 
 for the try catch handle I implemented it in the purchase book function, if an error occurs it will send an error response to the console and a 500 response message to postmant with the Internal server Error message.
 
+AWAIT(wait for the result of the promise before continuing to execute the next code in the function) same with promise
 
 
