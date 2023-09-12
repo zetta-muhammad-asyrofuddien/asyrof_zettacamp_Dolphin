@@ -1,0 +1,7 @@
+bikin 2 endpoint
+pertama -> buat asysc funct ada lopping dan display text yang bisa ngasih tau letaknya dimana, kodenya berhenti selama 2 detik baru lanjut (pake await)
+kedua -> ga pake await ()
+
+saya membuat satu fungsi asycn dengan promise yang di dalamnya memiliki perulangan for 5 kali perulangan dan akan menampilkan teks yang mengindikasikan iterasi ke berapa dan setiap text tampil akan ter jeda dalam waktu 2 detik baru melanjtukan ke iterasi berikutnya
+
+I created an asycn function with a promise in which it has a for loop with 5 iterations and will display text indicating what iteration and each text displayed will pause for 2 seconds and then continue to the next iteration

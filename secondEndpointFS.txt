@@ -1,1 +1,0 @@
-{"message":"tidak pakai await","result":"Akan melanjutkan sintaks dan fungsi process() berjalan di background"}

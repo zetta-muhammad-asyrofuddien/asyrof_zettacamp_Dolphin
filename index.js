@@ -15,6 +15,7 @@ app.use(bodyParser.json());
 app.use(basicAuthMiddleware('asyrof', 'uddien'));
 
 route(app, fs);
+
 try {
   app.listen(port, () => {
     console.log(`Server running in ${port}`);
