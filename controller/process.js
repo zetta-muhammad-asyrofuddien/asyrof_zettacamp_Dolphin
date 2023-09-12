@@ -42,7 +42,9 @@ eventEmitter.on('scream2', myEventHandler2);
 const firstEndpoint = async (req, res) => {
   try {
     //write file
+
     eventEmitter.emit('scream');
+
     // read file
     // fs.readFile('./controller/firstEndpointFS.txt', 'utf-8', (err, data) => {
     //   if (err) {
@@ -55,7 +57,7 @@ const firstEndpoint = async (req, res) => {
     // console.log(content);
     const result = await process(); //call with await
 
-    console.log('Endpoint 1: Asynchronous function completed');
+    console.log('Endpoint 1');
     res.status(200).json({ message: 'Endpoint 1 response', result });
   } catch (error) {
     console.error('Endpoint 1: Error', error);
@@ -66,11 +68,12 @@ const firstEndpoint = async (req, res) => {
 const secondEndpoint = async (req, res) => {
   try {
     //Write File
+
     eventEmitter.emit('scream2');
 
     const result = process(); //call without await
 
-    console.log('Endpoint 2: Asynchronous function completed');
+    console.log('Endpoint 2');
     res.status(200).json({ message: 'Endpoint 2 response', result });
   } catch (error) {
     console.error('Endpoint 2: Error', error);
