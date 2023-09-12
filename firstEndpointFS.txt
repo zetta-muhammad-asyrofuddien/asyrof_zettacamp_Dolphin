@@ -1,0 +1,1 @@
+{"message":"tidak pakai await","result":"Akan menunggu fungsi process() selesai baru melanjutkan code berikutnya"}
