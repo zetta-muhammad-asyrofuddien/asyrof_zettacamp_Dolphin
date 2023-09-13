@@ -31,12 +31,13 @@ purchaseController.buy = async (req, res) => {
     const title = req.body.title;
     const discount = req.body.disc !== 0;
     const disc = req.body.disc;
-    const price = req.body.price;
+    let price = req.body.price;
     const tax = req.body.tax;
     let stock = req.body.stock;
     let amountOfBuy = req.body.amountOfBuy;
     const creditDuration = req.body.creditDuration;
     const addPrice = req.body.AddAmountofCredit;
+    let specificDate = req.body.specificDate;
     let desc;
 
     if (stock == 0) {
@@ -45,6 +46,7 @@ purchaseController.buy = async (req, res) => {
       }); // if stock is 0 then it will send a 410 response with msg
     } else {
       let amountDisc;
+      price *= amountOfBuy;
       let afterDisc = price;
       if (discount) {
         amountDisc = price * (disc / 100);
@@ -80,28 +82,36 @@ purchaseController.buy = async (req, res) => {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
       }
+      const specificdate = term.mapTerm.get(specificDate);
+      // let specificdate;
 
+      // for (let i = 0; i < term.mapTerm.length; i++) {
+      //   if (term.mapTerm[i] == specificDate) {
+      //     specificdate = term.mapTerm[i];
+      //   }
+      // }
+
+      // console.log(specificdate);
+      // console.log(specificdate);
       const purchase = {
         bookData: {
           title: title,
-          price: price,
+          price: price / amountOfBuy,
           stock: req.body.stock,
         },
         buyData: {
-          discount: {
-            amountofDisc: amountDisc,
-            afterDisc: afterDisc,
-          },
-          tax: {
-            amountofTax: amountTax,
-            afterTax: afterTax,
-          },
-          sum: {
-            amountOfBuy: amountOfBuy,
-            totalPrice: totalPrice,
-          },
+          amountOfBuy: amountOfBuy,
+          amountofDisc: amountDisc,
+          afterDisc: afterDisc,
+          amountofTax: amountTax,
+          afterTax: afterTax,
+          additionalPrice: addPrice,
+          totalPrice: totalPrice + addPrice,
         },
-        term: term,
+        listTerm: term.list,
+        allTerms: Object.fromEntries(term.mapTerm),
+        mustPay: specificdate,
+        // mustPay: specificdate,
         desc: desc,
         restofStock: stock,
       };

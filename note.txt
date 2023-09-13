@@ -1,18 +1,7 @@
-bikin 2 endpoint
-pertama -> buat asysc funct ada lopping dan display text yang bisa ngasih tau letaknya dimana, kodenya berhenti selama 2 detik baru lanjut (pake await)
-kedua -> ga pake await ()
+DAY 4 Javascript_Advance
 
-Perbedaan dari memakai await dan dan tidak menggunakan await adalah 
-jika menggunakan await maka saat fungsi dipanggil akan menunggu fungsi tersebut menyelesaikan kodenya setelah itu baru melanjutkan kode selanjutnya dimana respon akan muncul setelah pemanggilan fungsi
-sedangkan saat tidak menggunakan await kode akan terus berlanjut tanpa menunggu fungsi yang dipanggil menyelesaikan kodenya dimana ini akan menyebabkan response akan keluar sebelum fungsi yang dipanggil menyelesaikan kodenya dengan katalain fungsi yang dipanggil berjalan di background
-
-
-I created an asycn function with a promise in which it has a for loop with 5 iterations and will display text indicating what iteration and each text displayed will pause for 2 seconds and then continue to the next iteration
-the way to call the function is by creating 2 endpoints  
-For endpoint 1, use await to call the asynchronous function 
-For endpoint 2, use no await to call the asynchronous function 
-and make sure both endpoint return a response
-
-The difference between using await and not using await is that if you use await then when the function is called it will wait for the function to complete the code, then continue the next code where the response will appear after the function call.
-whereas when not using await the code will continue without waiting for the called function to complete the code, which will cause the response to come out before the called function completes the code. in other words the called function runs in the background
-
+cacth yang paling dalem yang terlebih dahulu
+tapi jika pakai throw new error bisa dua duanya dapat
+SET -> Ngelag
+MAP -> key bisa macem macem tapi kalau map bisa angka objek dan yang lainya, jika di deklarasi ulang bakal nge replace.
+display bisa pake for
