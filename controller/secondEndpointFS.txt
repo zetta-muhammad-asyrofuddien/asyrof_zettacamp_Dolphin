@@ -1,1 +1,0 @@
-{"message":"without await","result":"Will continue the syntax and process() function running in the background"}
