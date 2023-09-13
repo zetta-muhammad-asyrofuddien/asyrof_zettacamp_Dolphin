@@ -2,11 +2,12 @@ const calculateTerm = async (totalPrice, creditDuration, addPrice) => {
   let paid = 0;
   /////////////////////////////////////////////////////////////////////////////////////////////
 
-  const setCreditAmount = new Set(); //Convert array object to array list of term amount
+  const setCreditAmount = new Set(); //Declare new set
+  const mapTerm = new Map(); //Declare new map
 
   /////////////////////////////////////////////////////////////////////////////////////////////
 
-  const terms = Array.from({ length: creditDuration }, (_, index) => {
+  Array.from({ length: creditDuration }, (_, index) => {
     const currentDate = new Date();
     let tanggal = currentDate.getDate() + 30 * index;
     let bulan = currentDate.getMonth() + 2;
@@ -15,9 +16,9 @@ const calculateTerm = async (totalPrice, creditDuration, addPrice) => {
     const dueDate = new Date(tahun, bulan - 1, tanggal);
 
     const formatDate = dueDate.toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'numeric',
-      day: 'numeric',
+      year: '2-digit',
+      month: '2-digit',
+      day: '2-digit',
     });
     /////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -26,68 +27,53 @@ const calculateTerm = async (totalPrice, creditDuration, addPrice) => {
     // const termdistinct = new Set();
 
     if (index === creditDuration - 1) {
-      amountTerm = totalPrice - paid + addPrice;
+      amountTerm = totalPrice % amountTerm;
     }
 
     /////////////////////////////////////////////////////////////////////////////////////////////
 
-    // if (creditDuration < 2 || index == creditDuration - 2) {
-    //   paid += amountTerm + addPrice;
-    // } else {
-    //   paid += amountTerm;
-    // }
-
-    // return {
-    //   term: index + 1,
-    //   additionalPrice: index == creditDuration - 2 ? addPrice : 0,
-    //   beforeAdd: amountTerm,
-    //   amountTerm: amountTerm + (index == creditDuration - 2 ? addPrice : 0),
-    //   date: formatDate,
-    //   totalPaid: paid,
-    // };
-    let result;
     let amountPadd;
-    // if (creditDuration < 2 || index == creditDuration - 2) {
-
-    // }
-
+    //term has an additional price the amount term add add price
     if (creditDuration < 2 || (index == creditDuration - 2 && addPrice !== 0)) {
       amountPadd = amountTerm + addPrice;
-      setCreditAmount.add(amountPadd);
+      setCreditAmount.add(amountPadd); //add amount term to set
       paid += amountTerm + addPrice;
       //jika index hanya 1
-      result = {
+
+      //add map with date as keys and detail term as values
+      mapTerm.set(formatDate, {
         term: index + 1,
         additionalPrice: addPrice,
         beforeAdd: amountTerm,
         amountTerm: amountPadd,
         date: formatDate,
         totalPaid: paid,
-      };
+      });
     } else {
       paid += amountTerm;
-      result = {
+      mapTerm.set(formatDate, {
         term: index + 1,
         amountTerm: amountTerm,
         date: formatDate,
         totalPaid: paid,
-      };
+      });
     }
-    setCreditAmount.add(amountTerm);
+    setCreditAmount.add(amountTerm); //add amount term to set
 
-    return result;
+    return mapTerm;
   });
 
   /////////////////////////////////////////////////////////////////////////////////////////////
 
   const list = Array.from(setCreditAmount);
   // console.log(list);
-  let a = Array.from(terms);
-  const mapTerm = new Map(
-    a.map((obj) => {
-      return [obj.date, { ...obj }];
-    })
-  );
+  //Convert array object to map
+  // let a = Array.from(terms);
+  // const mapTerm = new Map(
+  //   a.map((obj) => {
+  //     return [obj.date, { ...obj }];
+  //   })
+  // );
 
   /////////////////////////////////////////////////////////////////////////////////////////////
   // console.log(mapTerm);

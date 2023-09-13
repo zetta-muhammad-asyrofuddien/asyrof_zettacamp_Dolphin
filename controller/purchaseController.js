@@ -4,7 +4,7 @@ const purchaseController = {};
 // purchaseController.buy = (req, res) => {
 purchaseController.buy = async (req, res) => {
   try {
-    const requiredFields = ['title', 'disc', 'price', 'tax', 'stock', 'amountOfBuy', 'creditDuration', 'AddAmountofCredit'];
+    const requiredFields = ['title', 'disc', 'price', 'tax', 'stock', 'amountOfBuy', 'creditDuration', 'AddAmountofCredit', 'specificDate'];
     const missingFields = requiredFields.filter((field) => !(field in req.body));
 
     if (missingFields.length > 0) {
@@ -82,17 +82,8 @@ purchaseController.buy = async (req, res) => {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
       }
-      const specificdate = term.mapTerm.get(specificDate);
-      // let specificdate;
-
-      // for (let i = 0; i < term.mapTerm.length; i++) {
-      //   if (term.mapTerm[i] == specificDate) {
-      //     specificdate = term.mapTerm[i];
-      //   }
-      // }
-
-      // console.log(specificdate);
-      // console.log(specificdate);
+      const specificdate = term.mapTerm.get(specificDate); //certain data using map
+      console.log(specificdate);
       const purchase = {
         bookData: {
           title: title,
@@ -109,13 +100,17 @@ purchaseController.buy = async (req, res) => {
           totalPrice: totalPrice + addPrice,
         },
         listTerm: term.list,
-        allTerms: Object.fromEntries(term.mapTerm),
-        mustPay: specificdate,
+        allTerms: Object.fromEntries(term.mapTerm), //convert map to Object
+        mustPay: specificdate
+          ? specificdate
+          : {
+              msg: 'Term at ' + specificDate + ' not Found',
+            },
         // mustPay: specificdate,
         desc: desc,
         restofStock: stock,
       };
-
+      // console.log(term.mapTerm);
       res.status(200).json(purchase); // convert to JSON
     }
   } catch (error) {
