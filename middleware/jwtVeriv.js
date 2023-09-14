@@ -10,8 +10,10 @@ const jwtAuthMiddleware = (req, res, next) => {
     let userpass;
     //chek the token baerer token or from header
     if (token.split(' ').length === 2) {
+      //barear ladkjwahdnlawd
       userpass = token.split(' ')[1];
     } else if (token.split(' ').length === 1) {
+      //ladkjwahdnlawd
       userpass = token;
     }
 

@@ -107,7 +107,7 @@ function songBasedArtist(data) {
     const artist = item.artist;
     groupedArtistList.add(artist);
     if (!groupedArtistData.has(artist)) {
-      // jika ada artis baru ->  membuat key baru / jika artis tidak sesuai maka akan dimasukkan ke dalam artis yang sesuai
+      // if key not exist, make a new key for map
       groupedArtistData.set(artist, []);
     }
     const artistData = {
@@ -131,7 +131,7 @@ function songBasedGenre(data) {
     const genre = item.genre;
     groupedGenreList.add(genre);
     if (!groupedGenreData.has(genre)) {
-      // jika ada artis baru ->  membuat key baru / jika artis tidak sesuai maka akan dimasukkan ke dalam artis yang sesuai
+      // if key not exist, make a new key for map
       groupedGenreData.set(genre, []);
     }
     const genreData = {
@@ -184,6 +184,8 @@ function Playlist(data) {
   } else {
     totalDuration = totalMinutes + ':' + totalSeconds;
   }
+
+  //change array of object to MAP
   const mapPlaylistSong = new Map();
   mapPlaylistSong.set('Playlist less than 1 hour ( ' + totalDuration + ' )', PlaylistSongs);
 
@@ -191,31 +193,50 @@ function Playlist(data) {
 }
 
 const groupMusicArtist = async (req, res) => {
-  const artis = songBasedArtist(songList);
-  const list = Array.from(artis.groupedArtistList);
-  const byArtist = Object.fromEntries(artis.groupedArtistData);
-  const result = {
-    'Artist List': list,
-    'Group by Artist': byArtist,
-  };
+  try {
+    const artis = songBasedArtist(songList);
+    const list = Array.from(artis.groupedArtistList);
+    const byArtist = Object.fromEntries(artis.groupedArtistData);
+    const result = {
+      'Artist List': list,
+      'Group by Artist': byArtist,
+    };
 
-  // console.log(artis.groupedArtistList);
-  res.status(200).json(result);
+    // console.log(artis.groupedArtistList);
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({
+      msg: 'Internal Server Error',
+    });
+  }
 };
 const groupMusicGenre = async (req, res) => {
-  const genre = songBasedGenre(songList);
-  const list = Array.from(genre.groupedGenreList);
-  const byGenre = Object.fromEntries(genre.groupedGenreData);
-  const result = {
-    'Genre List': list,
-    'Group by Genre': byGenre,
-  };
-  res.status(200).json(result);
+  try {
+    const genre = songBasedGenre(songList);
+    const list = Array.from(genre.groupedGenreList);
+    const byGenre = Object.fromEntries(genre.groupedGenreData);
+    const result = {
+      'Genre List': list,
+      'Group by Genre': byGenre,
+    };
+    res.status(200).json(result);
+  } catch (error) {
+    res.status(500).json({
+      msg: 'Internal Server Error',
+    });
+  }
 };
 const groupMusicPlaylist = async (req, res) => {
-  const playlist = Playlist(songList);
-  // console.log(playlist);
-  res.status(200).json(Object.fromEntries(playlist));
+  try {
+    const playlist = Playlist(songList);
+
+    // console.log(playlist);
+    res.status(200).json(Object.fromEntries(playlist));
+  } catch (error) {
+    res.status(500).json({
+      msg: 'Internal Server Error',
+    });
+  }
 };
 
 module.exports = { groupMusicArtist, groupMusicGenre, groupMusicPlaylist };
