@@ -1,27 +1,12 @@
-const route = require('./routes/route'); //import modul route
-const express = require('express'); //import modul express
+const express = require('express');
+const conn = require('./connection/app');
+const route = require('./routes/route');
 const app = express();
-const port = 3005; //defind port
-const bodyParser = require('body-parser'); //import bodyparser custom
+const port = 3000;
 
-const fs = require('fs');
-const jwtAuthMiddleware = require('./middleware/jwtVeriv');
-const Generate = require('./middleware/jwtAuth');
+conn;
+route(app);
 
-//make a JSON to Object
-app.use(bodyParser.json());
-app.post('/', Generate); //not effect of middleware
-app.use(jwtAuthMiddleware);
-// function login(req, res, next) {}
-
-//middlewere function
-
-route(app, fs);
-
-try {
-  app.listen(port, () => {
-    console.log(`Server running in ${port}`);
-  });
-} catch (error) {
-  return 'ERORR msg : ' + error;
-}
+app.listen(port, () => {
+  console.log(`Example app listening on port ${port}`);
+});
