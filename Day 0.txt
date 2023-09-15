@@ -1,0 +1,36 @@
+Day 0
+Able to install mongodb
+- MongoDB is intalled (2) ✅
+- Uses MongoDB v4 (2) ✅
+- Explain what is MongoDB (1)
+Able to install nosql booster and connect it to mongodb
+- NoSQL Booster is installed (1) ✅
+- NoSQL Booster able to connect to MongoDB (3) ✅
+- Installed NoSQL Booster version 5.2.12 (1)" ✅
+Able to install mongoose and create connection to mongodb
+- Can install mongoose in node.js app (2) ✅ (npm install mongoose@5.6.9 --save) 
+- Able to connect mongodb with mongoose (2) ✅
+- Explain what is mongoose (1) ✅
+
+Day 1
+Able to implement read operation in mongodb & knowledge
+- Able to get one or many data at the same time (2)✅
+- explain about collection (1) ✅
+- explain about document (1) ✅
+- explain about findOne and find (1) ✅
+
+Able to implement create operation in mongodb
+- Able to create one or many data at the same time (2) ✅
+- Able to create data with array field hobbies (1) ✅
+- Able to create data with embedded document field address (1) ✅
+- explain about insertOne and insertMany (1) ✅
+
+Able to implement update operation in mongodb
+- Able to update one or many specific data at the same time (2) ✅
+- Able to update data with array field hobbies (1) ✅
+- Able to update data with embedded document field address (1) ✅
+- explain about updateOne and updateMany (1)✅
+
+Able to implement delete operation in mongodb
+- Able to delete one or many data at the same time (4) ✅
+- explain about deleteOne and deleteMany (1)✅
