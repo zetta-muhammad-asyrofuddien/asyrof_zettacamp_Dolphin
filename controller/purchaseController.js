@@ -1,4 +1,4 @@
-const conn = require('../app');
+const app = require('../app');
 const Book = require('../models/BookSchema');
 const Transtaction = require('../models/TransactionsSchema');
 const calculateTerm = require('./calculateTerm');
@@ -30,7 +30,7 @@ purchaseController.buy = async (req, res) => {
         });
       }
     }
-    conn();
+    app.conn();
     // console.log(req.body.bookId);
 
     const books = await Book.findById(req.body.bookId);
@@ -93,8 +93,10 @@ purchaseController.buy = async (req, res) => {
       // console.log(specificdate);
       // const termDataArray = Array.from(term.termMap, ([date, data]) => ({ date, ...data }));
       // console.log(termDataArray);
+      // await Transtaction.Term.insertMany(...term.mapTerm);
+
       const purchase = {
-        bookId: bookId,
+        bookData: bookId,
         buyData: {
           amountOfBuy: amountOfBuy,
           amountofDisc: amountDisc,
@@ -104,14 +106,25 @@ purchaseController.buy = async (req, res) => {
           additionalPrice: addPrice,
           totalPrice: totalPrice + addPrice,
         },
-        listTerm: term.list,
-        allTerms: Object.fromEntries(term.mapTerm), //convert map to Object
+        allTerms: Object.fromEntries(term.mapTerm),
       };
       // console.log(term.mapTerm);
-      const Transactions = await Transtaction.Transtaction.insertMany(purchase);
 
+      // const Transactions = await Transtaction.Transtaction.insertMany(purchase);
+      // await Transtaction.Term.insertMany(term.TermArr);
       // const Term = await Transtaction.Term.insertMany(Array.from(term.mapTerm));
-      res.status(201).json({ message: 'Transaction created successfully', Transactions });
+
+      //Purchasing Book
+      const books = await Book.findOne(bookId);
+      const newStock = {
+        stock: books.stock - amountOfBuy,
+      };
+      const titleBookBuy = {
+        title: books.title,
+      };
+      await Book.updateOne(titleBookBuy, newStock, { new: true });
+      const Buybooks = await Book.findOne(bookId);
+      return res.status(201).json({ message: 'Transaction created successfully', PurchasedBook: Buybooks });
     }
   } catch (error) {
     console.error(error);

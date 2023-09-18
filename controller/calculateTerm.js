@@ -65,8 +65,9 @@ const calculateTerm = async (totalPrice, creditDuration, addPrice) => {
     return mapTerm;
   });
 
+  // Array.from(mapTerm);
   /////////////////////////////////////////////////////////////////////////////////////////////
-  const termDataArray = Array.from(mapTerm, ([date, data]) => ({ date, ...data }));
+  // const termDataArray = Array.from(mapTerm, ([date, data]) => ({ date, ...data }));
   // try {
   //   const savedTerms = await Transtaction.Term.insertMany(termDataArray);
   //   // console.log('Terms saved to the database:', savedTerms);

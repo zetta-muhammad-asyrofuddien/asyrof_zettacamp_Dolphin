@@ -3,8 +3,7 @@ const express = require('express'); //import modul express
 const app = express();
 const port = 3005; //defind port
 const bodyParser = require('body-parser'); //import bodyparser custom
-
-const fs = require('fs');
+const con = require('./app');
 const Generate = require('./middleware/jwtAuth');
 const jwtAuthMiddleware = require('./middleware/jwtVeriv');
 
@@ -16,7 +15,7 @@ app.use(bodyParser.json());
 //middlewere function
 app.post('/', Generate); //not effect of middleware
 app.use(jwtAuthMiddleware);
-
+con.conn();
 route(app);
 
 try {

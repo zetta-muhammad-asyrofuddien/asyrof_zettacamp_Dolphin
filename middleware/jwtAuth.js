@@ -15,7 +15,7 @@ const Generate = (req, res) => {
     //generate token
 
     if (data.username === user && data.password === pass) {
-      token = jwt.sign({ user, pass }, jwtSecretKey, { expiresIn: '1h' });
+      token = jwt.sign({ user, pass }, jwtSecretKey, { expiresIn: '6h' });
       res.json(token);
     } else {
       res.status(400).json({

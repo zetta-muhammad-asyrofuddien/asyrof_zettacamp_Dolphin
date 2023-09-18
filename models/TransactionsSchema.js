@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
-const Book = require('./BookSchema');
+
 const termSchema = new mongoose.Schema({
   term: {
-    type: Object,
+    type: Number,
     required: true,
   },
   amountTerm: {
@@ -17,6 +17,10 @@ const termSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  TranstactionId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'transaction',
+  },
   additionalPrice: Number,
   beforeAdd: Number,
 });
@@ -24,45 +28,42 @@ const termSchema = new mongoose.Schema({
 const allTermsSchema = new mongoose.Schema({
   [String]: termSchema, // This allows for any string key and the value should match the termSchema
 });
-const buyDataSchema = new mongoose.Schema({
-  amountOfBuy: {
-    type: Number,
-    required: true,
-  },
-  amountofDisc: {
-    type: Number,
-    required: true,
-  },
-  afterDisc: {
-    type: Number,
-    required: true,
-  },
-  amountofTax: {
-    type: Number,
-    required: true,
-  },
-  afterTax: {
-    type: Number,
-    required: true,
-  },
-  additionalPrice: {
-    type: Number,
-    required: true,
-  },
-  totalPrice: {
-    type: Number,
-    required: true,
-  },
-});
 
 const purchaseschema = new mongoose.Schema({
   bookData: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: Book, // Reference to the Book model
+    ref: 'Book', // Reference to the Book model
   },
-  buyData: buyDataSchema,
-  listTerm: [Number], // Array of numbers
-  allTerms: allTermsSchema,
+  buyData: {
+    amountOfBuy: {
+      type: Number,
+      required: true,
+    },
+    amountofDisc: {
+      type: Number,
+      required: true,
+    },
+    afterDisc: {
+      type: Number,
+      required: true,
+    },
+    amountofTax: {
+      type: Number,
+      required: true,
+    },
+    afterTax: {
+      type: Number,
+      required: true,
+    },
+    additionalPrice: {
+      type: Number,
+      required: true,
+    },
+    totalPrice: {
+      type: Number,
+      required: true,
+    },
+  },
 });
 
 const Transtaction = mongoose.model('transaction', purchaseschema);
