@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 //middlewere function
 app.use(basicAuthMiddleware('asyrof', 'uddien'));
 
-route(app, fs);
+route(app);
 
 try {
   app.listen(port, () => {

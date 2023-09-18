@@ -1,3 +1,5 @@
+const Transtaction = require('../models/TransactionsSchema');
+
 const calculateTerm = async (totalPrice, creditDuration, addPrice) => {
   let paid = 0;
   /////////////////////////////////////////////////////////////////////////////////////////////
@@ -64,7 +66,14 @@ const calculateTerm = async (totalPrice, creditDuration, addPrice) => {
   });
 
   /////////////////////////////////////////////////////////////////////////////////////////////
-
+  const termDataArray = Array.from(mapTerm, ([date, data]) => ({ date, ...data }));
+  // try {
+  //   const savedTerms = await Transtaction.Term.insertMany(termDataArray);
+  //   // console.log('Terms saved to the database:', savedTerms);
+  // } catch (error) {
+  //   console.error('Error saving terms to the database:', error);
+  // }
+  // console.log(termDataArray);
   const list = Array.from(setCreditAmount);
   // console.log(list);
   //Convert array object to map

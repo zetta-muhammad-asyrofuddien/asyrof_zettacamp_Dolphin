@@ -5,6 +5,11 @@ function basicAuthMiddleware(Username, Password) {
   return (req, res, next) => {
     // console.log(basicAuth(req));
     const auth = req.headers['authorization']; // collect authorization
+    if (!auth) {
+      return res.status(401).json({
+        msg: 'Auth needed',
+      }); //stop here
+    }
     const userpass = auth.split(' ')[1]; // split auth to collect the value authorization except "basic"
     const text = Buffer.from(userpass, 'base64').toString('ascii'); //decode data that has been encoded with base64 encoding
     //asyrof:uddien

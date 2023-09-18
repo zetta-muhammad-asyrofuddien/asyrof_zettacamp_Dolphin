@@ -1,10 +1,13 @@
+const conn = require('../app');
+const Book = require('../models/BookSchema');
+const Transtaction = require('../models/TransactionsSchema');
 const calculateTerm = require('./calculateTerm');
 const purchaseController = {};
 
 // purchaseController.buy = (req, res) => {
 purchaseController.buy = async (req, res) => {
   try {
-    const requiredFields = ['title', 'disc', 'price', 'tax', 'stock', 'amountOfBuy', 'creditDuration', 'AddAmountofCredit', 'specificDate'];
+    const requiredFields = ['disc', 'tax', 'amountOfBuy', 'creditDuration', 'AddAmountofCredit'];
     const missingFields = requiredFields.filter((field) => !(field in req.body));
 
     if (missingFields.length > 0) {
@@ -13,7 +16,7 @@ purchaseController.buy = async (req, res) => {
         missingFields: missingFields,
       });
     }
-    const numericFields = ['price', 'disc', 'tax', 'stock', 'amountOfBuy', 'creditDuration', 'AddAmountofCredit'];
+    const numericFields = ['disc', 'tax', 'amountOfBuy', 'creditDuration', 'AddAmountofCredit'];
 
     for (const field of numericFields) {
       if (typeof req.body[field] !== 'number') {
@@ -27,18 +30,22 @@ purchaseController.buy = async (req, res) => {
         });
       }
     }
+    conn();
+    // console.log(req.body.bookId);
 
-    const title = req.body.title;
+    const books = await Book.findById(req.body.bookId);
+    const bookId = books._id;
+    // console.log(bookId);
+    // const title = books.title;
     const discount = req.body.disc !== 0;
     const disc = req.body.disc;
-    let price = req.body.price;
+    let price = books.price;
     const tax = req.body.tax;
-    let stock = req.body.stock;
+    let stock = books.stock;
     let amountOfBuy = req.body.amountOfBuy;
     const creditDuration = req.body.creditDuration;
     const addPrice = req.body.AddAmountofCredit;
-    let specificDate = req.body.specificDate;
-    let desc;
+    // let specificDate = req.body.specificDate;
 
     if (stock == 0) {
       res.status(410).json({
@@ -82,14 +89,12 @@ purchaseController.buy = async (req, res) => {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });
       }
-      const specificdate = term.mapTerm.get(specificDate); //certain data using map
-      console.log(specificdate);
+      // const specificdate = term.mapTerm.get(specificDate); //certain data using map
+      // console.log(specificdate);
+      // const termDataArray = Array.from(term.termMap, ([date, data]) => ({ date, ...data }));
+      // console.log(termDataArray);
       const purchase = {
-        bookData: {
-          title: title,
-          price: price / amountOfBuy,
-          stock: req.body.stock,
-        },
+        bookId: bookId,
         buyData: {
           amountOfBuy: amountOfBuy,
           amountofDisc: amountDisc,
@@ -101,17 +106,12 @@ purchaseController.buy = async (req, res) => {
         },
         listTerm: term.list,
         allTerms: Object.fromEntries(term.mapTerm), //convert map to Object
-        mustPay: specificdate
-          ? specificdate
-          : {
-              msg: 'Term at ' + specificDate + ' not Found',
-            },
-        // mustPay: specificdate,
-        desc: desc,
-        restofStock: stock,
       };
       // console.log(term.mapTerm);
-      res.status(200).json(purchase); // convert to JSON
+      const Transactions = await Transtaction.Transtaction.insertMany(purchase);
+
+      // const Term = await Transtaction.Term.insertMany(Array.from(term.mapTerm));
+      res.status(201).json({ message: 'Transaction created successfully', Transactions });
     }
   } catch (error) {
     console.error(error);
