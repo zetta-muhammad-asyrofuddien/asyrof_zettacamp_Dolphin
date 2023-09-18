@@ -3,8 +3,10 @@ const express = require('express'); //import modul express
 const app = express();
 const port = 3005; //defind port
 const bodyParser = require('body-parser'); //import bodyparser custom
-const basicAuthMiddleware = require('./middleware/auth'); //import middlewere custom
+
 const fs = require('fs');
+const Generate = require('./middleware/jwtAuth');
+const jwtAuthMiddleware = require('./middleware/jwtVeriv');
 
 //make a JSON to Object
 app.use(bodyParser.json());
@@ -12,7 +14,8 @@ app.use(bodyParser.json());
 // function login(req, res, next) {}
 
 //middlewere function
-app.use(basicAuthMiddleware('asyrof', 'uddien'));
+app.post('/', Generate); //not effect of middleware
+app.use(jwtAuthMiddleware);
 
 route(app);
 

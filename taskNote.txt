@@ -1,0 +1,9 @@
+mplement MongoDB and mongoose to book purchasing api
+- Able to connect REST Api to mongodb (3)
+- Create collection/model for book (2)
+
+Implement CRUD operation with mongoose and express
+- Implement create operation endpoint (1)
+- Implement read operation endpoint (2)
+- Implement update operation endpoint (1)
+- Implement delete operation endpoint (1)

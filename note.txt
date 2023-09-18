@@ -1,7 +1,0 @@
-DAY 4 Javascript_Advance
-
-cacth yang paling dalem yang terlebih dahulu
-tapi jika pakai throw new error bisa dua duanya dapat
-SET -> Ngelag
-MAP -> key bisa macem macem tapi kalau map bisa angka objek dan yang lainya, jika di deklarasi ulang bakal nge replace.
-display bisa pake for
