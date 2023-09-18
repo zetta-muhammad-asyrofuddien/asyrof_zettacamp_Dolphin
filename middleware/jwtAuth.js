@@ -23,8 +23,10 @@ const Generate = (req, res) => {
       });
     }
   } catch (error) {
+    console.error(error);
     res.status(500).json({
       msg: 'Internal Server Error',
+      err: error.message,
     });
   }
 };

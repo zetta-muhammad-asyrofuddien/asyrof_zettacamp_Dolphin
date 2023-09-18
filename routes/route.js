@@ -2,7 +2,7 @@ const purchaseController = require('../controller/purchaseController');
 // const process = require('../controller/process');
 const book = require('../controller/Books');
 const author = require('../controller/author');
-const Transtaction = require('../models/TransactionsSchema');
+const bookshelf = require('../controller/BookShelf');
 
 // const fileSystem = require('../controller/fs');
 
@@ -15,6 +15,8 @@ const route = (app) => {
   app.get('/readBook', book.getAllBooks);
   app.post('/updateBook', book.updateBook);
   app.post('/deleteBook', book.deleteBook);
+  app.get('/bookshelf', bookshelf.createbookshelf);
+  app.get('/readshelf', bookshelf.getbookshelf);
   // app.get('/first', process.firstEndpoint);
   // app.get('/second', process.secondEndpoint);
   // app.get('/fs', fileSystem(fs));

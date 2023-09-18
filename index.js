@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 
 //middlewere function
 app.post('/', Generate); //not effect of middleware
-app.use(jwtAuthMiddleware);
+// app.use(jwtAuthMiddleware);
 con.conn();
 route(app);
 
