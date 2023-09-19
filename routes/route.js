@@ -15,8 +15,13 @@ const route = (app) => {
   app.get('/readBook', book.getAllBooks);
   app.post('/updateBook', book.updateBook);
   app.post('/deleteBook', book.deleteBook);
+
+  //route bookshelf
   app.get('/bookshelf', bookshelf.createbookshelf);
   app.get('/readshelf', bookshelf.getbookshelf);
+  app.put('/updateshelf/:id', bookshelf.updateBookshelf);
+  app.put('/updateshelf2/:id', bookshelf.updateBookshelf2);
+  app.del('/deleteshelf/:id', bookshelf.deleteBookshelf);
   // app.get('/first', process.firstEndpoint);
   // app.get('/second', process.secondEndpoint);
   // app.get('/fs', fileSystem(fs));

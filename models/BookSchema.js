@@ -7,6 +7,10 @@ const bookSchema = new mongoose.Schema(
       unique: true,
       required: true,
     },
+    genre: {
+      type: String,
+      required: true,
+    },
     author: {
       type: mongoose.Types.ObjectId, //Embeded relation ref author
       ref: 'Author',

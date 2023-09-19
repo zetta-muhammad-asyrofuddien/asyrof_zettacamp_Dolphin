@@ -1,15 +1,12 @@
-mplement MongoDB and mongoose to book purchasing api
-- Able to connect REST Api to mongodb (3) ✅
-- Create collection/model for book (2) ✅ 
+Add second collection and model named bookshelves
+- Model has field array of ObjectId (3) ✅
+- The array of ObjectId field refer to the books collection (2) ✅
 
-Implement CRUD operation with mongoose and express
-- Implement create operation endpoint (1) ✅ 
-- Implement read operation endpoint (2) ✅ 
-- Implement update operation endpoint (1) ✅ 
-- Implement delete operation endpoint (1) ✅ 
+Implement CRUD operation for bookshelves
+- Implement CRUD operation endpoint (Create, Read, Update, Delete) (2) ✅
+- Able to filter bookshelf by book id (1) ✅
+- Explain filter in mongodb (1)
+	In MongoDB, a "filter" is a way to specify the conditions or criteria that we want to use to select or take documents from a collection. It's like tell MongoDB which documents we want based on specific properties or values.
 
-explain connection
-explain schema ( relation )
-explain CRUD
-explain relation aggregate
-explain buy purches
+- Explain operator in mongodb (1)
+	In MongoDB, an "operator" is a symbol or keyword used to perform operations on data. Operators are fundamental for creating queries and manipulating documents.
