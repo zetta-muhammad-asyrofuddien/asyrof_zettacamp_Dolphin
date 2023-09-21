@@ -10,16 +10,8 @@ const bookshelfSchema = new mongoose.Schema(
     ],
     books: [
       {
-        _id: {
-          type: mongoose.Types.ObjectId,
-          ref: 'Book',
-        },
-        isAvailable: {
-          type: Boolean,
-        },
-        stock: {
-          type: Number,
-        },
+        type: mongoose.Types.ObjectId,
+        ref: 'Book',
       },
     ],
   },
