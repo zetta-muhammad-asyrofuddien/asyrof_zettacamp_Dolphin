@@ -2,14 +2,24 @@ const mongoose = require('mongoose');
 //bookschema
 const bookshelfSchema = new mongoose.Schema(
   {
-    name: {
-      type: String,
-      require: true,
-    },
+    genres: [
+      {
+        type: String,
+        require: true,
+      },
+    ],
     books: [
       {
-        type: mongoose.Types.ObjectId,
-        ref: 'Book',
+        _id: {
+          type: mongoose.Types.ObjectId,
+          ref: 'Book',
+        },
+        isAvailable: {
+          type: Boolean,
+        },
+        stock: {
+          type: Number,
+        },
       },
     ],
   },

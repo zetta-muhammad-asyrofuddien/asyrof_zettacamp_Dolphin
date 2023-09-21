@@ -1,0 +1,16 @@
+Today score assessment:
+Implement filter for array of objects/embedded documents field
+- Implement $elemMatch (2) -->  ✅  #70
+- Result is correct (Return documents where each key in an element array object match to the filter (2) --> ✅ postman 
+- explain elemMatch (1)
+
+Update data inside array of objects/embedded documents
+- Implement arrayFilter (2)
+- Only update object inside array matched to the filter (2)
+- explain arrayFilter (1)
+
+Get list of book genres
+- Implement distinct (2) createbookshelf -->  ✅#30-33
+- Result should be array string (1) -->  ✅postman
+- Result should be unique/no duplicates (1) -->  ✅ postman (get book, get bookshelf)
+- explain distinct (1)

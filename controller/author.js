@@ -7,7 +7,7 @@ const createAuthor = async (req, res) => {
     const authorData = req.body;
     const author = await Author.insertMany(authorData);
 
-    res.status(201).json({ message: 'Book created successfully', author });
+    res.status(201).json({ message: 'Author created successfully', author });
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error', msg: error.message });
   }
