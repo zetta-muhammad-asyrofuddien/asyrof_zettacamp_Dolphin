@@ -1,0 +1,39 @@
+- Aggregate 
+	Aggregat adalah unutk mencari data namun dapat lebih kompleks bisa di manipulasi mongoDb sebelum di tampilkan
+
+- $project ( 1 : true , 0 : false )
+	untuk menampilkan field mana saja yang ingin di tampilkan
+
+- $unwind
+	data array bisa di pecah menjadi data sendiri sendiri
+
+-$addFields
+	untuk menampilkan field baru tanpa mempengaruhi database
+
+Today score assessment:
+Implement aggregate to get book
+- Show certain fields using $project (2) ✅
+- Show new fields that not exist in model using $addFields (1) ✅
+- explain $project (1)
+- explain $addFields (1)
+
+Implement unwind to split each book array element of bookshelf collection
+- Use $unwind operator (2) ✅
+- book field should transform from array of ids to id (2) ✅
+- explain $unwind (1)
+
+EXPLANATION
+- explain Aggregate 
+
+(Pipeline Operators)
+ 
+- #201 --> $project and $addFileds
+* code
+* response ( project and add field )
+* read book to show the database has not changed
+* explain project and add field
+
+- #216 - #231 --> $unwind
+* code
+* response 
+* explain $unwind

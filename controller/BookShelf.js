@@ -1,35 +1,14 @@
 const Book = require('../models/BookSchema');
 const Bookshelf = require('../models/BookShelfSchema');
-const mongoose = require('mongoose');
 
 const createbookshelf = async (req, res) => {
   //distinct
   try {
     const books = await Book.find().select('_id');
 
-    // const totalBooks = books.length;
-
-    // Calculate the approximate(perkiraan) number of books for each bookshelf
-    //just shuffle Fisher-Yates algorithm
-    // const numBooksPerShelf = Math.ceil(totalBooks / 2);
-    // function shuffleArray(array) {
-    //   for (let i = array.length - 1; i > 0; i--) {
-    //     const j = Math.floor(Math.random() * (i + 1));
-    //     [array[i], array[j]] = [array[j], array[i]];
-    //     // console.log(array)
-    //   }
-    // }
-    // const shuffledData = [1,2,3,5,4,6,8,7,4,6,5];
-
-    // shuffleArray(books); //call shuffle function
-
-    // Divide the books into two groups for the bookshelves
-    // const booksGroup1 = books.slice(0, numBooksPerShelf); //slice from index 0 to numBooksPerShelf
-    // const booksGroup2 = books.slice(numBooksPerShelf); //slice from numBooksPerShelf
-
     //get distinct data from book's genre
     const distinctBook = await Book.distinct('genre');
-    // console.log(distinctBook);
+
     // Extract book IDs for each group
     const bookId = books.map((book) => book._id);
 
@@ -102,7 +81,7 @@ const getbookshelf = async (req, res) => {
     } else if (size) {
       bookshelf = await Bookshelf.find({ books: { $size: size } });
     } else {
-      bookshelf = await Bookshelf.find().populate('books').select('genres books');
+      bookshelf = await Bookshelf.find().select('genres books');
     }
     if (!bookshelf) {
       return res.status(401).json({ error: 'Internal Server Error', msg: 'Book is empty' });
@@ -215,6 +194,67 @@ const arrayFilter = async (req, res) => {
   }
 };
 
+const getBookAggregate = async (req, res) => {
+  try {
+    //$projec should be just all true or all false except _id
+    const projectionAddFields = await Book.aggregate([
+      // The specified fields can be existing fields from the input documents or newly
+      // { $project: { title: 1, price: 1, stock: 1 } }, //filed will be show title,price,stock
+      { $project: { title: 1, price: 1, stock: 1, TotalIncome: { $multiply: ['$price', '$stock'] } } },
+      //multiply values from price and stock (computed fields)
+      {
+        $addFields: {
+          isAvailable: {
+            status: true,
+            msg: 'selling',
+          },
+        },
+      }, //add field isAvailable not effect to database
+    ]);
+    // const projection = await Book.aggregate([
+    //   { $project: { genre: 0, createdAt: 0, updatedAt: 0, __v: 0 } },
+    //   { $addFields: { newBook: false } },
+    // ]);
+
+    if (!projectionAddFields) {
+      res.status(500).json({ msg: 'Book Not Found' });
+    } else {
+      res.status(200).json({ data: projectionAddFields });
+    }
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+};
+const getBookshelfUnwind = async (req, res) => {
+  try {
+    const bookshelfUnwind = await Bookshelf.aggregate([
+      // { $match: { genres: { $in: ['Drama'] } } }, //i just wanna collect the document have a Drama genre
+
+      { $project: { genres: 1, books: 1 } }, // $project is a stage in the aggregate used for reshape document
+      //to spread / Deconstructs the array data. Each output document is the input document with the value of the array field replaced by the element.
+      { $unwind: '$books' }, // array book will be separated one by one
+      // {
+      //   $lookup: {
+      //     from: 'books', //destination collection name
+      //     localField: 'books', //field in the curent document
+      //     foreignField: '_id', // The field name in the destination collection that will be used as the matching key.
+      //     as: 'books', //name for new field to save new data from destination collection
+      //   },
+      // },
+      // { $project: { 'books.__v': 0, 'books.createdAt': 0, 'books.updatedAt': 0 } },
+    ]);
+    const pop = await Bookshelf.populate(bookshelfUnwind, { path: 'books', select: 'title author genre price stock' });
+    if (!bookshelfUnwind) {
+      res.status(500).json({ msg: 'Book Not Found' });
+    } else {
+      res.status(200).json(pop);
+      // res.status(200).json(bookshelfUnwind);
+    }
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+};
+
 module.exports = {
   arrayFilter,
   createbookshelf,
@@ -223,4 +263,6 @@ module.exports = {
   updateBookshelf2,
   deleteBookshelf,
   getbookshelfElemMatch,
+  getBookAggregate,
+  getBookshelfUnwind,
 };

@@ -24,10 +24,10 @@ const route = (app) => {
   app.put('/updateshelf/:id', bookshelf.updateBookshelf);
   app.put('/updateshelf2/:id', bookshelf.updateBookshelf2);
   app.del('/deleteshelf/:id', bookshelf.deleteBookshelf);
-  // app.get('/first', process.firstEndpoint);
-  // app.get('/second', process.secondEndpoint);
-  // app.get('/fs', fileSystem(fs));
-  // app.get('/second', secondEndpoint);
+
+  //Mongo Day 5
+  app.get('/aggregate', bookshelf.getBookAggregate);
+  app.get('/unwind/:id', bookshelf.getBookshelfUnwind);
 };
 
 module.exports = route;
