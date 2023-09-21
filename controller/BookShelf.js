@@ -204,6 +204,7 @@ const getBookAggregate = async (req, res) => {
       //multiply values from price and stock (computed fields)
       {
         $addFields: {
+          stock: 3,
           isAvailable: {
             status: true,
             msg: 'selling',

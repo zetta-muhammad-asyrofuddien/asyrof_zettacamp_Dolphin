@@ -37,3 +37,5 @@ EXPLANATION
 * code
 * response 
 * explain $unwind
+
+array book akan terpisah satu satu
