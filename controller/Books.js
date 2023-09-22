@@ -56,13 +56,31 @@ const getAllBooks = async (req, res) => {
     let books;
     // console.log(author);
     // books = await Book.find(id);
-    books = await Book.find().populate('author', 'name -_id');
+    // books = await Book.find().populate('author', 'name -_id');
+    const pageSize = req.body.dataperpage; // Number of items per page
+    const page = req.body.page; // Current page
+    const pipeline = [
+      {
+        $facet: {
+          totalData: [{ $count: 'totalItems' }],
+          data: [{ $skip: (page - 1) * pageSize }, { $limit: pageSize }],
+        },
+      },
+    ];
 
-    if (books.length === 0) {
-      res.status(200).json({ msg: 'Book not found' });
-    } else {
-      res.status(200).json(books);
-    }
+    const result = await Book.aggregate(pipeline);
+
+    // Return the paginated data and metadata (totalItems)
+
+    res.status(200).json(result);
+    // res.status(200).json({
+    //   totalItems: totalData.totalItems,
+    //   totalPages: Math.ceil(totalData.totalItems / pageSize),
+    //   currentPage: page,
+    //   pageSize: pageSize,
+    //   data: paginatedData,
+    // });
+
     // books = await Book.find(id).populate('author', 'name -_id');
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error', msg: error.message });

@@ -12,7 +12,7 @@ const route = (app) => {
   app.post('/buy', purchaseController.buy);
   app.post('/createAuthor', author.createAuthor);
   app.post('/createBook', book.createBook);
-  app.get('/readBook', book.getAllBooks);
+  app.post('/readBook', book.getAllBooks);
   app.post('/updateBook', book.updateBook);
   app.post('/deleteBook', book.deleteBook);
 
@@ -26,7 +26,7 @@ const route = (app) => {
   app.del('/deleteshelf/:id', bookshelf.deleteBookshelf);
 
   //Mongo Day 5
-  app.get('/aggregate', bookshelf.getBookAggregate);
+  app.post('/aggregate', bookshelf.getBookAggregate);
   app.get('/unwind/:id', bookshelf.getBookshelfUnwind);
 };
 
