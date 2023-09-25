@@ -196,10 +196,11 @@ const arrayFilter = async (req, res) => {
 
 const getBookAggregate = async (req, res) => {
   try {
-    const author = req.body.author;
+    const { author, stock } = req.body;
+    if (!author || !stock) {
+      return res.status(500).json({ Status: 'Aduh Bang', msg: 'Atuhor, Stocknya mana bang' });
+    }
     const projectionAddFields = await Book.aggregate([
-      // The specified fields can be existing fields from the input documents or newly
-
       {
         //Performs a left outer join to a collection in the same database to filter in documents from the "joined" collection for processing.
         $lookup: {
@@ -210,10 +211,11 @@ const getBookAggregate = async (req, res) => {
         },
       },
       // Filters the documents to pass only the documents that match the specified condition(s) to the next pipeline stage.
-      { $match: { 'author.name': author, stock: { $gte: 30 } } }, //the document should match with the request body
+      { $match: { 'author.name': author, stock: { $gte: stock } } }, //the document should match with the request body
       {
         $project: {
           title: {
+            // Concatenates strings and returns the concatenated string
             $concat: ['$title', ' ( ', '$genre', ' )'], //merge values title and genre and adding literal
           },
           price: 1,
@@ -222,21 +224,21 @@ const getBookAggregate = async (req, res) => {
         },
       },
       //Sorts all input documents and returns them to the pipeline in sorted order.
-      { $sort: { title: -1 } }, //1 to ascending , -1 to descending
+      { $sort: { title: 1 } }, //1 to ascending , -1 to descending
       {
         $addFields: {
           status: {
             $cond: {
               if: { $lt: ['$stock', 50] }, //if stock less then 50
               then: 'STOCK HAMPIR HABIS !!!', //value true
-              else: 'Masih banyak aman', //value false
+              else: 'Masih banyak, aman aja', //value false
             },
           },
         },
       },
     ]);
 
-    if (!projectionAddFields) {
+    if (projectionAddFields.length === 0) {
       res.status(500).json({ msg: 'Book Not Found' });
     } else {
       res.status(200).json({ data: projectionAddFields });
@@ -247,8 +249,9 @@ const getBookAggregate = async (req, res) => {
 };
 const getBookshelfUnwind = async (req, res) => {
   try {
+    const { genre } = req.body;
     const bookshelfUnwind = await Bookshelf.aggregate([
-      { $match: { genres: { $in: ['Drama'] } } }, //i just wanna collect the document have a Drama genre
+      { $match: { genres: { $in: [genre] } } }, //i just wanna collect the document have a Drama genre
 
       { $project: { genres: 1, books: 1 } }, // $project is a stage in the aggregate used for reshape document
       //to spread / Deconstructs the array data. Each output document is the input document with the value of the array field replaced by the element.
@@ -258,7 +261,7 @@ const getBookshelfUnwind = async (req, res) => {
           from: 'books', //destination collection name
           //   localField: 'books', //field in the curent document
           //   foreignField: '_id', // The field name in the destination collection that will be used as the matching key.
-          //   pipeline to execute on the joined collection
+          //   pipeline to execute on the joined collection ( Cannot include $out or $merge )
           pipeline: [{ $sort: { stock: 1 } }, { $lookup: { from: 'authors', localField: 'author', foreignField: '_id', as: 'author' } }],
           as: 'books', //name for new field to save new data from destination collection
         },

@@ -27,7 +27,7 @@ const route = (app) => {
 
   //Mongo Day 5
   app.post('/aggregate', bookshelf.getBookAggregate);
-  app.get('/unwind/:id', bookshelf.getBookshelfUnwind);
+  app.post('/unwind', bookshelf.getBookshelfUnwind);
 };
 
 module.exports = route;

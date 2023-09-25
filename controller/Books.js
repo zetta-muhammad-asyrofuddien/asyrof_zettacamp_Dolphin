@@ -41,25 +41,34 @@ const getAllBooks = async (req, res) => {
     // app.conn();
     const title = { title: req.query.title };
     const id = { author: req.query.id };
-    const author = req.query.author;
-    // console.log(title);
-    // const booksWithAuthors = await Book.aggregate([
-    //   {
-    //     $lookup: {
-    //       from: 'authors', // The name of the collection to join (case sensitive)
-    //       localField: 'author', // The field from the Book collection
-    //       foreignField: '_id', // The field from the Author collection
-    //       as: 'authorInfo', // The alias for the joined information
-    //     },
-    //   },
-    // ]);
-    let books;
-    // console.log(author);
-    // books = await Book.find(id);
-    // books = await Book.find().populate('author', 'name -_id');
+    const author = req.body.author;
     const pageSize = req.body.dataperpage; // Number of items per page
     const page = req.body.page; // Current page
     const pipeline = [
+      {
+        $lookup: {
+          from: 'authors',
+          localField: 'author',
+          foreignField: '_id',
+          as: 'authorInfo',
+        },
+      },
+      {
+        $match: { 'authorInfo.name': author },
+      },
+      {
+        $addFields: {
+          author: author,
+        },
+      },
+      {
+        $project: {
+          authorInfo: 0,
+          createdAt: 0,
+          updatedAt: 0,
+          __v: 0,
+        },
+      },
       {
         $facet: {
           totalData: [{ $count: 'totalItems' }],
@@ -68,20 +77,24 @@ const getAllBooks = async (req, res) => {
       },
     ];
 
-    const result = await Book.aggregate(pipeline);
+    const book = await Book.aggregate(pipeline);
+    const totalItem = book[0].totalData[0].totalItems;
+    const pageTotal = Math.ceil(totalItem / pageSize);
+    // console.log(book[0].totalData[0].totalItems);
 
-    // Return the paginated data and metadata (totalItems)
+    const result = {
+      Author: author,
+      BookTotal: totalItem,
+      DataperPage: pageSize,
+      page: page + ' / ' + pageTotal,
+      books: book[0].data,
+    };
 
-    res.status(200).json(result);
-    // res.status(200).json({
-    //   totalItems: totalData.totalItems,
-    //   totalPages: Math.ceil(totalData.totalItems / pageSize),
-    //   currentPage: page,
-    //   pageSize: pageSize,
-    //   data: paginatedData,
-    // });
-
-    // books = await Book.find(id).populate('author', 'name -_id');
+    if (page <= pageTotal) {
+      res.status(200).json(result);
+    } else {
+      res.status(500).json({ msg: 'Page is empty' });
+    }
   } catch (error) {
     res.status(500).json({ error: 'Internal Server Error', msg: error.message });
   }
