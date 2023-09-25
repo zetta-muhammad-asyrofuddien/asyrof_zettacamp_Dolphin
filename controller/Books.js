@@ -39,66 +39,191 @@ const createBook = async (req, res) => {
 const getAllBooks = async (req, res) => {
   try {
     // app.conn();
-    const title = { title: req.query.title };
-    const id = { author: req.query.id };
-    const author = req.body.author;
+
+    const grup = req.body.grup;
     const pageSize = req.body.dataperpage; // Number of items per page
     const page = req.body.page; // Current page
-    const pipeline = [
-      {
-        $lookup: {
-          from: 'authors',
-          localField: 'author',
-          foreignField: '_id',
-          as: 'authorInfo',
-        },
-      },
-      {
-        $match: { 'authorInfo.name': author },
-      },
-      {
-        $addFields: {
-          author: author,
-        },
-      },
-      {
-        $project: {
-          authorInfo: 0,
-          createdAt: 0,
-          updatedAt: 0,
-          __v: 0,
-        },
-      },
-      {
+    if (page < 0) {
+      return res.status(500).json({ msg: 'Page ' + page + ' not found' });
+    }
+    let facet;
+    let sort;
+    let pipeline;
+    if (grup === 'author') {
+      sort = {
+        $sort: { title: 1 },
+      };
+      facet = {
         $facet: {
-          totalData: [{ $count: 'totalItems' }],
-          data: [{ $skip: (page - 1) * pageSize }, { $limit: pageSize }],
+          groupByAuthor: [
+            {
+              $group: {
+                _id: '$author',
+                Books: { $push: { title: '$title', price: '$price', stock: '$stock' } },
+              },
+            },
+            {
+              $sort: { 'Books.title': 1 },
+            },
+          ],
         },
-      },
-    ];
+      };
+    } else if (grup === 'price') {
+      facet = {
+        $facet: {
+          groupByLowestPrice: [
+            {
+              $group: {
+                _id: '$price',
+                Books: { $push: { title: '$title', price: '$price', stock: '$stock', author: '$author' } },
+              },
+            },
+            {
+              $sort: { 'Books.price': 1 },
+            },
+          ],
+          groupByHighestPrice: [
+            {
+              $group: {
+                _id: '$price',
+                Books: { $push: { title: '$title', price: '$price', stock: '$stock', author: '$author' } },
+              },
+            },
+            {
+              $sort: { 'Books.price': -1 },
+            },
+          ],
+        },
+      };
+    } else if (grup === 'stock') {
+      facet = {
+        $facet: {
+          groupByLowestStock: [
+            {
+              $group: {
+                _id: '$stock',
+                Books: { $push: { title: '$title', price: '$price', stock: '$stock', author: '$author' } },
+              },
+            },
+            {
+              $sort: { 'Books.stock': 1 },
+            },
+          ],
+          groupByHighestStock: [
+            {
+              $group: {
+                _id: '$stock',
+                Books: { $push: { title: '$title', price: '$price', stock: '$stock', author: '$author' } },
+              },
+            },
+            {
+              $sort: { 'Books.stock': -1 },
+            },
+          ],
+        },
+      };
+    } else if (!grup) {
+      sort = {
+        $sort: { title: 1 },
+      };
+      facet = {
+        $facet: {
+          books: [
+            {
+              $sort: { title: 1 },
+            },
+          ],
+        },
+      };
+    } else {
+      return res.status(500).json({ msg: grup + ' Group not found' });
+    }
+    if (grup) {
+      if (grup === 'stock') {
+        sort = { $sort: { stock: 1 } };
+      } else if (grup === 'price') {
+        sort = { $sort: { price: 1 } };
+      }
+      pipeline = [
+        sort,
+        { $skip: page * pageSize },
+        { $limit: pageSize },
+        {
+          $lookup: {
+            from: 'authors',
+            localField: 'author',
+            foreignField: '_id',
+            as: 'authorInfo',
+          },
+        },
+        {
+          $addFields: {
+            author: '$authorInfo.name',
+          },
+        },
+        {
+          $project: {
+            createdAt: 0,
+            updatedAt: 0,
+            __v: 0,
+            authorInfo: 0,
+          },
+        },
+        facet,
+      ];
+    } else {
+      pipeline = [
+        {
+          $sort: { title: 1 },
+        },
+        { $skip: page * pageSize },
+        { $limit: pageSize },
+        {
+          $lookup: {
+            from: 'authors',
+            localField: 'author',
+            foreignField: '_id',
+            as: 'authorInfo',
+          },
+        },
+        {
+          $addFields: {
+            author: '$authorInfo.name',
+          },
+        },
+        {
+          $project: {
+            createdAt: 0,
+            updatedAt: 0,
+            __v: 0,
+            authorInfo: 0,
+          },
+        },
+        facet,
+      ];
+    }
 
+    const get = await Book.find();
     const book = await Book.aggregate(pipeline);
-    const totalItem = book[0].totalData[0].totalItems;
-    const pageTotal = Math.ceil(totalItem / pageSize);
-    // console.log(book[0].totalData[0].totalItems);
+
+    const totalItem = get.length;
+    const pageTotal = Math.floor(totalItem / pageSize);
 
     const result = {
-      Author: author,
       BookTotal: totalItem,
       DataperPage: pageSize,
       page: page + ' / ' + pageTotal,
-      books: book[0].data,
     };
 
     if (page <= pageTotal) {
-      res.status(200).json(result);
+      res.status(200).json({ pageInfo: result, book });
     } else {
       res.status(500).json({ msg: 'Page is empty' });
     }
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: 'Internal Server Error', msg: error.message });
   }
-  // app.disconnect();
 };
 
 const updateBook = async (req, res) => {
