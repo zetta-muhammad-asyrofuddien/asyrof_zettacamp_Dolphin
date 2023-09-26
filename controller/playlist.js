@@ -78,9 +78,9 @@ const getAllPlaylist = async (req, res) => {
             {
               $lookup: {
                 from: 'songs',
-                // localField: 'songs',
-                // foreignField: '_id',
-                pipeline: [{ $match: { year: { $lte: year } } }],
+                localField: 'songs',
+                foreignField: '_id',
+
                 as: 'songs',
               },
             },
