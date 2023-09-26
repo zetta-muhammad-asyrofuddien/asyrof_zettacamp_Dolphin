@@ -1,0 +1,109 @@
+ [
+  {
+    "title": "Menunggu Kamu",
+    "artist": "Anji",
+    "year": 2018,
+    "duration": "4:17",
+    "genre": "Pop"
+  },
+  {
+    "title": "Dia",
+    "artist": "Anji",
+    "year": 2016,
+    "duration": "4:09",
+    "genre": "Pop"
+  },
+  {
+    "title": "Arjuna",
+    "artist": "Dewa19",
+    "year": "2002",
+    "duration": "5:13",
+    "genre": "Rock"
+  },
+  {
+    "title": "Gossip Jalanan",
+    "artist": "Slank",
+    "year": 2004,
+    "duration":" 5:13",
+    "genre": "Rock"
+  },
+  {
+    "title": "Tetap Dalam Jiwa",
+    "artist": "Isyana Saraswati",
+    "year": 2015,
+    "duration": "3:49",
+    "genre": "Pop"
+  },
+  {
+    "title": "Bukan Untukku",
+    "artist": "Rio Febrian",
+    "year": 2002,
+    "duration": "4:16",
+    "genre": "Pop"
+  },
+  {
+    "title": "Sempurna",
+    "artist": "Andra and The Backbone",
+    "year": 2007,
+    "duration": "4:21",
+    "genre": "Rock"
+  },
+  {
+    "title": "Shape of You",
+    "artist": "Ed Sheeran",
+    "year": 2017,
+    "duration": "3:53",
+    "genre": "Pop"
+  },
+  {
+    "title": "Bohemian Rhapsody",
+    "artist": "Queen",
+    "year": 1975,
+    "duration": "5:55",
+    "genre": "Rock"
+  },
+  {
+    "title": "Uptown Funk",
+    "artist": "Mark Ronson ft. Bruno Mars",
+    "year": 2014,
+    "duration": "4:30",
+    "genre": "Funk"
+  },
+  {
+    "title": "Kau Adalah",
+    "artist": "Isyana Saraswati",
+    "year": 2015,
+    "duration": "3:59",
+    "genre": "Pop"
+  },
+  {
+    "title": "Winter Song",
+    "artist": "Isyana Saraswati",
+    "year": 2017,
+    "duration": "6:24",
+    "genre": "Pop"
+  },
+  {
+    "title": "Blinding Lights",
+    "artist": "The Weeknd",
+    "year": 2019,
+    "duration": "3:20",
+    "genre": "R&B"
+  },
+  {
+    "title": "Happy",
+    "artist": "Pharrell Williams",
+    "year": 2013,
+    "duration": "3:53",
+    "genre": "R&B"
+  }
+]
+ [
+  {
+    "title": "Star Wars Theme / Cantina Band",
+    "artist": "Meco Monardo",
+    "year": 1977,
+    "duration": "5:17",
+    "genre": "Funk"
+  }
+]

@@ -1,0 +1,49 @@
+Today score assessment:
+Implement express and mongoose to playlist management api
+- Have songs collection and model (1) ✅
+- Have playlists collection and model (1) ✅
+- playlists collections have relation with songs collection by array of songs ids (2) ✅
+- songs collections have relation with playlists collection by playlist id (1) ✅
+Implement CRUD to playlist management api
+- Have CRUD for songs collection (2) ✅
+- Have CRUD for playlists collection (3) ✅
+Implement aggregate to get all songs and playlists
+- Implement $match to get all songs and playlists endpoint (1) ✅(song)#21  ✅(playlist)#60
+- Implement $sort to get all songs and playlists endpoint (1) ✅ #35 ✅(playlist)#76
+- Implement $lookup to get all songs and playlists endpoint (1) ✅ #39-44 ✅(playlist)#80-85
+- Implement $facet to get all songs and playlists endpoint (1) ✅ #25 ✅(playlist)#66
+- Implement $group to get all songs and playlists endpoint (1) ✅ #28 ✅(playlist)#69
+
+Explanation :
+
+SECTION 1
+Song Collection ( Model )
+Playlist Collection ( Model )
+include the relation
+
+
+SECTION 2
+Create Song 
+Read Song (""->allSong , "genre"-> genre)
+Update Song (Collect id -> params)
+Delete Song (Collect id -> params) if song exist in playlist, pull the song 
+
+SECTION 3
+Create Playlist (Update Song add id playlist -> chek song)
+after explanation add  all genre playsit
+
+Read Playlist (""->allPlaylist , "genre"-> genre)
+
+Update Playlist (Add songs to playlist -> update song model add id playlist)
+add song
+chek song and collect id song to add to playlist -> params and body
+chek song again
+
+delete playlist
+collect filter form body request
+update field playlist at song document to null casue playlist not exist after deleting
+delete playlist by playlistName
+cek playlist and song
+
+ADDITIONAL
+make a playlist lest then 1 hour

@@ -1,152 +1,180 @@
-var songList = [
-  {
-    title: 'Menunggu Kamu',
-    artist: 'Anji',
-    year: 2018,
-    duration: '4:17',
-    genre: 'Pop',
-  },
-  {
-    title: 'Dia',
-    artist: 'Anji',
-    year: 2016,
-    duration: '4:09',
-    genre: 'Pop',
-  },
-  {
-    title: 'Arjuna',
-    artist: 'Dewa19',
-    year: 2002,
-    duration: '5:13',
-    genre: 'Rock',
-  },
-  {
-    title: 'Gossip Jalanan',
-    artist: 'Slank',
-    year: 2004,
-    duration: '5:13',
-    genre: 'Rock',
-  },
-  {
-    title: 'Tetap Dalam Jiwa',
-    artist: 'Isyana Sarasvati',
-    year: 2015,
-    duration: '3:49',
-    genre: 'Pop',
-  },
-  {
-    title: 'Bukan Untukku',
-    artist: 'Rio Febrian',
-    year: 2002,
-    duration: '4:16',
-    genre: 'Pop',
-  },
-  {
-    title: 'Sempurna',
-    artist: 'Andra and The Backbone',
-    year: 2007,
-    duration: '4:21',
-    genre: 'Rock',
-  },
-  {
-    title: 'Shape of You',
-    artist: 'Ed Sheeran',
-    year: 2017,
-    duration: '3:53',
-    genre: 'Pop',
-  },
-  {
-    title: 'Bohemian Rhapsody',
-    artist: 'Queen',
-    year: 1975,
-    duration: '5:55',
-    genre: 'Rock',
-  },
-  {
-    title: 'Uptown Funk',
-    artist: 'Mark Ronson ft. Bruno Mars',
-    year: 2014,
-    duration: '4:30',
-    genre: 'Funk',
-  },
-  {
-    title: 'Kau Adalah',
-    artist: 'Isyana Sarasvati',
-    year: 2015,
-    duration: '3:59',
-    genre: 'Pop',
-  },
-  {
-    title: 'Winter Song',
-    artist: 'Isyana Sarasvati',
-    year: 2017,
-    duration: '6:24',
-    genre: 'Pop',
-  },
-  {
-    title: 'Blinding Lights',
-    artist: 'The Weeknd',
-    year: 2019,
-    duration: '3:20',
-    genre: 'R&B',
-  },
-  {
-    title: 'Happy',
-    artist: 'Pharrell Williams',
-    year: 2013,
-    duration: '3:53',
-    genre: 'R&B',
-  },
-];
+const Playlist = require('../model/playlistSchema');
+const Song = require('../model/songSchema');
 
-function songBasedArtist(data) {
-  const groupedArtistData = new Map();
-  const groupedArtistList = new Set();
+const createPlaylistArtist = async (req, res) => {
+  try {
+    const { artist } = req.body;
 
-  data.forEach((item) => {
-    const artist = item.artist;
-    groupedArtistList.add(artist);
-    if (!groupedArtistData.has(artist)) {
-      // if key not exist, make a new key for map
-      groupedArtistData.set(artist, []);
+    const songData = await Song.find({ artist: artist });
+    if (songData.length === 0) {
+      return res.status(500).json({ error: artist + "'s song not found" });
     }
-    const artistData = {
-      title: item.title,
-      year: item.year,
-      duration: item.duration,
-      genre: item.genre,
-    };
-    groupedArtistData.get(artist).push(artistData);
-  });
-  // console.log(groupMusicArtist);
-  // console.log(groupedArtistList);
-  return { groupedArtistData, groupedArtistList };
-}
+    // console.log(songData.map((song) => song._id));
+    const create = await Playlist.create({
+      playlistName: artist + "'s Playlist",
+      songs: songData.map((song) => song._id),
+    });
+    const idplaylist = await Playlist.find({}).select('_id');
+    console.log(idplaylist);
+    res.status(200).json({ playlist: create, songs: songData });
+  } catch (error) {
+    // console.log(error);
+    res.status(500).json({ error: 'Internal Server Error', msg: error.message });
+  }
+};
+const createPlaylistGenre = async (req, res) => {
+  try {
+    const { genre } = req.body;
 
-function songBasedGenre(data) {
-  const groupedGenreData = new Map();
-  const groupedGenreList = new Set();
-
-  data.forEach((item) => {
-    const genre = item.genre;
-    groupedGenreList.add(genre);
-    if (!groupedGenreData.has(genre)) {
-      // if key not exist, make a new key for map
-      groupedGenreData.set(genre, []);
+    const songData = await Song.find({ genre: genre });
+    if (songData.length === 0) {
+      return res.status(500).json({ error: genre + ' song not found' });
     }
-    const genreData = {
-      artist: item.artist,
-      title: item.title,
-      year: item.year,
-      duration: item.duration,
+    // console.log(songData.map((song) => song._id));
+    const create = await Playlist.create({
+      playlistName: genre + "'s Playlist",
+      songs: songData.map((song) => song._id),
+    });
+    const idplaylist = await Playlist.find({ playlistName: genre + "'s Playlist" }).select('_id');
+    const songUpdated = await Song.updateMany(
+      { genre: genre },
+      {
+        $set: { playlist: idplaylist[0]._id },
+      },
+      { new: true }
+    );
+    // console.log(idplaylist[0]._id);
+    res.status(200).json({ playlist: create, songs: songUpdated });
+  } catch (error) {
+    // console.log(error);
+    res.status(500).json({ error: 'Internal Server Error', msg: error.message });
+  }
+};
+const getAllPlaylist = async (req, res) => {
+  try {
+    const { page, dataperpage, filter, year } = req.body;
+    let pipeline = [];
+    if (filter.genre !== '') {
+      pipeline.push({
+        $match: { playlistName: filter.genre + "'s Playlist" },
+      });
+    }
+
+    pipeline.push(
+      {
+        $facet: {
+          totalData: [
+            {
+              $group: {
+                _id: null,
+                count: { $sum: 1 },
+              },
+            },
+          ],
+          metadata: [
+            { $sort: { title: 1 } },
+            { $skip: page * dataperpage },
+            { $limit: dataperpage },
+            {
+              $lookup: {
+                from: 'songs',
+                // localField: 'songs',
+                // foreignField: '_id',
+                pipeline: [{ $match: { year: { $lte: year } } }],
+                as: 'songs',
+              },
+            },
+          ],
+        },
+      },
+
+      {
+        $project: {
+          'metadata.__v': 0,
+          'metadata.songs.__v': 0,
+          'metadata.songs.playlist': 0,
+        },
+      }
+    );
+    const PlaylistQuery = await Playlist.aggregate(pipeline);
+    if (PlaylistQuery[0].totalData.length === 0) {
+      return res.status(404).json({ msg: filter.genre + "'s playlist not found" });
+    }
+    const setPlaylist = new Set();
+
+    const totalData = PlaylistQuery[0].totalData[0].count;
+    const totalPage = Math.floor(totalData / dataperpage);
+    const playlist = PlaylistQuery[0].metadata;
+    for (const a of playlist) {
+      setPlaylist.add(a.playlistName);
+    }
+
+    const result = {
+      pageInfo: {
+        totalData: totalData,
+        page: page + ' / ' + totalPage,
+        playlists: Array.from(setPlaylist),
+      },
     };
-    groupedGenreData.get(genre).push(genreData);
-  });
+    res.status(200).json({ result, playlist });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Internal Server Error', msg: error.message });
+  }
+};
+const updatePlaylistAddSong = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const genre = req.body.genre;
+    // console.log(id);
+    const update = await Playlist.updateOne({ playlistName: genre + "'s Playlist" }, { $push: { songs: id } });
+    if (!update) {
+      return res.status(404).json({ error: 'Playlist not found' });
+    }
+    const idplaylist = await Playlist.find({ playlistName: genre + "'s Playlist" }).select('_id');
+    await Song.updateMany(
+      { genre: genre },
+      {
+        $set: { playlist: idplaylist[0]._id },
+      },
+      { new: true }
+    );
+    res.status(200).json({ message: 'Playlist updated successfully', song: update });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error', msg: error.message });
+  }
+};
+const deletePlaylist = async (req, res) => {
+  try {
+    const { genre } = req.body;
+    await Playlist.find({ playlistName: genre + "'s Playlist" }).select('_id');
+    await Song.updateMany(
+      { playlistName: genre + "'s Playlist" },
+      {
+        $set: { playlist: null },
+      },
+      { new: true }
+    );
+    const deletePlaylist = await Playlist.deleteOne(
+      {
+        playlistName: genre + "'s Playlist",
+      },
+      { new: true }
+    );
+    if (!deletePlaylist) {
+      return res.status(404).json({ error: 'playlist not found' });
+    }
 
-  return { groupedGenreData, groupedGenreList };
-}
+    res.status(200).json({ message: 'Playlist deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error', msg: error.message });
+  }
+};
 
-function Playlist(data) {
+const playlist1Hour = async (req, res) => {
+  const song = await Song.find();
+  console.log(song);
+  //   return res.status(200).json(song);
   const PlaylistSongs = [];
   function convertToSeconds(duration) {
     const [minutes, seconds] = duration.split(':'); //sparator , desructure
@@ -162,17 +190,17 @@ function Playlist(data) {
     }
   }
   // const shuffledData = [1,2,3,5,4,6,8,7,4,6,5];
-  const shuffledData = [...data];
+  const shuffledData = [...song];
   shuffleArray(shuffledData);
 
   let totalDurationInSeconds = 0;
 
-  for (const song of shuffledData) {
-    const songDurationInSeconds = convertToSeconds(song.duration); // menyimpan nilai detik dari lagu yang akan di tambah
+  for (const songs of shuffledData) {
+    const songDurationInSeconds = convertToSeconds(songs.duration); // menyimpan nilai detik dari lagu yang akan di tambah
     if (totalDurationInSeconds + songDurationInSeconds <= 3600) {
       //dicek jika total dutasi sebelumnya + durasi yang akan ditambah akan melebihi 60 menit atau tidak
-      PlaylistSongs.push(song); //jika iya push song lagi
-      totalDurationInSeconds += convertToSeconds(song.duration); // durasi ditambah
+      PlaylistSongs.push(songs); //jika iya push song lagi
+      totalDurationInSeconds += convertToSeconds(songs.duration); // durasi ditambah
     }
   }
 
@@ -184,59 +212,18 @@ function Playlist(data) {
   } else {
     totalDuration = totalMinutes + ':' + totalSeconds;
   }
+  const createPlay = await Playlist.create({
+    playlistName: 'Playlist less than 1 hour ( ' + totalDuration + ' )',
+    songs: PlaylistSongs,
+  });
 
-  //change array of object to MAP
-  const mapPlaylistSong = new Map();
-  mapPlaylistSong.set('Playlist less than 1 hour ( ' + totalDuration + ' )', PlaylistSongs);
-
-  return mapPlaylistSong;
-}
-
-const groupMusicArtist = async (req, res) => {
-  try {
-    const artis = songBasedArtist(songList);
-    const list = Array.from(artis.groupedArtistList);
-    const byArtist = Object.fromEntries(artis.groupedArtistData);
-    const result = {
-      'Artist List': list,
-      'Group by Artist': byArtist,
-    };
-
-    // console.log(artis.groupedArtistList);
-    res.status(200).json(result);
-  } catch (error) {
-    res.status(500).json({
-      msg: 'Internal Server Error',
-    });
-  }
+  res.status(200).json(createPlay);
 };
-const groupMusicGenre = async (req, res) => {
-  try {
-    const genre = songBasedGenre(songList);
-    const list = Array.from(genre.groupedGenreList);
-    const byGenre = Object.fromEntries(genre.groupedGenreData);
-    const result = {
-      'Genre List': list,
-      'Group by Genre': byGenre,
-    };
-    res.status(200).json(result);
-  } catch (error) {
-    res.status(500).json({
-      msg: 'Internal Server Error',
-    });
-  }
+module.exports = {
+  createPlaylistArtist,
+  createPlaylistGenre,
+  getAllPlaylist,
+  deletePlaylist,
+  updatePlaylistAddSong,
+  playlist1Hour,
 };
-const groupMusicPlaylist = async (req, res) => {
-  try {
-    const playlist = Playlist(songList);
-
-    // console.log(playlist);
-    res.status(200).json(Object.fromEntries(playlist));
-  } catch (error) {
-    res.status(500).json({
-      msg: 'Internal Server Error',
-    });
-  }
-};
-
-module.exports = { groupMusicArtist, groupMusicGenre, groupMusicPlaylist };
