@@ -32,7 +32,5 @@ GraphQL is a query language for APIs and a runtime for executing those queries a
 *Unlike traditional REST APIs that often have multiple endpoints for different resources, GraphQL typically exposes a single endpoint. Clients can request the specific data they need by structuring their queries accordingly.
 
 
-Apollo Server is a platform that allows you to easily build and run GraphQL APIs. Apollo Server can be used with various backend technologies, one of the tecnologi is Express.js.
-Apollo Server is an implementation of the GraphQL specification. It allows you to define GraphQL schemas (including types, operations, and resolvers) as well as provide GraphQL-based API services.
-
+Apollo Server Express is the use of Apollo Server with an Express.js-based backend. It integrates Apollo Server's ability to manage GraphQL queries with the flexibility and power of Express.js as a server framework.
 
