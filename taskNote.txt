@@ -1,0 +1,12 @@
+Add second collection and model named bookshelves
+- Model has field array of ObjectId (3) ✅
+- The array of ObjectId field refer to the books collection (2) ✅
+
+Implement CRUD operation for bookshelves
+- Implement CRUD operation endpoint (Create, Read, Update, Delete) (2) ✅
+- Able to filter bookshelf by book id (1) ✅
+- Explain filter in mongodb (1)
+	In MongoDB, a "filter" is a way to specify the conditions or criteria that we want to use to select or take documents from a collection. It's like tell MongoDB which documents we want based on specific properties or values.
+
+- Explain operator in mongodb (1)
+	In MongoDB, an "operator" is a symbol or keyword used to perform operations on data. Operators are fundamental for creating queries and manipulating documents.
