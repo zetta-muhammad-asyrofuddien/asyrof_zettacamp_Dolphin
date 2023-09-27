@@ -53,7 +53,7 @@ Each resolver handles requests for specific fields or data types in the schema a
 */
 const resolvers = {
   Query: {
-    authorbyID: async (parent, { _id }) => {
+    authorbyID: async (_, { _id }) => {
       try {
         const author = await AuthorModel.findById(_id);
         return author;
@@ -69,7 +69,7 @@ const resolvers = {
         throw new Error('Error fetching author: ' + error.message);
       }
     },
-    bookbyID: async (parent, { _id }) => {
+    bookbyID: async (_, { _id }) => {
       try {
         const book = await BookModel.findById(_id);
         return book;
@@ -85,7 +85,7 @@ const resolvers = {
         throw new Error('Error fetching book: ' + error.message);
       }
     },
-    bookshelf: async (parent) => {
+    bookshelf: async (_) => {
       try {
         const bookshelf = await BookshelfModel.find();
         return bookshelf;
@@ -96,7 +96,6 @@ const resolvers = {
     bookshelfbyID: async (parent, _id) => {
       try {
         const bookshelf = await BookshelfModel.find(_id);
-
         return bookshelf;
       } catch (error) {
         throw new Error('Error fetching bookshelf: ' + error.message);
@@ -134,9 +133,9 @@ const resolvers = {
   the server fetches and returns the corresponding author's information.
   */
   Book: {
-    async author(bookData) {
+    async author(parent) {
       try {
-        const author = await AuthorModel.findById(bookData.author); //to populate author in books
+        const author = await AuthorModel.findById(parent.author); //to populate author in books
         return author;
       } catch (error) {
         throw new Error(`Error fetching author: ${error.message}`);

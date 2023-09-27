@@ -17,4 +17,22 @@ Able to setup graphql schmema for book purchasing api:
 - able to implement schema or typedef graphql (3) ✅
 - able to use data type string, ID, number, and boolean in schema or typedef graphql (2) ✅
 
+
+
 EXPLANATION
+
+GraphQL is a query language for APIs and a runtime for executing those queries against your data. It was developed by Facebook in 2012 and released as an open-source project in 2015.
+
+*GraphQL has its own syntax to query and manipulate data. It allows clients to request exactly the data they need, and nothing more
+
+*GraphQL APIs are defined by a schema, which specifies the types of data that can be queried and the relationships between them
+
+*Queries are used to read or fetch data from the server, while mutations are used to modify data on the server
+
+*Unlike traditional REST APIs that often have multiple endpoints for different resources, GraphQL typically exposes a single endpoint. Clients can request the specific data they need by structuring their queries accordingly.
+
+
+Apollo Server is a platform that allows you to easily build and run GraphQL APIs. Apollo Server can be used with various backend technologies, one of the tecnologi is Express.js.
+Apollo Server is an implementation of the GraphQL specification. It allows you to define GraphQL schemas (including types, operations, and resolvers) as well as provide GraphQL-based API services.
+
+
