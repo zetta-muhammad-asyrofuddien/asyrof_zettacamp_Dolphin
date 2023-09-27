@@ -1,0 +1,20 @@
+GraphQL DAY 0
+Able to install apollo server express:
+- Participant able to install apollo server express library using npm (4) ✅
+- Explain apollo server express (1)
+Able to setup apollo server:
+- Able to setup root file JavaScript for apollo server (e.g: app.js) (3) ✅
+- Able to run and open playground graphql with particular port (2) ✅
+
+GraphQL Day 1
+Understand what graphql is:
+- Explain what graphql is (5)"
+Able to setup apollo server for book purchasing api:
+- able to setup apollo server for previous book purchasing api (3) ✅
+- able to run and launch apollo server graphql playground (1) ✅
+- able to connect with MongoDB database (1) ✅
+Able to setup graphql schmema for book purchasing api:
+- able to implement schema or typedef graphql (3) ✅
+- able to use data type string, ID, number, and boolean in schema or typedef graphql (2) ✅
+
+EXPLANATION

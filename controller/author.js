@@ -1,4 +1,4 @@
-const app = require('../app');
+const app = require('../connMongoDB');
 const Author = require('../models/AuthorSchema');
 
 const createAuthor = async (req, res) => {

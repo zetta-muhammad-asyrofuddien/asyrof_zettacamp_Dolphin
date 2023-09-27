@@ -12,8 +12,9 @@ const bookSchema = new mongoose.Schema(
       required: true,
     },
     author: {
-      type: mongoose.Types.ObjectId, //Embeded relation ref author
+      type: mongoose.Schema.Types.ObjectId, //Embeded relation ref author
       ref: 'Author',
+      required: true,
     },
     price: {
       type: Number,
@@ -24,6 +25,10 @@ const bookSchema = new mongoose.Schema(
       type: Number,
       required: true,
       min: 0, //value must be greater than 0
+    },
+    isAvalaible: {
+      type: Boolean,
+      default: true,
     },
     // ... Add other fields specific to a book
   },

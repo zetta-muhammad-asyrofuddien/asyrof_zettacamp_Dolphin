@@ -23,7 +23,7 @@ const route = (app) => {
   app.post('/arrayfilter', bookshelf.arrayFilter);
   app.put('/updateshelf/:id', bookshelf.updateBookshelf);
   app.put('/updateshelf2/:id', bookshelf.updateBookshelf2);
-  app.del('/deleteshelf/:id', bookshelf.deleteBookshelf);
+  // app.del('/deleteshelf/:id', bookshelf.deleteBookshelf);
 
   //Mongo Day 5
   app.post('/aggregate', bookshelf.getBookAggregate);

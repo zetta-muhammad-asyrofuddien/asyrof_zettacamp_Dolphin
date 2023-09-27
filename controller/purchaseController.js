@@ -1,4 +1,4 @@
-const app = require('../app');
+const app = require('../connMongoDB');
 const Book = require('../models/BookSchema');
 const Transtaction = require('../models/TransactionsSchema');
 const calculateTerm = require('./calculateTerm');

@@ -18,9 +18,13 @@
   "homepage": "https://github.com/zettacamp-Muhammad-Asyrofuddien/asyrof_zettacamp_Dolphin#readme",
   "keywords": [],
   "dependencies": {
+    "apollo-server-express": "^2.8.1",
     "basic-auth": "^2.0.1",
     "body-parser": "^1.20.2",
     "express": "^4.18.2",
+    "graphql": "^14.4.2",
+    "graphql-middleware": "^4.0.0",
+    "graphql-tools": "^4.0.5",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^5.6.9",
     "nodemon": "^3.0.1"

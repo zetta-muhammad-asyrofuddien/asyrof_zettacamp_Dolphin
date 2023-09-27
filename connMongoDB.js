@@ -16,11 +16,5 @@ const conn = () => {
       console.error('MongoDB connection error:', error);
     });
 };
-const disconnect = () => {
-  mongoose
-    .disconnect()
-    .then(() => console.log('Disconnected from MongoDB'))
-    .catch((error) => console.error('Error disconnecting from MongoDB:', error));
-};
 
-module.exports = { conn, disconnect };
+module.exports = { conn };
