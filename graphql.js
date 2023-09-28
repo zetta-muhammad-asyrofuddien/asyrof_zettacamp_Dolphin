@@ -31,6 +31,18 @@ const typeDefs = gql`
     name: String!
     nation: String!
   }
+  input BookInput {
+    title: String!
+    genre: String!
+    author: String
+    price: Float!
+    stock: Int!
+    isAvalaible: Boolean
+  }
+  input BookshelfInput {
+    genres: [String]!
+    books: [String!]!
+  }
   # In GraphQL, type Query is one of the special types used to define operations used to read or retrieve data from the GraphQL API.
   # type Query is the main type that defines the starting point for data retrieval operations.
   type Query {
@@ -45,6 +57,12 @@ const typeDefs = gql`
     createAuthor(authorInput: AuthorInput): Author
     updateAuthor(_id: ID!, authorInput: AuthorInput): Author
     deleteAuthor(_id: ID!): Author
+    createBook(bookInput: BookInput): Book
+    updateBook(_id: ID!, bookInput: BookInput): Book
+    deleteBook(_id: ID!): Book
+    createBookShelf: BookShelf
+    updateBookShelf(idBookshelf: ID!, idRemove: ID!): BookShelf
+    deleteBookShelf(_id: ID!): BookShelf
   }
 `;
 /*
@@ -119,12 +137,81 @@ const resolvers = {
         throw new Error('Error updating author: ' + error.message);
       }
     },
-    deleteAuthor: async (parent, { _id }) => {
+    deleteAuthor: async (_, { _id }) => {
       try {
         const deletedAuthor = await AuthorModel.findByIdAndDelete(_id);
         return deletedAuthor;
       } catch (error) {
         throw new Error('Error deleting author: ' + error.message);
+      }
+    },
+    createBook: async (_, { bookInput }) => {
+      try {
+        const book = await BookModel.create(bookInput);
+        return book;
+      } catch (error) {
+        throw new Error('Error creating book: ' + error.message);
+      }
+    },
+    updateBook: async (_, { _id, bookInput }) => {
+      try {
+        const book = await BookModel.findByIdAndUpdate(_id, bookInput, { new: true });
+        return book;
+      } catch (error) {
+        throw new Error('Error Updating book: ' + error.message);
+      }
+    },
+    deleteBook: async (_, { _id }) => {
+      try {
+        const book = await BookModel.findByIdAndDelete(_id);
+        return book;
+      } catch (error) {
+        throw new Error('Error Deleting book: ' + error.message);
+      }
+    },
+    createBookShelf: async () => {
+      try {
+        const books = await BookModel.find().select('_id');
+
+        //get distinct data from book's genre
+        const distinctBook = await BookModel.distinct('genre');
+
+        // Extract book IDs for each group
+        const bookId = books.map((book) => book._id);
+
+        // Create the two bookshelves
+        const bookshelf = await BookshelfModel.create({ genres: distinctBook, books: bookId }); //create bookshelf
+
+        // console.log(arrBook);
+        if (books.length === 0) {
+          return 'Book not found';
+        } else {
+          return bookshelf;
+        }
+      } catch (error) {
+        throw new Error('Error creating book: ' + error.message);
+      }
+    },
+    updateBookShelf: async (_, { idBookshelf, idRemove }) => {
+      try {
+        const valbook = await BookshelfModel.find({ books: { $in: idRemove } }); //check the book with id from body request is exist in the array
+
+        if (valbook.length !== 0) {
+          //if book data exist
+
+          if (idBookshelf) {
+            //if the filter is exist
+
+            book = await BookshelfModel.updateOne({ books: { $in: idBookshelf } }, { $pull: { books: idRemove } });
+            return book;
+          } else {
+            return { error: 'Bad Request', msg: 'insert filter' };
+          }
+        } else {
+          return { msg: 'BookId not found' };
+        }
+      } catch (error) {
+        throw new Error('Error Updating book: ' + error.message);
       }
     },
   },
