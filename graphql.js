@@ -190,7 +190,7 @@ const resolvers = {
           return bookshelf;
         }
       } catch (error) {
-        throw new Error('Error creating book: ' + error.message);
+        throw new Error('Error creating bookshelf: ' + error.message);
       }
     },
     createBookShelfByGenre: async (_, genre) => {
@@ -213,7 +213,7 @@ const resolvers = {
           return bookshelf;
         }
       } catch (error) {
-        throw new Error('Error creating book: ' + error.message);
+        throw new Error('Error creating bookshelf: ' + error.message);
       }
     },
     updateBookShelf: async (_, { idBookshelf, idRemove }) => {
@@ -235,7 +235,15 @@ const resolvers = {
           return { msg: 'BookId not found' };
         }
       } catch (error) {
-        throw new Error('Error Updating book: ' + error.message);
+        throw new Error('Error Updating bookshelf: ' + error.message);
+      }
+    },
+    deleteBookShelf: async (_, { _id }) => {
+      try {
+        const bookshelf = await BookshelfModel.findByIdAndDelete(_id);
+        return bookshelf;
+      } catch (error) {
+        throw new Error('Error Deleting bookshelf: ' + error.message);
       }
     },
   },
