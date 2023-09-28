@@ -60,6 +60,7 @@ const typeDefs = gql`
     createBook(bookInput: BookInput): Book
     updateBook(_id: ID!, bookInput: BookInput): Book
     deleteBook(_id: ID!): Book
+    createBookShelfByGenre(genre: String): BookShelf
     createBookShelf: BookShelf
     updateBookShelf(idBookshelf: ID!, idRemove: ID!): BookShelf
     deleteBookShelf(_id: ID!): BookShelf
@@ -175,6 +176,29 @@ const resolvers = {
 
         //get distinct data from book's genre
         const distinctBook = await BookModel.distinct('genre');
+
+        // Extract book IDs for each group
+        const bookId = books.map((book) => book._id);
+
+        // Create the two bookshelves
+        const bookshelf = await BookshelfModel.create({ genres: distinctBook, books: bookId }); //create bookshelf
+
+        // console.log(arrBook);
+        if (books.length === 0) {
+          return 'Book not found';
+        } else {
+          return bookshelf;
+        }
+      } catch (error) {
+        throw new Error('Error creating book: ' + error.message);
+      }
+    },
+    createBookShelfByGenre: async (_, genre) => {
+      try {
+        const books = await BookModel.find(genre).select('_id');
+
+        //get distinct data from book's genre
+        const distinctBook = await BookModel.find(genre).distinct('genre');
 
         // Extract book IDs for each group
         const bookId = books.map((book) => book._id);
