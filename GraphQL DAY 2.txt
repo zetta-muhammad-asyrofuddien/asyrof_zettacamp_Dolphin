@@ -1,0 +1,42 @@
+Today Score Assessment :
+
+Able to Implement CRUD in graphql:
+- Must have query to get all of the data and able to explain the query (1)✅
+- Must have query to get one data and able to explain the query (1) ✅
+- Must have mutation to create new data and able to explain the mutation (1)✅
+- Must have must have mutation to update existing data and able to explain the mutation (1)✅
+- Must have mutation to delete the existing data and able to explain the mutation (1)✅
+
+
+GraphQL Schema (typeDefs):
+
+Define GraphQL types (Author, Book, BookPagination, BookShelf) using SDL (Schema Definition Language).
+Define input types (AuthorInput, AuthorUpdate, BookInput, BookUpdate, BookInputMulti, BookshelfInput) for mutations.
+Define queries (getauthorbyID, getauthors, getbookbyID, getbooks, getbooksPagination, getbookshelf, getbookshelfbyID).
+Define mutations (createAuthor, updateAuthor, deleteAuthor, createBook, bookInputMulti, updateBook, deleteBook, createBookShelfByGenre, createBookShelf, updateBookShelfRmv, updateBookShelfAdd, deleteBookShelf).
+Resolvers (resolvers):
+
+Implement resolver functions for each defined query and mutation.
+Utilize Mongoose models to perform CRUD operations and return appropriate data.
+Query Resolvers:
+
+Define resolver functions for each query:
+Fetch author by ID, fetch all authors, fetch book by ID, fetch all books, fetch books with pagination, fetch bookshelves, fetch bookshelf by ID.
+Mutation Resolvers:
+
+Define resolver functions for each mutation:
+Create author, update author, delete author, create book, create multiple books, update book, delete book, create bookshelf by genre, create bookshelf, update bookshelf (remove and add books), delete bookshelf.
+Book and Bookshelf Resolvers:
+
+Implement resolver functions to handle relationships between books, authors, and bookshelves.
+Export:
+
+Export the type definitions and resolvers as a module.
+Error Handling:
+
+Implement error handling for database operations and throw appropriate errors.
+Overall, your code sets up a GraphQL schema with types and resolvers, allowing for querying and mutating data related to authors, books, and bookshelves using GraphQL. It utilizes Mongoose models for interacting with the database and follows a structured approach for defining schema and resolvers.
+
+
+
+

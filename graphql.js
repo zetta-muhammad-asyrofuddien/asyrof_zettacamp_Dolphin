@@ -33,6 +33,10 @@ const typeDefs = gql`
     genres: [String!]
     books: [Book!]!
   }
+  # type is used to define data types in the GraphQL schema.
+  # This type is used to define the structure of objects that will be returned as a result of GraphQL operations.
+  # input is used to define the structure of data that can be used as arguments for GraphQL operations.
+  # This type is useful when you want to send data to the server via GraphQL operations, such as in mutation operations.
   input AuthorInput {
     name: String!
     nation: String!
@@ -76,8 +80,9 @@ const typeDefs = gql`
     getbookshelf: [BookShelf]
     getbookshelfbyID(_id: ID!): [BookShelf]
   }
+  # The type Query is a special type in GraphQL that defines the operations that can be executed to read or retrieve data from the GraphQL API.
   type Mutation {
-    createAuthor(authorInput: AuthorInput): Author
+    createAuthor(authorInput: AuthorInput): Author #(argument)
     updateAuthor(_id: ID!, authorInput: AuthorUpdate): Author
     deleteAuthor(_id: ID!): Author
     createBook(bookInput: BookInput): Book
@@ -90,6 +95,7 @@ const typeDefs = gql`
     updateBookShelfAdd(idBookshelf: ID!, idAdd: ID!): BookShelf
     deleteBookShelf(_id: ID!): BookShelf
   }
+  # The type Mutation is another special type in GraphQL that defines operations to modify or manipulate data on the server.
 `;
 /*
 resolvers are functions that implement GraphQL operations defined in typeDefs. 
@@ -99,6 +105,7 @@ const resolvers = {
   Query: {
     getauthorbyID: async (_, { _id }) => {
       try {
+        // console.log(_id);
         const author = await AuthorModel.findById(_id);
         return author;
       } catch (error) {
@@ -143,13 +150,6 @@ const resolvers = {
               localField: 'author',
               foreignField: '_id',
               as: 'author',
-            },
-          },
-          {
-            $project: {
-              createdAt: 0,
-              updatedAt: 0,
-              __v: 0,
             },
           },
         ]);
@@ -204,7 +204,7 @@ const resolvers = {
         throw new Error('Error updating author: ' + error.message);
       }
     },
-    deleteAuthor: async (_, { _id }) => {
+    deleteAuthor: async (parent, { _id }) => {
       try {
         const deletedAuthor = await AuthorModel.findByIdAndDelete(_id);
         return deletedAuthor;
@@ -212,7 +212,7 @@ const resolvers = {
         throw new Error('Error deleting author: ' + error.message);
       }
     },
-    createBook: async (_, { bookInput }) => {
+    createBook: async (parent, { bookInput }) => {
       try {
         const book = await BookModel.create(bookInput);
         return book;
@@ -220,7 +220,7 @@ const resolvers = {
         throw new Error('Error creating book: ' + error.message);
       }
     },
-    bookInputMulti: async (_, { bookInputMulti }) => {
+    bookInputMulti: async (parent, { bookInputMulti }) => {
       try {
         const book = await BookModel.create(bookInputMulti.books);
         return book;
@@ -228,7 +228,7 @@ const resolvers = {
         throw new Error('Error creating book: ' + error.message);
       }
     },
-    updateBook: async (_, { _id, bookInput }) => {
+    updateBook: async (parent, { _id, bookInput }) => {
       try {
         const book = await BookModel.findByIdAndUpdate(_id, bookInput, { new: true });
         return book;
@@ -236,7 +236,7 @@ const resolvers = {
         throw new Error('Error Updating book: ' + error.message);
       }
     },
-    deleteBook: async (_, { _id }) => {
+    deleteBook: async (parent, { _id }) => {
       try {
         const book = await BookModel.findByIdAndDelete(_id);
         return book;
