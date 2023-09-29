@@ -22,6 +22,12 @@ const typeDefs = gql`
     stock: Int
     isAvalaible: Boolean
   }
+  type BookPagination {
+    BookTotal: Int
+    DataperPage: Int
+    page: String
+    books: [Book]
+  }
   type BookShelf {
     _id: ID!
     genres: [String!]
@@ -31,10 +37,22 @@ const typeDefs = gql`
     name: String!
     nation: String!
   }
+  input AuthorUpdate {
+    name: String
+    nation: String
+  }
   input BookInput {
     title: String!
     genre: String!
     author: String!
+    price: Float!
+    stock: Int!
+    isAvalaible: Boolean
+  }
+  input BookUpdate {
+    title: String
+    genre: String
+    author: String
     price: Float
     stock: Int
     isAvalaible: Boolean
@@ -50,20 +68,21 @@ const typeDefs = gql`
   # In GraphQL, type Query is one of the special types used to define operations used to read or retrieve data from the GraphQL API.
   # type Query is the main type that defines the starting point for data retrieval operations.
   type Query {
-    authorbyID(_id: ID!): Author
-    authors: [Author]
-    bookbyID(_id: ID!): Book
-    books: [Book]
-    bookshelf: [BookShelf]
-    bookshelfbyID(_id: ID!): [BookShelf]
+    getauthorbyID(_id: ID!): Author
+    getauthors: [Author]
+    getbookbyID(_id: ID!): Book
+    getbooks: [Book]
+    getbooksPagination(page: Int, limit: Int): BookPagination
+    getbookshelf: [BookShelf]
+    getbookshelfbyID(_id: ID!): [BookShelf]
   }
   type Mutation {
     createAuthor(authorInput: AuthorInput): Author
-    updateAuthor(_id: ID!, authorInput: AuthorInput): Author
+    updateAuthor(_id: ID!, authorInput: AuthorUpdate): Author
     deleteAuthor(_id: ID!): Author
     createBook(bookInput: BookInput): Book
     bookInputMulti(bookInputMulti: BookInputMulti): [Book]
-    updateBook(_id: ID!, bookInput: BookInput): Book
+    updateBook(_id: ID!, bookInput: BookUpdate): Book
     deleteBook(_id: ID!): Book
     createBookShelfByGenre(genre: String): BookShelf
     createBookShelf: BookShelf
@@ -78,7 +97,7 @@ Each resolver handles requests for specific fields or data types in the schema a
 */
 const resolvers = {
   Query: {
-    authorbyID: async (_, { _id }) => {
+    getauthorbyID: async (_, { _id }) => {
       try {
         const author = await AuthorModel.findById(_id);
         return author;
@@ -86,7 +105,7 @@ const resolvers = {
         throw new Error('Error fetching author: ' + error.message);
       }
     },
-    authors: async () => {
+    getauthors: async () => {
       try {
         const author = await AuthorModel.find();
         return author;
@@ -94,7 +113,7 @@ const resolvers = {
         throw new Error('Error fetching author: ' + error.message);
       }
     },
-    bookbyID: async (_, { _id }) => {
+    getbookbyID: async (_, { _id }) => {
       try {
         const book = await BookModel.findById(_id);
         return book;
@@ -102,7 +121,7 @@ const resolvers = {
         throw new Error('Error fetching book: ' + error.message);
       }
     },
-    books: async () => {
+    getbooks: async () => {
       try {
         const book = await BookModel.find();
         return book;
@@ -110,7 +129,48 @@ const resolvers = {
         throw new Error('Error fetching book: ' + error.message);
       }
     },
-    bookshelf: async (_) => {
+    getbooksPagination: async (_, { page, limit }) => {
+      try {
+        const book = await BookModel.aggregate([
+          {
+            $sort: { title: 1 },
+          },
+          { $skip: page * limit },
+          { $limit: limit },
+          {
+            $lookup: {
+              from: 'authors',
+              localField: 'author',
+              foreignField: '_id',
+              as: 'author',
+            },
+          },
+          {
+            $project: {
+              createdAt: 0,
+              updatedAt: 0,
+              __v: 0,
+            },
+          },
+        ]);
+        const get = await BookModel.find();
+
+        const totalItem = get.length;
+        const pageTotal = Math.floor(totalItem / limit);
+
+        const result = {
+          BookTotal: totalItem,
+          DataperPage: limit,
+          page: `${page} / ${pageTotal}`,
+          books: book,
+        };
+
+        return result;
+      } catch (error) {
+        throw new Error('Error fetching book: ' + error.message);
+      }
+    },
+    getbookshelf: async (_) => {
       try {
         const bookshelf = await BookshelfModel.find();
         return bookshelf;
@@ -118,7 +178,7 @@ const resolvers = {
         throw new Error('Error fetching bookshelf: ' + error.message);
       }
     },
-    bookshelfbyID: async (parent, _id) => {
+    getbookshelfbyID: async (parent, _id) => {
       try {
         const bookshelf = await BookshelfModel.find(_id);
         return bookshelf;
@@ -233,7 +293,7 @@ const resolvers = {
     updateBookShelfRmv: async (_, { idBookshelf, idRemove }) => {
       try {
         // const valbook = await BookshelfModel.find({ books: { $in: idRemove } }); //check the book with id from body request is exist in the array
-        book = await BookshelfModel.findByIdAndUpdate({ _id: idBookshelf }, { $pull: { books: idRemove } });
+        book = await BookshelfModel.findByIdAndUpdate({ _id: idBookshelf }, { $pull: { books: idRemove } }, { new: true });
         return book;
       } catch (error) {
         throw new Error('Error Updating bookshelf: ' + error.message);
@@ -241,7 +301,7 @@ const resolvers = {
     },
     updateBookShelfAdd: async (_, { idBookshelf, idAdd }) => {
       try {
-        book = await BookshelfModel.findByIdAndUpdate({ _id: idBookshelf }, { $push: { books: idAdd } });
+        book = await BookshelfModel.findByIdAndUpdate({ _id: idBookshelf }, { $push: { books: idAdd } }, { new: true });
         return book;
       } catch (error) {
         throw new Error('Error Updating bookshelf: ' + error.message);
