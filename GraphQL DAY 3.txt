@@ -1,0 +1,49 @@
+Able to implement dataloader in graphql:
+- Able to implement data loader to populate field with single data (object) in graphql (1)✅
+- In foreign field able to implement data loader to populate field array of ObjectId with many data (array of object) in graphql (2) ✅
+- Explain dataloader in graphql (1)
+- Implement authentication for mutation and query (1) ✅
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+In GraphQL, DataLoader is a utility used to optimize data fetching by batching and caching individual requests. It's a critical tool for improving the efficiency and performance of GraphQL APIs, especially when dealing with resolvers that involve data loading from various sources or databases.
+
+Here's a detailed explanation of DataLoader in the context of GraphQL:
+
+Data Fetching Challenge in GraphQL:
+In GraphQL, clients specify the structure of the data they need in the query. This often leads to a scenario where a single GraphQL query involves multiple resolvers, each responsible for fetching data from different sources (e.g., databases, APIs).
+
+N+1 Problem:
+One common challenge is the N+1 problem, where for each item in a list, you may need to fetch related data. If not handled efficiently, this can result in numerous individual queries, causing a significant performance bottleneck.
+
+Batching and Caching with DataLoader:
+DataLoader helps address the N+1 problem by batching together similar requests and reducing the number of queries made to the underlying data source. It also caches the fetched data, minimizing redundant requests for the same data.
+
+How DataLoader Works:
+
+Batching: DataLoader batches together requests for the same resource type (e.g., multiple requests for authors) into a single request to the data source.
+Caching: DataLoader caches the fetched data based on keys (e.g., author IDs), so if a key is requested again in the same batch, it's retrieved from the cache instead of making a duplicate request.
+Efficient Resolving: Resolvers in GraphQL can use DataLoader to efficiently load data by providing an array of keys (e.g., IDs) to DataLoader's load or loadMany functions.
+Implementation Steps:
+
+Create a DataLoader instance for each data type you want to load efficiently (e.g., authors, books).
+Use DataLoader's load or loadMany functions in the resolver to fetch data based on keys (IDs).
+DataLoader takes care of batching similar requests, caching the results, and efficiently resolving the requested data.
+Benefits:
+
+Reduces the number of database or data source queries, improving performance.
+Caches data, avoiding redundant requests for the same data within a single GraphQL request.
+Optimizes data fetching and helps resolve the N+1 problem efficiently.
+In summary, DataLoader is a powerful tool that helps optimize data loading in GraphQL by batching requests, caching data, and resolving data efficiently, ultimately enhancing the performance and responsiveness of GraphQL APIs.

@@ -15,7 +15,7 @@ const { typeDefs, resolvers } = require('./graphql'); // Import typeDefs and res
 /*
 These are essential components for defining the schema (type definitions) and the corresponding resolvers for your GraphQL API.
 */
-
+const { authorLoader, bookLoader } = require('./loader');
 const executableSchema = makeExecutableSchema({ typeDefs, resolvers }); // Create an executable schema using type definitions and resolvers
 const protectedSchema = applyMiddleware(executableSchema); // Apply middleware to the executable schema to add functionality like authentication and authorization
 
@@ -23,9 +23,13 @@ const protectedSchema = applyMiddleware(executableSchema); // Apply middleware t
 const conn = (app) => {
   const server = new ApolloServer({
     schema: protectedSchema, // Set the schema to the protected schema (with applied middleware)
-    context: (req) => ({
-      req: req.req, // Set the context to include the request object
-    }),
+    context: function ({ req }) {
+      return {
+        authorLoader,
+        bookLoader,
+        req: req,
+      };
+    },
   });
   const port = 4000; // Define the port on which the server will run
   server.applyMiddleware({ app }); // Apply the Apollo Server middleware to the Express application

@@ -9,7 +9,7 @@ const Generate = require('./middleware/jwtAuth');
 const jwtAuthMiddleware = require('./middleware/jwtVeriv');
 
 //make a JSON to Object
-app.use(bodyParser.json());
+// app.use(bodyParser.json());
 
 // function login(req, res, next) {}
 
