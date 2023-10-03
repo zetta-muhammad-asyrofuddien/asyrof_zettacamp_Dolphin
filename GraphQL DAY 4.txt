@@ -1,0 +1,10 @@
+Today Score Assessment :
+Able to transform all playlist management REST API to use graphql:
+- Implement graphql from previous playlist management REST API (2)
+- Implement mutation to update, create, or delete the data (2)
+- Implement query to read the data (1)
+
+Able create mutation and query for login and register functionality:
+- Implement mutation to register as new user (2)
+- Implement mutation to login as an user (2)
+- Implement authentication before process the request to query and mutation (1)
