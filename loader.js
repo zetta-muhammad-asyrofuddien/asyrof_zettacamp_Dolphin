@@ -19,3 +19,28 @@ const songLoader = new DataLoader(async (songIds) => {
   return songIds.map((songId) => songsMap[songId]);
 });
 module.exports = { songLoader, PlaylistLoader };
+// const DataLoader = require('dataloader');
+// const Song = require('./model/songSchema');
+// const Playlist = require('./model/playlistSchema');
+
+// const createDataLoader = (model, keyName) => {
+//   const loader = new DataLoader(async (keys) => {
+//     const documents = await model.find({ [keyName]: { $in: keys } });
+
+//     // Create a map of key to document
+//     const documentsMap = new Map();
+//     documents.forEach((doc) => {
+//       documentsMap.set(doc[keyName], doc);
+//     });
+
+//     // Return the documents in the order of keys
+//     return keys.map((key) => documentsMap.get(key));
+//   });
+
+//   return loader;
+// };
+
+// const songLoader = createDataLoader(Song, '_id');
+// const playlistLoader = createDataLoader(Playlist, '_id');
+
+// module.exports = { songLoader, playlistLoader };

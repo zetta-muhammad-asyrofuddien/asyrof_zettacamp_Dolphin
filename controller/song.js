@@ -15,7 +15,7 @@ const createSong = async (req, res) => {
 
 const getAllSong = async (req, res) => {
   try {
-    const { page, dataperpage, filter, year } = req.body;
+    const { page, dataperpage, filter } = req.body;
     // console.log(dataperpage);
     let pipeline = [];
     if (filter.genre !== '') {

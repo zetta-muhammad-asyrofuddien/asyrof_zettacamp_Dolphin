@@ -15,6 +15,7 @@ const conn = () => {
     .catch((error) => {
       console.error('MongoDB connection error:', error);
     });
+  // mongoose.set('debug', true);
 };
 
 module.exports = conn;

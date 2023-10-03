@@ -14,6 +14,7 @@ const typeDefs = gql`
     duration: String
     genre: String
     playlist: Playlist
+    totalData: Int
   }
   type Playlist {
     _id: ID
@@ -30,12 +31,14 @@ const typeDefs = gql`
     password: String
   }
   type Users {
+    _id: ID
     username: String
     firstname: String
     lastname: String
   }
   type Login {
     userId: ID
+    msg: String
     token: String
   }
   input RegistrationInput {
@@ -61,13 +64,10 @@ const typeDefs = gql`
   input SongInputMulti {
     songs: [SongInput]
   }
-  #   input inputPlaylistByGenre {
-  #     playlistName: String
-  #     songs: [String]
-  #   }
+
   type Query {
     getAllUsers: [Users]
-    getAllSong: [Song]
+    getAllSong(page: Int!, dataperpage: Int!): [Song]
     getSongById(_id: ID!): Song
     getAllPlaylist: [Playlist]
     getPlaylistById(_id: ID!): Playlist
@@ -97,17 +97,50 @@ const resolvers = {
         throw new Error(error.message);
       }
     },
-    getAllSong: async (_, args, context) => {
+    getAllSong: async (_, { page, dataperpage }, context) => {
       try {
-        verifyJWT(context);
-        return await Song.find();
+        // return await Song.find();
+
+        // console.log(dataperpage);
+
+        const Songs = await Song.aggregate([
+          {
+            $facet: {
+              totalData: [
+                {
+                  $group: {
+                    _id: null,
+                    count: { $sum: 1 },
+                  },
+                },
+              ],
+              metadata: [{ $sort: { title: 1 } }, { $skip: page * dataperpage }, { $limit: dataperpage }],
+            },
+          },
+        ]);
+
+        // console.log(Songs);
+        const totalData = Songs[0].totalData[0].count;
+        const song = Songs[0].metadata;
+        // console.log(page);
+        // console.log(Songs[0].metadata);
+
+        // console.log(song);
+        const pagination = song.map((a) => {
+          return {
+            ...a,
+            totalData: totalData,
+          };
+        });
+        // console.log(pagination);
+        return pagination;
       } catch (error) {
+        console.log(error);
         throw new Error(error.message);
       }
     },
     getSongById: async (_, { _id }, context) => {
       try {
-        verifyJWT(context);
         return await Song.findById(_id);
       } catch (error) {
         throw new Error(error.message);
@@ -133,9 +166,11 @@ const resolvers = {
   Mutation: {
     registration: async (_, { input }, context) => {
       try {
+        //putaran
         const saltRounds = 8;
-
+        //encrypt password
         const hashed = await bcrypt.hash(input.password, saltRounds);
+        //replace the input passward with hashed password
         input.password = hashed;
 
         return await User.create(input);
@@ -145,6 +180,7 @@ const resolvers = {
     },
     login: async (_, user, context) => {
       try {
+        //find user data
         const userId = await User.find({ username: user.username });
 
         let jwtSecretKey = 'plered'; //secretkey
@@ -152,22 +188,19 @@ const resolvers = {
         let token;
         //generate token
 
+        //comparing the hashed paswword with user input
         const result = await bcrypt.compare(user.password, userId[0].password);
 
+        //if match generate token
         if (userId[0].username === user.username && result) {
           token = jwt.sign({ userId: userId[0]._id, username: userId[0].username }, jwtSecretKey, { expiresIn: '6h' });
-          return { userId: userId[0]._id, token: token };
+          return { userId: userId[0]._id, msg: 'Login Success', token: token };
         } else {
-          return {
-            msg: 'Username or Password invalid', //if error
-          };
+          throw new Error('Username or Password invalid');
         }
       } catch (error) {
-        console.error(error);
-        return {
-          msg: 'Internal Server Error',
-          err: error.message,
-        };
+        // console.error(error);
+        throw new Error(error);
       }
     },
     createSong: async (_, { input }, context) => {
@@ -300,7 +333,11 @@ const resolvers = {
           playlistName: 'Playlist less than 1 hour ( ' + totalDuration + ' )',
           songs: PlaylistSongs,
         });
+        const playlistId = createPlay._id;
 
+        for (const song of PlaylistSongs) {
+          await Song.findByIdAndUpdate(song._id, { playlist: playlistId });
+        }
         // console.log(createPlay);
         return createPlay;
       } catch (error) {
@@ -373,7 +410,7 @@ const resolvers = {
           throw new Error('playlist not found');
         }
 
-        return { message: 'Playlist deleted successfully' };
+        return { message: genre + ' Playlist deleted successfully' };
       } catch (error) {
         throw new Error(error.message);
       }
@@ -391,7 +428,7 @@ const resolvers = {
   Song: {
     async playlist(parent, args, context) {
       try {
-        if (parent.playlist !== null) {
+        if (parent.playlist != null) {
           return await context.PlaylistLoader.load(parent.playlist); //load single data
         }
       } catch (error) {
