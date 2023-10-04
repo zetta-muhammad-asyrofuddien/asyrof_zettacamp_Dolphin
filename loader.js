@@ -1,7 +1,10 @@
 const DataLoader = require('dataloader');
 const Song = require('./model/songSchema');
 const Playlist = require('./model/playlistSchema');
-
+/*
+In the context of DataLoader, cacheKeyFn is a function that determines how the cache key is generated for the data being loaded. 
+The cache key is used to store and retrieve results from the cache.
+*/
 const PlaylistLoader = new DataLoader(async (playlistIds) => {
   const playlist = await Playlist.find({ _id: { $in: playlistIds } });
   const playlistMap = {};
@@ -19,6 +22,7 @@ const songLoader = new DataLoader(async (songIds) => {
   return songIds.map((songId) => songsMap[songId]);
 });
 module.exports = { songLoader, PlaylistLoader };
+
 // const DataLoader = require('dataloader');
 // const Song = require('./model/songSchema');
 // const Playlist = require('./model/playlistSchema');

@@ -120,7 +120,7 @@ const resolvers = {
         ]);
 
         // console.log(Songs);
-        const totalData = Songs[0].totalData[0].count;
+        // const totalData = Songs[0].totalData[0].count;
         const song = Songs[0].metadata;
         // console.log(page);
         // console.log(Songs[0].metadata);
@@ -129,7 +129,7 @@ const resolvers = {
         const pagination = song.map((a) => {
           return {
             ...a,
-            totalData: totalData,
+            totalData: Songs[0].totalData[0].count,
           };
         });
         // console.log(pagination);
@@ -200,7 +200,7 @@ const resolvers = {
         }
       } catch (error) {
         // console.error(error);
-        throw new Error(error);
+        throw new Error('Username or Password invalid');
       }
     },
     createSong: async (_, { input }, context) => {
@@ -438,12 +438,13 @@ const resolvers = {
   },
 };
 
-async function verifyJWT(context) {
+function verifyJWT(context) {
   try {
     const token = context.req.headers.authorization;
     if (!token) {
       throw new Error('Token not Found'); //if token null/empty
     }
+
     let userpass;
     //chek the token baerer token or from header
     if (token.split(' ').length === 2) {
@@ -453,14 +454,7 @@ async function verifyJWT(context) {
       //ladkjwahdnlawd
       userpass = token;
     }
-
-    jwt.verify(userpass, 'plered', (err, decoded) => {
-      if (err) {
-        throw new Error('Invalid Token');
-      }
-
-      console.log('Login As : ' + decoded.username);
-    });
+    jwt.verify(userpass, 'plered');
   } catch (error) {
     throw new Error('Password or Username invalid');
   }
