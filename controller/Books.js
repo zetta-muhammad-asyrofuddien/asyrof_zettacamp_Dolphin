@@ -1,4 +1,3 @@
-const app = require('../connMongoDB');
 const Book = require('../models/BookSchema');
 
 const createBook = async (req, res) => {
@@ -11,11 +10,11 @@ const createBook = async (req, res) => {
       await Book.create(bookData); //create document to database one by one because the body is array of obj
     }
 
-    // Create a new book using the Book model
+    // create a new book using the Book model
     // create more then 1 books
     // const books = await Book.insertMany(booksData);
     // Save the book to the database
-    // Create a new book using the Book model
+    // create a new book using the Book model
 
     //create one book
 

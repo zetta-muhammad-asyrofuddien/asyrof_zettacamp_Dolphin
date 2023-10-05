@@ -12,7 +12,7 @@ const createbookshelf = async (req, res) => {
     // Extract book IDs for each group
     const bookId = books.map((book) => book._id);
 
-    // Create the two bookshelves
+    // create the two bookshelves
     const bookshelf = await Bookshelf.create({ genres: distinctBook, books: bookId }); //create bookshelf
 
     // console.log(arrBook);
@@ -27,7 +27,7 @@ const createbookshelf = async (req, res) => {
   // app.disconnect();
 };
 
-const getbookshelfElemMatch = async (req, res) => {
+const getBookshelfElemMatch = async (req, res) => {
   try {
     const isAvailable = req.body.isAvailable; //collect from body request
     const stock = req.body.stock; //collect from body request
@@ -60,7 +60,7 @@ const getbookshelfElemMatch = async (req, res) => {
   }
 };
 
-const getbookshelf = async (req, res) => {
+const getBookshelf = async (req, res) => {
   //get bookshelf data
   try {
     const filter = req.query.id;
@@ -104,18 +104,17 @@ const updateBookshelf = async (req, res) => {
   // update ( delete array value )
   try {
     const filter = req.params.id;
-    const bookRmv = req.body.book;
+    const bookRemove = req.body.book;
 
-    let book;
     ////////////////
     //Delete Array//
     ///////////////
-    const valbook = await Bookshelf.find({ books: { $in: bookRmv } }); //check the book with id from body request is exist in the array
+    const valbook = await Bookshelf.find({ books: { $in: bookRemove } }); //check the book with id from body request is exist in the array
     if (valbook.length !== 0) {
       //if book data exist
       if (filter) {
         //if the filter is exist
-        book = await Bookshelf.updateOne({ books: { $in: filter } }, { $pull: { books: bookRmv } }); //$pull -> remove field in the array with book if as a filter
+        await Bookshelf.updateOne({ books: { $in: filter } }, { $pull: { books: bookRemove } }); //$pull -> remove field in the array with book if as a filter
 
         res.status(200).json({ msg: 'BookId Delete Successfully' });
       } else {
@@ -132,7 +131,7 @@ const updateBookshelf2 = async (req, res) => {
   // update ( add array value )
   try {
     const filter = req.params.id;
-    const bookRmv = req.body.book;
+    const bookRemove = req.body.book;
 
     let book;
 
@@ -140,7 +139,7 @@ const updateBookshelf2 = async (req, res) => {
     //Add Array//
     /////////////
 
-    book = await Bookshelf.updateOne({ books: { $in: filter } }, { $addToSet: { books: bookRmv } }); //$addToset like a set() method (should)
+    book = await Bookshelf.updateOne({ books: { $in: filter } }, { $addToSet: { books: bookRemove } }); //$addToset like a set() method (should)
     if (book.nModified === 1) {
       res.status(200).json({ msg: 'Add BookId Successfully', book });
     } else {
@@ -273,8 +272,6 @@ const getBookshelfUnwind = async (req, res) => {
           'books.createdAt': 0,
           'books.updatedAt': 0,
           'books.author.__v': 0,
-          'books.createdAt': 0,
-          'books.updatedAt': 0,
           'books.author.createdAt': 0,
           'books.author.updatedAt': 0,
           'books.author._id': 0,
@@ -295,11 +292,11 @@ const getBookshelfUnwind = async (req, res) => {
 module.exports = {
   arrayFilter,
   createbookshelf,
-  getbookshelf,
+  getBookshelf,
   updateBookshelf,
   updateBookshelf2,
   deleteBookshelf,
-  getbookshelfElemMatch,
+  getBookshelfElemMatch,
   getBookAggregate,
   getBookshelfUnwind,
 };

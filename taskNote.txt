@@ -1,12 +1,69 @@
-Add second collection and model named bookshelves
-- Model has field array of ObjectId (3) ✅
-- The array of ObjectId field refer to the books collection (2) ✅
+/* 1 createdAt:9/27/2023, 3:47:21 PM*/
+{
+	"_id" : ObjectId("6513ec19a4dcd658d4d3216b"),
+	"name" : "asyrof",
+	"nation" : "USA",
+	"createdAt" : ISODate("2023-09-27T15:47:21.133+07:00"),
+	"updatedAt" : ISODate("2023-09-27T15:47:21.133+07:00"),
+	"__v" : 0
+},
 
-Implement CRUD operation for bookshelves
-- Implement CRUD operation endpoint (Create, Read, Update, Delete) (2) ✅
-- Able to filter bookshelf by book id (1) ✅
-- Explain filter in mongodb (1)
-	In MongoDB, a "filter" is a way to specify the conditions or criteria that we want to use to select or take documents from a collection. It's like tell MongoDB which documents we want based on specific properties or values.
+/* 2 createdAt:9/27/2023, 11:41:05 AM*/
+{
+	"_id" : ObjectId("6513b2610117956294a9c42c"),
+	"name" : "John Doe",
+	"nation" : "USA",
+	"createdAt" : ISODate("2023-09-27T11:41:05.111+07:00"),
+	"updatedAt" : ISODate("2023-09-27T11:41:05.111+07:00"),
+	"__v" : 0
+},
 
-- Explain operator in mongodb (1)
-	In MongoDB, an "operator" is a symbol or keyword used to perform operations on data. Operators are fundamental for creating queries and manipulating documents.
+/* 3 createdAt:9/24/2023, 6:49:38 PM*/
+{
+	"_id" : ObjectId("651022526443f679d8e5d0cf"),
+	"name" : " Ali Hazelwood",
+	"nation" : "IDN",
+	"__v" : 0,
+	"createdAt" : ISODate("2023-09-24T18:49:38.860+07:00"),
+	"updatedAt" : ISODate("2023-09-24T18:49:38.860+07:00")
+},
+
+/* 4 createdAt:9/20/2023, 10:16:20 AM*/
+{
+	"_id" : ObjectId("650a640429e8062d1c240a8c"),
+	"name" : "Bram Stoker",
+	"nation" : "IRL",
+	"__v" : 0,
+	"createdAt" : ISODate("2023-09-20T10:16:20.157+07:00"),
+	"updatedAt" : ISODate("2023-09-20T10:16:20.157+07:00")
+},
+
+/* 5 createdAt:9/20/2023, 7:42:05 AM*/
+{
+	"_id" : ObjectId("650a3fdddcfede5e246c3706"),
+	"name" : "Tere Liye",
+	"nation" : "IDN",
+	"__v" : 0,
+	"createdAt" : ISODate("2023-09-20T07:42:05.492+07:00"),
+	"updatedAt" : ISODate("2023-09-20T07:42:05.492+07:00")
+},
+
+/* 6 createdAt:9/18/2023, 10:16:06 AM*/
+{
+	"_id" : ObjectId("6507c0f6e5a6d1715025922a"),
+	"name" : "Andrea Hirata",
+	"nation" : "IDN",
+	"__v" : 0,
+	"createdAt" : ISODate("2023-09-18T10:16:06.766+07:00"),
+	"updatedAt" : ISODate("2023-09-18T10:16:06.766+07:00")
+},
+
+/* 7 createdAt:9/18/2023, 10:16:06 AM*/
+{
+	"_id" : ObjectId("6507c0f6e5a6d17150259229"),
+	"name" : "Raditya Dika",
+	"nation" : "IDN",
+	"__v" : 0,
+	"createdAt" : ISODate("2023-09-18T10:16:06.766+07:00"),
+	"updatedAt" : ISODate("2023-09-18T10:16:06.766+07:00")
+}

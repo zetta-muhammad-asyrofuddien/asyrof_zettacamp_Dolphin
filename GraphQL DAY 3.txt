@@ -38,7 +38,7 @@ Caching: DataLoader caches the fetched data based on keys (e.g., author IDs), so
 Efficient Resolving: Resolvers in GraphQL can use DataLoader to efficiently load data by providing an array of keys (e.g., IDs) to DataLoader's load or loadMany functions.
 Implementation Steps:
 
-Create a DataLoader instance for each data type you want to load efficiently (e.g., authors, books).
+create a DataLoader instance for each data type you want to load efficiently (e.g., authors, books).
 Use DataLoader's load or loadMany functions in the resolver to fetch data based on keys (IDs).
 DataLoader takes care of batching similar requests, caching the results, and efficiently resolving the requested data.
 Benefits:

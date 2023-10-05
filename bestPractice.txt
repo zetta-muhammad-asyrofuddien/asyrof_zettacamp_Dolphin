@@ -1,0 +1,33 @@
+Today Score Assessment :
+Able to follow best practice JavaScript
+- Implement sanity check (2) ✅
+- Implement condition on filter to other collection using array ids of foreign collection (2) 
+- Explain sanity check (1)"
+
+Able to follow best practice mongoose collection modelling
+- Field name is understandable to human language and descriptive (2) ✅
+- Match data type same as field (2) ✅
+- Use snake_case to declare field (1) ✅
+
+Able to follow best practice graphql
+- field name same as model (3) ✅
+- data type same as model (2) ✅
+
+Able to follow best practice code styling
+- able to follow & explain ES lint config (2)
+- able to follow & explain prettier config (2)
+- latest code of book purchasing API is updated (1)
+
+A sanity check, in the context of programming and software development, refers to a simple and initial test or verification to quickly determine if a certain condition or assumption is reasonable, valid, or "sane." The purpose of a sanity check is to catch obvious errors or inconsistencies in data, logic, or configurations early in the development process.
+
+Prettier is an opinionated code formatter that enforces a consistent and standardized code style across your entire project. It's often used in software development to automatically format code, making it easier to read and maintain
+
+Print Width 140
+Single Quote (User single instead of double quotes)
+Trailing Comma (es5)
+
+ESLint
+env: Specifies the environment for which the ESLint rules are configured.
+
+es6: Enables ES6 language features.
+node: Enables Node.js global variables and Node.js-related rules.

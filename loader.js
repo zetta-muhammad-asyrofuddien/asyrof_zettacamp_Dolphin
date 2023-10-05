@@ -15,7 +15,7 @@ const authorLoader = new DataLoader(async (authorIds) => {
   //   console.log(authorIds);
   const authors = await AuthorModel.find({ _id: { $in: authorIds } });
 
-  // Create a mapping of authorId to author.
+  // create a mapping of authorId to author.
   const authorMap = {};
   authors.forEach((author) => {
     authorMap[author._id] = author;

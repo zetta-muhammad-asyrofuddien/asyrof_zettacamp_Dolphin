@@ -18,8 +18,8 @@ const route = (app) => {
 
   //route bookshelf
   app.get('/bookshelf', bookshelf.createbookshelf);
-  app.get('/readshelf', bookshelf.getbookshelf);
-  app.post('/readshelf', bookshelf.getbookshelfElemMatch);
+  app.get('/readshelf', bookshelf.getBookshelf);
+  app.post('/readshelf', bookshelf.getBookshelfElemMatch);
   app.post('/arrayfilter', bookshelf.arrayFilter);
   app.put('/updateshelf/:id', bookshelf.updateBookshelf);
   app.put('/updateshelf2/:id', bookshelf.updateBookshelf2);

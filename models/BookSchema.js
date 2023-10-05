@@ -4,29 +4,24 @@ const bookSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      unique: true,
-      required: true,
     },
     genre: {
       type: String,
-      required: true,
     },
-    author: {
+    author_id: {
       type: mongoose.Schema.Types.ObjectId, //Embeded relation ref author
       ref: 'Author',
-      required: true,
     },
     price: {
       type: Number,
-      required: true,
       min: 0, //value must be greater than 0
     },
     stock: {
       type: Number,
-      required: true,
+
       min: 0, //value must be greater than 0
     },
-    isAvalaible: {
+    is_avalaible: {
       type: Boolean,
       default: true,
     },

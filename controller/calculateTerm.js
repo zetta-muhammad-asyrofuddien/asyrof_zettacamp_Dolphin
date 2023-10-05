@@ -1,4 +1,4 @@
-const Transtaction = require('../models/TransactionsSchema');
+// const Transtaction = require('../models/TransactionsSchema');
 
 const calculateTerm = async (totalPrice, creditDuration, addPrice) => {
   let paid = 0;

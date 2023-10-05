@@ -1,6 +1,6 @@
 const app = require('../connMongoDB');
 const Book = require('../models/BookSchema');
-const Transtaction = require('../models/TransactionsSchema');
+// const Transtaction = require('../models/TransactionsSchema');
 const calculateTerm = require('./calculateTerm');
 const purchaseController = {};
 
@@ -42,6 +42,7 @@ purchaseController.buy = async (req, res) => {
     let price = books.price;
     const tax = req.body.tax;
     let stock = books.stock;
+    let desc;
     let amountOfBuy = req.body.amountOfBuy;
     const creditDuration = req.body.creditDuration;
     const addPrice = req.body.AddAmountofCredit;

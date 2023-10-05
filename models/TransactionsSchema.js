@@ -3,21 +3,17 @@ const mongoose = require('mongoose');
 const termSchema = new mongoose.Schema({
   term: {
     type: Number,
-    required: true,
   },
-  amountTerm: {
+  amount_term: {
     type: Number,
-    required: true,
   },
-  date: {
+  date_of_term: {
     type: String,
-    required: true,
   },
-  totalPaid: {
+  total_paid: {
     type: Number,
-    required: true,
   },
-  TranstactionId: {
+  transaction_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'transaction',
   },
@@ -25,41 +21,41 @@ const termSchema = new mongoose.Schema({
   beforeAdd: Number,
 });
 
-const allTermsSchema = new mongoose.Schema({
-  [String]: termSchema, // This allows for any string key and the value should match the termSchema
-});
+// const allTermsSchema = new mongoose.Schema({
+//   [String]: termSchema, // This allows for any string key and the value should match the termSchema
+// });
 
 const purchaseschema = new mongoose.Schema({
-  bookData: {
+  data_of_book: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Book', // Reference to the Book model
   },
-  buyData: {
-    amountOfBuy: {
+  data_of_transaction: {
+    amount_of_buy: {
       type: Number,
       required: true,
     },
-    amountofDisc: {
+    amount_of_discount: {
       type: Number,
       required: true,
     },
-    afterDisc: {
+    amount_after_discount: {
       type: Number,
       required: true,
     },
-    amountofTax: {
+    amount_of_tax: {
       type: Number,
       required: true,
     },
-    afterTax: {
+    amount_after_tax: {
       type: Number,
       required: true,
     },
-    additionalPrice: {
+    additional_price: {
       type: Number,
       required: true,
     },
-    totalPrice: {
+    total_price: {
       type: Number,
       required: true,
     },
