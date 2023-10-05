@@ -1,6 +1,6 @@
 Today Score Assessment :
 Able to follow best practice JavaScript
-- Implement sanity check (2) ✅
+- Implement sanity check (2) 
 - Implement condition on filter to other collection using array ids of foreign collection (2) 
 - Explain sanity check (1)"
 

@@ -304,12 +304,7 @@ const resolvers = {
         // const i = 2;
         VerifyJWT(context);
         if (author_input) {
-          if (
-            author_input.name &&
-            typeof author_input.name === 'string' &&
-            author_input.nation &&
-            typeof author_input.nation === 'string'
-          ) {
+          if (author_input.name && author_input.nation) {
             if (author_input.nation.trim().length && author_input.name.trim().length) {
               return await AuthorModel.create(author_input);
             }
