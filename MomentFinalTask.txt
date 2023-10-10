@@ -1,0 +1,5 @@
+Today Score Assessment
+Implement moment to existing GraphQL day 4 project
+- Update function group artists playlist to display datetime of when function called and prediction of playlist will be finished based on duration (2) ✅
+- Update function group genres playlist to display datetime of when function called and prediction of playlist will be finished based on duration (2) ✅
+- Update function to show random playlist to display datetime of when function called and prediction of playlist will be finished based on duration (1) ✅

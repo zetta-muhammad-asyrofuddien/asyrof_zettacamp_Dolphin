@@ -4,7 +4,8 @@ const Song = require('./model/songSchema');
 const Playlist = require('./model/playlistSchema');
 const User = require('./model/userSchema');
 const bcrypt = require('bcrypt');
-
+const moment = require('moment');
+const { calculateDurationInSeconds, formatDuration } = require('./controller/calculateDuration');
 const typeDefs = gql`
   type Song {
     _id: ID!
@@ -13,38 +14,55 @@ const typeDefs = gql`
     year: Int
     duration: String
     genre: String
-    playlist: Playlist
-    totalData: Int
+    playlist_id: Playlist
+    total_data: Int
   }
   type Playlist {
     _id: ID
-    playlistName: String
-    songs: [Song]
+    playlist_name: String
+    song_ids: [Song]
+    duration_playlist: String
+    start_time: String
+    end_time: String
   }
   type detelePlaylist {
     message: String
   }
   type Registration {
     username: String
-    firstname: String
-    lastname: String
+    first_name: String
+    last_name: String
     password: String
   }
   type Users {
     _id: ID
     username: String
-    firstname: String
-    lastname: String
+    first_name: String
+    last_name: String
   }
   type Login {
     userId: ID
     msg: String
     token: String
   }
+  type PlaylistArtist {
+    artist: String
+    songs: [Song]
+    duration_playlist: String
+    start_time: String
+    end_time: String
+  }
+  type PlaylistGenre {
+    genre: String
+    songs: [Song]
+    duration_playlist: String
+    start_time: String
+    end_time: String
+  }
   input RegistrationInput {
     username: String!
-    firstname: String!
-    lastname: String!
+    first_name: String!
+    last_name: String!
     password: String!
   }
   input SongInput {
@@ -61,47 +79,50 @@ const typeDefs = gql`
     duration: String
     genre: String
   }
-  input SongInputMulti {
-    songs: [SongInput]
-  }
 
   type Query {
-    getAllUsers: [Users]
-    getAllSong(page: Int!, dataperpage: Int!): [Song]
-    getSongById(_id: ID!): Song
-    getAllPlaylist: [Playlist]
-    getPlaylistById(_id: ID!): Playlist
+    GetAllUsers: [Users]
+    GetAllSong(page: Int!, data_per_page: Int!): [Song]
+    GetSongById(_id: ID!): Song
+    GetAllPlaylist: [Playlist]
+    GetRandomPlaylistSong: Playlist
+    GetAllPlaylistWithDuration: [Playlist]
+    GetOnePlaylistWithDurationById(_id: ID!): [Playlist]
+    GetPlaylistBasedArtist: [PlaylistArtist]
+    GetPlaylistBasedGenre: [PlaylistGenre]
+    GetPlaylistById(_id: ID!): Playlist
   }
 
   type Mutation {
-    registration(input: RegistrationInput): Registration
-    login(username: String, password: String): Login
-    createSong(input: SongInputMulti): [Song]
-    updateSong(_id: ID!, input: SongUpdate): Song
-    deleteSong(_id: ID!): Song
-    createPlaylist(name: String): Playlist
-    createPlaylistGenre(genre: String): Playlist
-    createPlaylistLessOneHour: Playlist
-    updatePlaylistAddSong(playlistname: String!, songId: ID!): Playlist
-    updatePlaylistRmvSong(playlistname: String!, songId: ID!): Playlist
-    deletePlaylist(genre: String!): detelePlaylist
+    Registration(input: RegistrationInput): Registration
+    Login(username: String, password: String): Login
+    CreateSong(input: [SongInput]): [Song]
+    UpdateSong(_id: ID!, input: SongUpdate): Song
+    DeleteSong(_id: ID!): Song
+    CreatePlaylist(name: String): Playlist
+    CreatePlaylistGenre(genre: String): Playlist
+    CreatePlaylistArtist(artist: String): Playlist
+    CreatePlaylistLessOneHour: Playlist
+    UpdatePlaylistAddSong(playlist_name: String!, songId: ID!): Playlist
+    UpdatePlaylistRmvSong(playlist_name: String!, songId: ID!): Playlist
+    DeletePlaylist(genre: String!): detelePlaylist
   }
 `;
 
 const resolvers = {
   Query: {
-    getAllUsers: async (_, args, context) => {
+    GetAllUsers: async (_, args, context) => {
       try {
         return await User.find();
       } catch (error) {
         throw new Error(error.message);
       }
     },
-    getAllSong: async (_, { page, dataperpage }, context) => {
+    GetAllSong: async (_, { page, data_per_page }, context) => {
       try {
         // return await Song.find();
 
-        // console.log(dataperpage);
+        // console.log(data_per_page);
 
         const Songs = await Song.aggregate([
           {
@@ -114,7 +135,7 @@ const resolvers = {
                   },
                 },
               ],
-              metadata: [{ $sort: { title: 1 } }, { $skip: page * dataperpage }, { $limit: dataperpage }],
+              metadata: [{ $sort: { title: 1 } }, { $skip: page * data_per_page }, { $limit: data_per_page }],
             },
           },
         ]);
@@ -139,14 +160,14 @@ const resolvers = {
         throw new Error(error.message);
       }
     },
-    getSongById: async (_, { _id }, context) => {
+    GetSongById: async (_, { _id }, context) => {
       try {
         return await Song.findById(_id);
       } catch (error) {
         throw new Error(error.message);
       }
     },
-    getAllPlaylist: async (_, args, context) => {
+    GetAllPlaylist: async (_, args, context) => {
       try {
         verifyJWT(context);
         return await Playlist.find();
@@ -154,149 +175,114 @@ const resolvers = {
         throw new Error(error.message);
       }
     },
-    getPlaylistById: async (_, { _id }, context) => {
+    GetAllPlaylistWithDuration: async (_, args, context) => {
       try {
         verifyJWT(context);
-        return await Playlist.findById(_id);
-      } catch (error) {
-        throw new Error(error.message);
-      }
-    },
-  },
-  Mutation: {
-    registration: async (_, { input }, context) => {
-      try {
-        //putaran
-        const saltRounds = 8;
-        //encrypt password
-        const hashed = await bcrypt.hash(input.password, saltRounds);
-        //replace the input passward with hashed password
-        input.password = hashed;
 
-        return await User.create(input);
-      } catch (error) {
-        throw new Error(error.message);
-      }
-    },
-    login: async (_, user, context) => {
-      try {
-        //find user data
-        const userId = await User.find({ username: user.username });
+        //get playlist data
+        const playlistData = await Playlist.find().populate('song_ids');
 
-        let jwtSecretKey = 'plered'; //secretkey
-
-        let token;
-        //generate token
-
-        //comparing the hashed paswword with user input
-        const result = await bcrypt.compare(user.password, userId[0].password);
-
-        //if match generate token
-        if (userId[0].username === user.username && result) {
-          token = jwt.sign({ userId: userId[0]._id, username: userId[0].username }, jwtSecretKey, { expiresIn: '6h' });
-          return { userId: userId[0]._id, msg: 'Login Success', token: token };
-        } else {
-          throw new Error('Username or Password invalid');
-        }
-      } catch (error) {
-        // console.error(error);
-        throw new Error('Username or Password invalid');
-      }
-    },
-    createSong: async (_, { input }, context) => {
-      try {
-        verifyJWT(context);
-        const songData = input.songs;
-        //   for (const arr of songData) {
-        const createSongs = await Song.create(songData); //create document to database one by one because the body is array of obj
-        //   }
-        //   console.log(createSongs);
-        return createSongs;
-      } catch (error) {
-        throw new Error(error.message);
-      }
-    },
-    updateSong: async (_, { _id, input }, context) => {
-      try {
-        // console.log(data);
-        verifyJWT(context);
-        const update = await Song.findByIdAndUpdate(_id, input, { new: true });
-        if (!update) {
-          throw new Error('song not found');
-        }
-        return update;
-      } catch (error) {
-        throw new Error(error.message);
-      }
-    },
-    deleteSong: async (_, { _id }, context) => {
-      try {
-        verifyJWT(context);
-        const chek = await Song.find({ _id: _id });
-        const filter = { playlistName: chek[0].genre + ' Playlist' };
-
-        //delete song also pull from songs
-        if (chek[0].playlist) {
-          await Playlist.updateOne(filter, { $pull: { songs: _id } });
+        //sanity
+        if (playlistData.length === 0) {
+          throw new Error('Playlist Not found');
         }
 
-        const deleteSong = await Song.findByIdAndRemove(_id, { new: true });
-        if (!deleteSong) {
-          throw new Error('song not found');
+        //result declare
+        const result = [];
+
+        //for playlist
+        for (let i = 0; i < playlistData.length; i++) {
+          let songIds = []; //reset playlist song each playlist
+          let totalDurationSecond;
+          let total = 0;
+          //for songs
+          for (let j = 0; j < playlistData[i].song_ids.length; j++) {
+            const songs = [playlistData[i].song_ids[j]];
+
+            totalDurationSecond = songs.reduce((_, song) => {
+              songIds.push(song._id);
+
+              total += calculateDurationInSeconds(song.duration);
+              // console.log(a);
+              return total;
+            }, 0);
+          }
+          // console.log(songIds);
+          const duration_playlist = formatDuration(totalDurationSecond);
+          const startTime = moment().locale('id').format('LL HH:mm:ss');
+          const endTime = moment().add(totalDurationSecond, 'second').locale('id').format('LL HH:mm:ss');
+          result.push({
+            _id: playlistData[i]._id,
+            playlist_name: playlistData[i].playlist_name,
+            duration_playlist: duration_playlist,
+            start_time: startTime,
+            end_time: endTime,
+            song_ids: songIds,
+          });
         }
-        return deleteSong;
+
+        return result;
       } catch (error) {
         throw new Error(error.message);
       }
     },
-    createPlaylist: async (_, { name }, context) => {
+    GetOnePlaylistWithDurationById: async (_, { _id }, context) => {
       try {
         verifyJWT(context);
-        const create = await Playlist.create({
-          playlistName: name + ' Playlist',
-          songs: [],
-        });
-        return create;
-      } catch (error) {
-        throw new Error(error.message);
-      }
-    },
-    createPlaylistGenre: async (_, { genre }, context) => {
-      try {
-        verifyJWT(context);
-        const songData = await Song.find({ genre: genre });
-        if (songData.length === 0) {
-          return res.status(500).json({ error: genre + ' song not found' });
+        if (!_id) {
+          throw new Error('_id must be filled');
         }
-        // console.log(songData.map((song) => song._id));
-        const create = await Playlist.create({
-          playlistName: genre + ' Playlist',
-          songs: songData.map((song) => song._id),
-        });
-        const idplaylist = await Playlist.find({ playlistName: genre + ' Playlist' }).select('_id');
-        await Song.updateMany(
-          { genre: genre },
-          {
-            $set: { playlist: idplaylist[0]._id },
-          },
-          { new: true }
-        );
-        // console.log(idplaylist[0]._id);
-        return create;
+        const playlistData = await Playlist.find({ _id: _id }).populate('song_ids');
+
+        if (playlistData.length === 0) {
+          throw new Error('Playlist Not found');
+        }
+        // const artistPlaylists = [];
+        const result = [];
+
+        for (let i = 0; i < playlistData.length; i++) {
+          let songIds = [];
+          let totalDurationSecond;
+          let a = 0;
+          for (let j = 0; j < playlistData[i].song_ids.length; j++) {
+            const songs = [playlistData[i].song_ids[j]];
+
+            totalDurationSecond = songs.reduce((_, song) => {
+              songIds.push(song._id);
+
+              a += calculateDurationInSeconds(song.duration);
+              // console.log(a);
+              return a;
+            }, 0);
+          }
+          // console.log(songIds);
+          const duration_playlist = formatDuration(totalDurationSecond);
+          const startTime = moment().locale('id').format('LL HH:mm:ss');
+          const endTime = moment().add(totalDurationSecond, 'second').locale('id').format('LL HH:mm:ss');
+          result.push({
+            playlist_name: playlistData[i].playlist_name,
+            duration_playlist: duration_playlist,
+            start_time: startTime,
+            end_time: endTime,
+            song_ids: songIds,
+          });
+        }
+
+        return result;
       } catch (error) {
         throw new Error(error.message);
       }
     },
-    createPlaylistLessOneHour: async (_, args, context) => {
+    GetRandomPlaylistSong: async (_, args, context) => {
       try {
         verifyJWT(context);
         const song = await Song.find();
 
-        const PlaylistSongs = [];
-        function convertToSeconds(duration) {
-          const [minutes, seconds] = duration.split(':'); //sparator , desructure
-          return parseInt(minutes) * 60 + parseInt(seconds);
+        if (song.length === 0) {
+          throw new Error('Song Not found');
         }
+
+        const PlaylistSongs = [];
 
         // Fungsi untuk mengacak array algoritma Fisher-Yates
         function shuffleArray(array) {
@@ -313,11 +299,11 @@ const resolvers = {
         let totalDurationInSeconds = 0;
 
         for (const songs of shuffledData) {
-          const songDurationInSeconds = convertToSeconds(songs.duration); // menyimpan nilai detik dari lagu yang akan di tambah
+          const songDurationInSeconds = calculateDurationInSeconds(songs.duration); // menyimpan nilai detik dari lagu yang akan di tambah
           if (totalDurationInSeconds + songDurationInSeconds <= 3600) {
             //dicek jika total dutasi sebelumnya + durasi yang akan ditambah akan melebihi 60 menit atau tidak
             PlaylistSongs.push(songs); //jika iya push song lagi
-            totalDurationInSeconds += convertToSeconds(songs.duration); // durasi ditambah
+            totalDurationInSeconds += calculateDurationInSeconds(songs.duration); // durasi ditambah
           }
         }
 
@@ -329,14 +315,333 @@ const resolvers = {
         } else {
           totalDuration = totalMinutes + ':' + totalSeconds;
         }
-        const createPlay = await Playlist.create({
-          playlistName: 'Playlist less than 1 hour ( ' + totalDuration + ' )',
-          songs: PlaylistSongs,
+        let PlaylistSongsIds = [];
+        for (const songIds of PlaylistSongs) {
+          PlaylistSongsIds.push(songIds._id);
+        }
+        const durationInSecond = formatDuration(totalDurationInSeconds);
+
+        const startTime = moment().locale('id').format('LL HH:mm:ss');
+        const endTime = moment().add(totalDurationInSeconds, 'second').locale('id').format('LL HH:mm:ss');
+        return {
+          playlist_name: 'Playlist less than 1 hour ( ' + totalDuration + ' )',
+          song_ids: PlaylistSongsIds,
+          duration_playlist: durationInSecond,
+          start_time: startTime,
+          end_time: endTime,
+        };
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+    GetPlaylistBasedArtist: async (_, args, context) => {
+      try {
+        verifyJWT(context);
+        const allSongs = await Song.find();
+        if (allSongs.length === 0) {
+          throw new Error('Song Not found');
+        }
+        const songsByArtist = {};
+        allSongs.forEach((song) => {
+          if (!songsByArtist[song.artist]) {
+            songsByArtist[song.artist] = [];
+          }
+          songsByArtist[song.artist].push(song);
         });
-        const playlistId = createPlay._id;
+
+        // Calculate the created datetime and predicted finish datetime for each artist's playlist
+        const artistPlaylists = [];
+        let totalDurationSecond;
+        for (const artist in songsByArtist) {
+          const songs = songsByArtist[artist];
+          // console.log(songs);
+          totalDurationSecond = songs.reduce((total, song) => {
+            return total + calculateDurationInSeconds(song.duration);
+          }, 0);
+
+          const startTime = moment().locale('id').format('LL HH:mm:ss');
+          const endTime = moment().add(totalDurationSecond, 'second').locale('id').format('LL HH:mm:ss');
+
+          artistPlaylists.push({
+            artist,
+            songs,
+            duration_playlist: formatDuration(totalDurationSecond),
+            start_time: startTime,
+            end_time: endTime,
+          });
+        }
+
+        return artistPlaylists;
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+    GetPlaylistBasedGenre: async (_, args, context) => {
+      try {
+        verifyJWT(context);
+        const allSongs = await Song.find();
+        if (allSongs.length === 0) {
+          throw new Error('Song Not found');
+        }
+        const songsByGenre = {};
+        allSongs.forEach((song) => {
+          if (!songsByGenre[song.genre]) {
+            songsByGenre[song.genre] = [];
+          }
+          songsByGenre[song.genre].push(song);
+        });
+
+        // Calculate the created datetime and predicted finish datetime for each artist's playlist
+        const artistPlaylists = [];
+        let totalDurationSecond;
+        for (const genre in songsByGenre) {
+          const songs = songsByGenre[genre];
+          totalDurationSecond = songs.reduce((total, song) => {
+            return total + calculateDurationInSeconds(song.duration);
+          }, 0);
+
+          const startTime = moment().locale('id').format('LL HH:mm:ss');
+          const endTime = moment().add(totalDurationSecond, 'second').locale('id').format('LL HH:mm:ss');
+
+          artistPlaylists.push({
+            genre,
+            songs,
+            duration_playlist: formatDuration(totalDurationSecond),
+            start_time: startTime,
+            end_time: endTime,
+          });
+        }
+
+        return artistPlaylists;
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+    GetPlaylistById: async (_, { _id }, context) => {
+      try {
+        verifyJWT(context);
+        return await Playlist.findById(_id);
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+  },
+  Mutation: {
+    Registration: async (_, { input }, context) => {
+      try {
+        if (input && input.username && input.password) {
+          //putaran
+          const saltRounds = 8;
+          //encrypt password
+          const hashed = await bcrypt.hash(input.password, saltRounds);
+          //replace the input passward with hashed password
+          input.password = hashed;
+
+          return await User.create(input);
+        }
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+    Login: async (_, user, context) => {
+      try {
+        if (user && user.username && user.password) {
+          //find user data
+          const userId = await User.find({ username: user.username });
+
+          let jwtSecretKey = 'plered'; //secretkey
+
+          let token;
+          //generate token
+
+          //comparing the hashed paswword with user input
+          const result = await bcrypt.compare(user.password, userId[0].password);
+
+          //if match generate token
+          if (userId && userId[0].username === user.username && result) {
+            // console.log(userId[0].username);
+            token = jwt.sign({ userId: userId[0]._id, username: userId[0].username }, jwtSecretKey, { expiresIn: '6h' });
+
+            return { userId: userId[0]._id, msg: 'Login Success', token: token };
+          } else {
+            throw new Error('Username or Password invalid');
+          }
+        }
+      } catch (error) {
+        // console.error(error);
+        throw new Error('Username or Password invalid');
+      }
+    },
+    CreateSong: async (_, { input }, context) => {
+      try {
+        verifyJWT(context);
+
+        if (input && input[0] && input[0].title && input[0].artist && input[0].year && input[0].duration && input[0].genre) {
+          const songData = input;
+
+          //   for (const arr of songData) {
+          const CreateSongs = await Song.create(songData); //create document to database one by one because the body is array of obj
+          //   }
+          //   console.log(CreateSongs);
+          return CreateSongs;
+        }
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+    UpdateSong: async (_, { _id, input }, context) => {
+      try {
+        // console.log(data);
+        verifyJWT(context);
+        if ((_id && input) || input.title || input.artist || input.year || input.duration || input.genre) {
+          const update = await Song.findByIdAndUpdate(_id, input, { new: true });
+          if (!update) {
+            throw new Error('song not found');
+          }
+          return update;
+        }
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+    DeleteSong: async (_, { _id }, context) => {
+      try {
+        verifyJWT(context);
+        if (_id) {
+          const chek = await Song.find({ _id: _id });
+          const filter = { playlist_name: chek[0].genre + ' Playlist' };
+
+          //delete song also pull from song_ids
+          if (chek[0].playlist_id) {
+            await Playlist.updateOne(filter, { $pull: { song_ids: _id } });
+          }
+
+          const DeleteSong = await Song.findByIdAndRemove(_id, { new: true });
+          if (!DeleteSong) {
+            throw new Error('song not found');
+          }
+          return DeleteSong;
+        }
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+    CreatePlaylist: async (_, { name }, context) => {
+      try {
+        verifyJWT(context);
+        const create = await Playlist.create({
+          playlist_name: name + ' Playlist',
+          song_ids: [],
+        });
+        return create;
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+    CreatePlaylistGenre: async (_, { genre }, context) => {
+      try {
+        verifyJWT(context);
+        const songData = await Song.find({ genre: genre });
+        if (songData.length === 0) {
+          return res.status(500).json({ error: genre + ' song not found' });
+        }
+        // console.log(songData.map((song) => song._id));
+        const create = await Playlist.create({
+          playlist_name: genre + ' Playlist',
+          song_ids: songData.map((song) => song._id),
+        });
+        const idplaylist = await Playlist.find({ playlist_name: genre + ' Playlist' }).select('_id');
+        await Song.updateMany(
+          { genre: genre },
+          {
+            $set: { playlist_id: idplaylist[0]._id },
+          },
+          { new: true }
+        );
+        // console.log(idplaylist[0]._id);
+        return create;
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+    CreatePlaylistArtist: async (_, { artist }, context) => {
+      try {
+        verifyJWT(context);
+        const songData = await Song.find({ artist: artist });
+        if (songData.length === 0) {
+          throw new Error(artist + ' song not found');
+        }
+        // console.log(songData.map((song) => song._id));
+        const create = await Playlist.create({
+          playlist_name: artist + ' Playlist',
+          song_ids: songData.map((song) => song._id),
+        });
+        const idplaylist = await Playlist.find({ playlist_name: artist + ' Playlist' }).select('_id');
+        console.log(idplaylist);
+        await Song.updateMany(
+          { artist: artist },
+          {
+            $set: { playlist_id: idplaylist[0]._id },
+          },
+          { new: true }
+        );
+        // console.log(idplaylist[0]._id);
+        return create;
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+    CreatePlaylistLessOneHour: async (_, args, context) => {
+      try {
+        verifyJWT(context);
+        const song = await Song.find();
+
+        const PlaylistSongs = [];
+
+        // Fungsi untuk mengacak array algoritma Fisher-Yates
+        function shuffleArray(array) {
+          for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+            // console.log(array)
+          }
+        }
+        // const shuffledData = [1,2,3,5,4,6,8,7,4,6,5];
+        const shuffledData = [...song];
+        shuffleArray(shuffledData);
+
+        let totalDurationInSeconds = 0;
+
+        for (const songs of shuffledData) {
+          const songDurationInSeconds = calculateDurationInSeconds(songs.duration); // menyimpan nilai detik dari lagu yang akan di tambah
+          if (totalDurationInSeconds + songDurationInSeconds <= 3600) {
+            //dicek jika total dutasi sebelumnya + durasi yang akan ditambah akan melebihi 60 menit atau tidak
+            PlaylistSongs.push(songs); //jika iya push song lagi
+            totalDurationInSeconds += calculateDurationInSeconds(songs.duration); // durasi ditambah
+          }
+        }
+
+        let totalMinutes = Math.floor(totalDurationInSeconds / 60);
+        const totalSeconds = totalDurationInSeconds % 60;
+        let totalDuration;
+        if (totalSeconds < 10) {
+          totalDuration = totalMinutes + ':0' + totalSeconds;
+        } else {
+          totalDuration = totalMinutes + ':' + totalSeconds;
+        }
+        let PlaylistSongsIds = [];
+        for (const songIds of PlaylistSongs) {
+          PlaylistSongsIds.push(songIds._id);
+        }
+
+        const createPlay = await Playlist.create({
+          playlist_name: 'Playlist less than 1 hour ( ' + totalDuration + ' )',
+          song_ids: PlaylistSongsIds,
+        });
+        const playlistId = await Playlist.findOne({ playlist_name: 'Playlist less than 1 hour ( ' + totalDuration + ' )' });
 
         for (const song of PlaylistSongs) {
-          await Song.findByIdAndUpdate(song._id, { playlist: playlistId });
+          await Song.findByIdAndUpdate(song._id, { playlist_id: playlistId });
         }
         // console.log(createPlay);
         return createPlay;
@@ -344,19 +649,19 @@ const resolvers = {
         throw new Error(error.message);
       }
     },
-    updatePlaylistAddSong: async (_, { playlistname, songId }, context) => {
+    UpdatePlaylistAddSong: async (_, { playlist_name, songId }, context) => {
       try {
         // console.log(songId);
         verifyJWT(context);
-        const update = await Playlist.updateOne({ playlistName: playlistname + ' Playlist' }, { $push: { songs: songId } });
+        const update = await Playlist.updateOne({ playlist_name: playlist_name + ' Playlist' }, { $push: { song_ids: songId } });
         if (!update) {
           throw new Error('Playlist not found');
         }
-        const idplaylist = await Playlist.find({ playlistName: playlistname + ' Playlist' });
+        const idplaylist = await Playlist.find({ playlist_name: playlist_name + ' Playlist' });
         await Song.updateOne(
           { _id: songId },
           {
-            $set: { playlist: idplaylist[0]._id },
+            $set: { playlist_id: idplaylist[0]._id },
           },
           { new: true }
         );
@@ -366,19 +671,19 @@ const resolvers = {
         throw new Error(error.message);
       }
     },
-    updatePlaylistRmvSong: async (_, { playlistname, songId }, context) => {
+    UpdatePlaylistRmvSong: async (_, { playlist_name, songId }, context) => {
       try {
         // console.log(songId);
         verifyJWT(context);
-        const update = await Playlist.updateOne({ playlistName: playlistname + ' Playlist' }, { $pull: { songs: songId } });
+        const update = await Playlist.updateOne({ playlist_name: playlist_name + ' Playlist' }, { $pull: { song_ids: songId } });
         if (!update) {
           throw new Error('Playlist not found');
         }
-        const idplaylist = await Playlist.find({ playlistName: playlistname + ' Playlist' });
+        const idplaylist = await Playlist.find({ playlist_name: playlist_name + ' Playlist' });
         await Song.updateOne(
           { _id: songId },
           {
-            $set: { playlist: null },
+            $set: { playlist_id: null },
           },
           { new: true }
         );
@@ -388,26 +693,26 @@ const resolvers = {
         throw new Error(error.message);
       }
     },
-    deletePlaylist: async (_, { genre }, context) => {
+    DeletePlaylist: async (_, { genre }, context) => {
       try {
         verifyJWT(context);
-        const idPlaylist = await Playlist.find({ playlistName: genre + ' Playlist' }).select('_id');
+        const idPlaylist = await Playlist.find({ playlist_name: genre + ' Playlist' }).select('_id');
 
         await Song.updateMany(
-          { playlist: idPlaylist[0]._id },
+          { playlist_id: idPlaylist[0]._id },
           {
-            $set: { playlist: null },
+            $set: { playlist_id: null },
           },
           { new: true }
         );
-        const deletePlaylist = await Playlist.deleteOne(
+        const DeletePlaylist = await Playlist.deleteOne(
           {
-            playlistName: genre + ' Playlist',
+            playlist_name: genre + ' Playlist',
           },
           { new: true }
         );
-        if (!deletePlaylist) {
-          throw new Error('playlist not found');
+        if (!DeletePlaylist) {
+          throw new Error('playlist_id not found');
         }
 
         return { message: genre + ' Playlist deleted successfully' };
@@ -417,19 +722,19 @@ const resolvers = {
     },
   },
   Playlist: {
-    async songs(parent, args, context) {
+    async song_ids(parent, args, context) {
       try {
-        return await context.songLoader.loadMany(parent.songs); //load single data
+        return await context.songLoader.loadMany(parent.song_ids); //load single data
       } catch (error) {
         throw new Error(error.message);
       }
     },
   },
   Song: {
-    async playlist(parent, args, context) {
+    async playlist_id(parent, args, context) {
       try {
-        if (parent.playlist != null) {
-          return await context.PlaylistLoader.load(parent.playlist); //load single data
+        if (parent.playlist_id != null) {
+          return await context.PlaylistLoader.load(parent.playlist_id); //load single data
         }
       } catch (error) {
         throw new Error(error.message);
