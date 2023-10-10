@@ -99,13 +99,13 @@
   }
 ]
  [
-  {
-    title: "Star Wars Theme / Cantina Band",
-    artist: "Meco Monardo",
-    year: 1977,
-    duration: "5:17",
-    genre: "Funk"
-  }
+    {
+      title: "Star Wars Theme / Cantina Band",
+      artist: "Meco Monardo",
+      year: 1977,
+      duration: "5:17",
+      genre: "Funk"
+    }
 ]
 
 const result = playlistData.map(playlist => {

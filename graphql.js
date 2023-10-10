@@ -87,7 +87,7 @@ const typeDefs = gql`
     GetAllPlaylist: [Playlist]
     GetRandomPlaylistSong: Playlist
     GetAllPlaylistWithDuration: [Playlist]
-    GetOnePlaylistWithDurationById(_id: ID!): [Playlist]
+    GetOnePlaylistWithDurationById(_id: ID!): Playlist
     GetPlaylistBasedArtist: [PlaylistArtist]
     GetPlaylistBasedGenre: [PlaylistGenre]
     GetPlaylistById(_id: ID!): Playlist
@@ -197,11 +197,12 @@ const resolvers = {
           let total = 0;
           //for songs
           for (let j = 0; j < playlistData[i].song_ids.length; j++) {
-            const songs = [playlistData[i].song_ids[j]];
-
+            const songs = [playlistData[i].song_ids[j]]; //if not array cant user reduce
+            //calculate total duration in second
             totalDurationSecond = songs.reduce((_, song) => {
               songIds.push(song._id);
 
+              // call function calculateDurationInSeconds
               total += calculateDurationInSeconds(song.duration);
               // console.log(a);
               return total;
@@ -238,7 +239,7 @@ const resolvers = {
           throw new Error('Playlist Not found');
         }
         // const artistPlaylists = [];
-        const result = [];
+        // const result = [];
 
         for (let i = 0; i < playlistData.length; i++) {
           let songIds = [];
@@ -259,13 +260,13 @@ const resolvers = {
           const duration_playlist = formatDuration(totalDurationSecond);
           const startTime = moment().locale('id').format('LL HH:mm:ss');
           const endTime = moment().add(totalDurationSecond, 'second').locale('id').format('LL HH:mm:ss');
-          result.push({
+          result = {
             playlist_name: playlistData[i].playlist_name,
             duration_playlist: duration_playlist,
             start_time: startTime,
             end_time: endTime,
             song_ids: songIds,
-          });
+          };
         }
 
         return result;
