@@ -752,6 +752,11 @@ const resolvers = {
       }
     },
     Webhook: async (_, { input }, contex) => {
+      /*
+       A webhook is a method for web applications to communicate with each other in real-time. 
+       It is a way to send automated, HTTP POST requests from one server to another when a specific event or trigger occurs. 
+       Webhooks are commonly used in various scenarios, such as in web development, online services, and automation.
+       */
       try {
         verifyJWT(contex);
         // console.log(input.song_list[0].title);
@@ -792,10 +797,11 @@ const resolvers = {
           const data = await response.json();
           const result = data.map((dataPlaylist) => {
             return {
-              msg: `${dataPlaylist.playlist_name} successfully Created`,
+              msg: `${dataPlaylist.playlist_name} playlist successfully created`,
               ...dataPlaylist,
             };
           });
+          // console.log(util.inspect(result, { depth: 100 }));
 
           console.log({
             total_song: songCount,
