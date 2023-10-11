@@ -792,7 +792,7 @@ const resolvers = {
           const data = await response.json();
           const result = data.map((dataPlaylist) => {
             return {
-              msg: `'${dataPlaylist.playlist_name}' successfully Created`,
+              msg: `${dataPlaylist.playlist_name} successfully Created`,
               ...dataPlaylist,
             };
           });
