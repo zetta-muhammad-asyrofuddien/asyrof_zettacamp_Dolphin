@@ -5,7 +5,10 @@ const Playlist = require('./model/playlistSchema');
 const User = require('./model/userSchema');
 const bcrypt = require('bcrypt');
 const moment = require('moment');
+const fetch = require('node-fetch');
+const util = require('util');
 const { calculateDurationInSeconds, formatDuration } = require('./controller/calculateDuration');
+var bodyParser = require('body-parser');
 const typeDefs = gql`
   type Song {
     _id: ID!
@@ -14,6 +17,7 @@ const typeDefs = gql`
     year: Int
     duration: String
     genre: String
+    album: String
     playlist_id: Playlist
     total_data: Int
   }
@@ -59,6 +63,21 @@ const typeDefs = gql`
     start_time: String
     end_time: String
   }
+  type WebhookResponse {
+    msg: String
+    playlist_name: [String]
+    creator: [String]
+    total_playlist: Int
+    total_songs: Int
+  }
+  type Webhook {
+    msg: String
+    playlist_name: String
+    description: String
+    song_list: [Song]
+    creator: String
+    total_favorite: Int
+  }
   input RegistrationInput {
     username: String!
     first_name: String!
@@ -66,11 +85,12 @@ const typeDefs = gql`
     password: String!
   }
   input SongInput {
-    title: String!
-    artist: String!
+    title: String
+    artist: String
     year: Int
-    duration: String!
-    genre: String!
+    duration: String
+    genre: String
+    album: String
   }
   input SongUpdate {
     title: String
@@ -78,6 +98,14 @@ const typeDefs = gql`
     year: Int
     duration: String
     genre: String
+  }
+
+  input PlaylistInput {
+    playlist_name: String
+    description: String
+    song_list: [SongInput]
+    creator: String
+    total_favorite: Int
   }
 
   type Query {
@@ -106,6 +134,7 @@ const typeDefs = gql`
     UpdatePlaylistAddSong(playlist_name: String!, songId: ID!): Playlist
     UpdatePlaylistRmvSong(playlist_name: String!, songId: ID!): Playlist
     DeletePlaylist(genre: String!): detelePlaylist
+    Webhook(input: [PlaylistInput]): [Webhook]
   }
 `;
 
@@ -385,6 +414,7 @@ const resolvers = {
           throw new Error('Song Not found');
         }
         const songsByGenre = {};
+
         allSongs.forEach((song) => {
           if (!songsByGenre[song.genre]) {
             songsByGenre[song.genre] = [];
@@ -717,6 +747,73 @@ const resolvers = {
         }
 
         return { message: genre + ' Playlist deleted successfully' };
+      } catch (error) {
+        throw new Error(error.message);
+      }
+    },
+    Webhook: async (_, { input }, contex) => {
+      try {
+        verifyJWT(contex);
+        // console.log(input.song_list[0].title);
+        let songCount = 0; // just for check total song
+        let playlistCount = 0; // just for check total playlist
+        const setPlaylistName = new Set();
+        const setCreator = new Set();
+        //sanity check
+        if (input && input.length) {
+          for (const playlist of input) {
+            playlistCount++;
+            setPlaylistName.add(playlist.playlist_name);
+            setCreator.add(playlist.creator);
+            if (
+              playlist.playlist_name &&
+              playlist.description &&
+              playlist.song_list &&
+              playlist.song_list.length &&
+              playlist.creator &&
+              playlist.total_favorite
+            ) {
+              for (const song of playlist.song_list) {
+                songCount++;
+                // console.log(song.title);
+                if (!song.title || !song.artist || !song.year || !song.duration || !song.genre || !song.album) {
+                  throw new Error('All songs field must be filled');
+                }
+              }
+            }
+          }
+
+          const response = await fetch('https://webhook.site/b09df7a0-a300-4e0c-ac7e-165d5c646226', {
+            method: 'POST',
+            body: JSON.stringify(input),
+            headers: { 'Content-Type': 'application/json' },
+          });
+
+          const data = await response.json();
+          const result = data.map((dataPlaylist) => {
+            return {
+              msg: `'${dataPlaylist.playlist_name}' successfully Created`,
+              ...dataPlaylist,
+            };
+          });
+
+          console.log({
+            total_song: songCount,
+            total_playlist: playlistCount,
+          });
+          return result;
+          // return {
+          //   msg: 'Create Playlists Success',
+          //   playlist_name: setPlaylistName,
+          //   creator: setCreator,
+          //   total_playlist: playlistCount,
+          //   total_songs: songCount,
+          // };
+        }
+
+        return {
+          playlist_name: 'Error',
+        };
       } catch (error) {
         throw new Error(error.message);
       }

@@ -1,0 +1,851 @@
+Today Score Assessment
+Create mutation to send request to webhook.site
+- Create new mutation in song playlist project (2)
+- Send a post request to webhook.site using fetch (1)
+- The request should send the parameter from mutation as a request body (1)
+- Explain webhook (1)
+
+input: [
+      {
+        playlist_name: "For Dirve Playlist"
+        description: "Listen the song if you gona sleep"
+        song_list: [
+          {
+            title: "Menunggu Kamu"
+            artist: "Anji"
+            year: 2018
+            duration: "4:17"
+            genre: "Pop"
+            album: "Suka Suka"
+          }
+          {
+            title: "Dia"
+            artist: "Anji"
+            year: 2016
+            duration: "4:09"
+            genre: "Pop"
+            album: "Suka Suka"
+          }
+          {
+            title: "Arjuna"
+            artist: "Dewa19"
+            year: 2002
+            duration: "5:13"
+            genre: "Rock"
+            album: "Suka Suka"
+          }
+          {
+            title: "Gossip Jalanan"
+            artist: "Slank"
+            year: 2004
+            duration: " 5:13"
+            genre: "Rock"
+            album: "Suka Suka"
+          }
+          {
+            title: "Tetap Dalam Jiwa"
+            artist: "Isyana Saraswati"
+            year: 2015
+            duration: "3:49"
+            genre: "Pop"
+            album: "Suka Suka"
+          }
+          {
+            title: "Bukan Untukku"
+            artist: "Rio Febrian"
+            year: 2002
+            duration: "4:16"
+            genre: "Pop"
+            album: "Suka Suka"
+          }
+          {
+            title: "Sempurna"
+            artist: "Andra and The Backbone"
+            year: 2007
+            duration: "4:21"
+            genre: "Rock"
+            album: "Suka Suka"
+          }
+          {
+            title: "Shape of You"
+            artist: "Ed Sheeran"
+            year: 2017
+            duration: "3:53"
+            genre: "Pop"
+            album: "Suka Suka"
+          }
+          {
+            title: "Bohemian Rhapsody"
+            artist: "Queen"
+            year: 1975
+            duration: "5:55"
+            genre: "Rock"
+            album: "Suka Suka"
+          }
+          {
+            title: "Uptown Funk"
+            artist: "Mark Ronson ft. Bruno Mars"
+            year: 2014
+            duration: "4:30"
+            genre: "Funk"
+            album: "Suka Suka"
+          }
+          {
+            title: "Kau Adalah"
+            artist: "Isyana Saraswati"
+            year: 2015
+            duration: "3:59"
+            genre: "Pop"
+            album: "Suka Suka"
+          }
+          {
+            title: "Winter Song"
+            artist: "Isyana Saraswati"
+            year: 2017
+            duration: "6:24"
+            genre: "Pop"
+            album: "Suka Suka"
+          }
+          {
+            title: "Blinding Lights"
+            artist: "The Weeknd"
+            year: 2019
+            duration: "3:20"
+            genre: "R&B"
+            album: "Suka Suka"
+          }
+          {
+            title: "Happy"
+            artist: "Pharrell Williams"
+            year: 2013
+            duration: "3:53"
+            genre: "R&B"
+            album: "Suka Suka"
+          }
+          {
+            title: "Whispers of Destiny"
+            artist: "Voyageur"
+            year: 2023
+            duration: "4:42"
+            genre: "Ambient"
+            album: "Journey Beyond"
+          }
+          {
+            title: "City Lights"
+            artist: "Neon Skyline"
+            year: 2022
+            duration: "3:55"
+            genre: "Synthwave"
+            album: "Urban Odyssey"
+          }
+          {
+            title: "Healing Waters"
+            artist: "Serenity Waves"
+            year: 2021
+            duration: "5:10"
+            genre: "New Age"
+            album: "Tranquil Rhythms"
+          }
+          {
+            title: "Heartbeat Symphony"
+            artist: "Melodic Hearts"
+            year: 2023
+            duration: "4:18"
+            genre: "Orchestral"
+            album: "Soulful Notes"
+          }
+          {
+            title: "Celestial Reverie"
+            artist: "Stellar Dreams"
+            year: 2022
+            duration: "4:45"
+            genre: "Ambient"
+            album: "Infinite Horizons"
+          }
+          {
+            title: "Rhythms of the Cosmos"
+            artist: "Galactic Beats"
+            year: 2023
+            duration: "5:02"
+            genre: "Electronic"
+            album: "Cosmic Harmony"
+          }
+        ]
+        creator: "Uddien"
+        total_favorite: 450
+      }
+      {
+        playlist_name: "Sleep Well Playlist"
+        description: "i dedicated to create this playlist for Wibu"
+        song_list: [
+          {
+            title: "NIGHT DANCER"
+            artist: "Imase"
+            year: 2018
+            duration: "3:31"
+            genre: "Pop"
+            album: "Suka Suka"
+          }
+          {
+            title: "Eternal Love"
+            artist: "Aria Smith"
+            year: 2022
+            duration: "4:45"
+            genre: "Pop"
+            album: "Suka Suka"
+          }
+          {
+            title: "Beyond the Stars"
+            artist: "Lucas Sky"
+            year: 2021
+            duration: "4:12"
+            genre: "Electronic"
+            album: "Cosmic Journeys"
+          }
+          {
+            title: "Dancing in the Moonlight"
+            artist: "Stella Silver"
+            year: 2023
+            duration: "3:58"
+            genre: "Indie Pop"
+            album: "Luminous Nights"
+          }
+          {
+            title: "Lost in Time"
+            artist: "The Temporal Travelers"
+            year: 2023
+            duration: "5:20"
+            genre: "Synthwave"
+            album: "Temporal Odyssey"
+          }
+          {
+            title: "Whispers of the Forest"
+            artist: "Aurora Harmony"
+            year: 2022
+            duration: "4:35"
+            genre: "Ambient"
+            album: "Enchanted Realms"
+          }
+          {
+            title: "Starry Nights"
+            artist: "Luna Melodies"
+            year: 2022
+            duration: "4:18"
+            genre: "Dream Pop"
+            album: "Celestial Dreams"
+          }
+          {
+            title: "Electric Dreams"
+            artist: "Neon Pulse"
+            year: 2023
+            duration: "3:52"
+            genre: "Synthwave"
+            album: "Cybernetic Chronicles"
+          }
+          {
+            title: "Golden Horizon"
+            artist: "Aurora Skies"
+            year: 2021
+            duration: "4:10"
+            genre: "Indie Folk"
+            album: "Horizon's Embrace"
+          }
+          {
+            title: "Whispers in the Rain"
+            artist: "Misty Meadows"
+            year: 2022
+            duration: "3:45"
+            genre: "Acoustic"
+            album: "Nature's Melodies"
+          }
+          {
+            title: "Eternal Serenade"
+            artist: "Harmony Echoes"
+            year: 2022
+            duration: "4:28"
+            genre: "Classical Crossover"
+            album: "Melodic Reverie"
+          }
+          {
+            title: "Echoes of the Past"
+            artist: "Temporal Soundscapes"
+            year: 2023
+            duration: "5:15"
+            genre: "Ambient"
+            album: "Chronicles of Time"
+          }
+          {
+            title: "Midnight Whispers"
+            artist: "Lunar Enchantment"
+            year: 2022
+            duration: "3:40"
+            genre: "Chillout"
+            album: "Nocturnal Reflections"
+          }
+          {
+            title: "Sunset Dreams"
+            artist: "Crimson Horizon"
+            year: 2021
+            duration: "4:05"
+            genre: "Indie Pop"
+            album: "Colorful Horizons"
+          }
+          {
+            title: "Silent Whispers"
+            artist: "Ethereal Echoes"
+            year: 2021
+            duration: "4:20"
+            genre: "Chillout"
+            album: "Serenity Sounds"
+          }
+          {
+            title: "Spectral Melodies"
+            artist: "Phantom Harmonies"
+            year: 2023
+            duration: "3:58"
+            genre: "Experimental"
+            album: "Ethereal Enigmas"
+          }
+          {
+            title: "Aurora Borealis"
+            artist: "Northern Lights"
+            year: 2022
+            duration: "4:32"
+            genre: "Electronic"
+            album: "Celestial Wonders"
+          }
+          {
+            title: "Whispers in the Wind"
+            artist: "Zephyr Echoes"
+            year: 2021
+            duration: "3:55"
+            genre: "Ambient"
+            album: "Soothing Zephyrs"
+          }
+          {
+            title: "Midnight Serenade"
+            artist: "Lunar Elegance"
+            year: 2023
+            duration: "4:10"
+            genre: "Classical"
+            album: "Moonlit Sonata"
+          }
+          {
+            title: "Harmonic Bliss"
+            artist: "Melodic Harmony"
+            year: 2022
+            duration: "4:18"
+            genre: "Chillout"
+            album: "Melodic Dreams"
+          }
+        ]
+        creator: "Asyrof"
+        total_favorite: 250
+      }
+      {
+        playlist_name: "special4cvt"
+        description: "i dedicated to create this playlist Cavita"
+        song_list: [
+          {
+            title: "Whispers of Eternity"
+            artist: "Serenade"
+            year: 2022
+            duration: "4:50"
+            genre: "Ambient"
+            album: "Infinite Horizons"
+          }
+          {
+            title: "Stardust Melodies"
+            artist: "Celestial Harmony"
+            year: 2023
+            duration: "5:12"
+            genre: "Electronic"
+            album: "Cosmic Fusion"
+          }
+          {
+            title: "Lullaby of the Cosmos"
+            artist: "Galactic Serenity"
+            year: 2021
+            duration: "4:30"
+            genre: "Chillout"
+            album: "Celestial Lullabies"
+          }
+          {
+            title: "Spectral Whispers"
+            artist: "Ethereal Voices"
+            year: 2023
+            duration: "4:18"
+            genre: "Experimental"
+            album: "Ethereal Enigmas"
+          }
+          {
+            title: "Dancing on Moonbeams"
+            artist: "Lunar Motion"
+            year: 2022
+            duration: "3:58"
+            genre: "Indie Pop"
+            album: "Nocturnal Rhythms"
+          }
+          {
+            title: "Reflections in a Raindrop"
+            artist: "Aqueous Echoes"
+            year: 2023
+            duration: "4:22"
+            genre: "Ambient"
+            album: "Ripple Effect"
+          }
+          {
+            title: "Ethereal Visions"
+            artist: "Enchanted Realms"
+            year: 2022
+            duration: "4:10"
+            genre: "New Age"
+            album: "Dreamscapes"
+          }
+          {
+            title: "Glimmering Horizons"
+            artist: "Luminous Skies"
+            year: 2021
+            duration: "5:05"
+            genre: "Ambient"
+            album: "Illuminate"
+          }
+          {
+            title: "Mystic Echoes"
+            artist: "Whispering Shadows"
+            year: 2023
+            duration: "3:48"
+            genre: "Experimental"
+            album: "Enigmatic Journeys"
+          }
+          {
+            title: "Astral Serenade"
+            artist: "Orion's Melody"
+            year: 2022
+            duration: "4:35"
+            genre: "Space Ambient"
+            album: "Cosmic Symphony"
+          }
+          {
+            title: "Dreamscape Reverie"
+            artist: "Dreamweaver"
+            year: 2023
+            duration: "4:18"
+            genre: "Chillout"
+            album: "Visions of Harmony"
+          }
+          {
+            title: "Soothing Rhythms"
+            artist: "Tranquil Beats"
+            year: 2022
+            duration: "3:55"
+            genre: "Relaxation"
+            album: "Calm Waters"
+          }
+          {
+            title: "Sunset Serenade"
+            artist: "Crimson Skies"
+            year: 2021
+            duration: "4:12"
+            genre: "Indie Pop"
+            album: "Horizon's Embrace"
+          }
+          {
+            title: "Eternal Echo"
+            artist: "Ethereal Whispers"
+            year: 2023
+            duration: "4:28"
+            genre: "Ambient"
+            album: "Whispers of Time"
+          }
+          {
+            title: "Harmony in the Rain"
+            artist: "Raindrop Melodies"
+            year: 2022
+            duration: "3:45"
+            genre: "Chillout"
+            album: "Serenity Showers"
+          }
+          {
+            title: "Starlit Symphony"
+            artist: "Aurora Sounds"
+            year: 2021
+            duration: "4:20"
+            genre: "Electronic"
+            album: "Celestial Sonata"
+          }
+          {
+            title: "Luminescent Lullaby"
+            artist: "Moonbeam Serenity"
+            year: 2023
+            duration: "4:10"
+            genre: "Ambient"
+            album: "Nocturnal Reverie"
+          }
+          {
+            title: "Enchanted Dreams"
+            artist: "Mystic Harmony"
+            year: 2022
+            duration: "5:08"
+            genre: "New Age"
+            album: "Dreamweaver's Tales"
+          }
+          {
+            title: "Echoes of Tranquility"
+            artist: "Serenity Breezes"
+            year: 2021
+            duration: "4:40"
+            genre: "Chillout"
+            album: "Tranquil Echoes"
+          }
+          {
+            title: "Galactic Drift"
+            artist: "Interstellar Melodies"
+            year: 2023
+            duration: "5:25"
+            genre: "Space Ambient"
+            album: "Journey to the Stars"
+          }
+        ]
+        creator: "caco"
+        total_favorite: 2500
+      }
+      {
+        playlist_name: "Refreshing Playlist"
+        description: "Relaxasing playlist"
+        song_list: [
+          {
+            title: "Whispers in the Twilight"
+            artist: "Twilight Harmonies"
+            year: 2022
+            duration: "4:15"
+            genre: "Ambient"
+            album: "Nocturnal Whispers"
+          }
+          {
+            title: "Harmony of the Spheres"
+            artist: "Celestial Orchestration"
+            year: 2023
+            duration: "5:32"
+            genre: "Classical Crossover"
+            album: "Orchestral Odyssey"
+          }
+          {
+            title: "Ethereal Journey"
+            artist: "Spectral Voyager"
+            year: 2021
+            duration: "3:58"
+            genre: "Chillout"
+            album: "Dreamscape Chronicles"
+          }
+          {
+            title: "Aurora Reverie"
+            artist: "Luminescent Dreams"
+            year: 2023
+            duration: "4:48"
+            genre: "Ambient"
+            album: "Celestial Horizons"
+          }
+          {
+            title: "Serenade of the Night"
+            artist: "Nocturnal Melodies"
+            year: 2022
+            duration: "3:45"
+            genre: "Indie Pop"
+            album: "Nightfall Serenade"
+          }
+          {
+            title: "Echoes of Euphoria"
+            artist: "Euphoric Soundscape"
+            year: 2021
+            duration: "4:25"
+            genre: "Electronic"
+            album: "Ethereal Dreams"
+          }
+          {
+            title: "Lullaby for Stardust"
+            artist: "Stellar Lullabies"
+            year: 2023
+            duration: "4:10"
+            genre: "New Age"
+            album: "Cosmic Lullabies"
+          }
+          {
+            title: "Tranquil Whispers"
+            artist: "Soothing Serenades"
+            year: 2022
+            duration: "3:55"
+            genre: "Chillout"
+            album: "Calm Retreat"
+          }
+          {
+            title: "Midnight Symphony"
+            artist: "Nocturne Harmony"
+            year: 2021
+            duration: "4:12"
+            genre: "Classical Crossover"
+            album: "Moonlit Sonata"
+          }
+          {
+            title: "Luminary Dreams"
+            artist: "Astral Euphony"
+            year: 2023
+            duration: "5:20"
+            genre: "Ambient"
+            album: "Stellar Reverie"
+          }
+          {
+            title: "Ethereal Aura"
+            artist: "Spectral Harmony"
+            year: 2022
+            duration: "4:35"
+            genre: "Electronic"
+            album: "Dreamweaver's Aura"
+          }
+          {
+            title: "Starlight Serenade"
+            artist: "Celestial Lullabies"
+            year: 2021
+            duration: "4:18"
+            genre: "Ambient"
+            album: "Lullabies of the Cosmos"
+          }
+          {
+            title: "Soothing Stardust"
+            artist: "Luminous Whispers"
+            year: 2023
+            duration: "3:58"
+            genre: "Chillout"
+            album: "Cosmic Lullabies"
+          }
+          {
+            title: "Whispers in the Galactic Breeze"
+            artist: "Galactic Whispers"
+            year: 2022
+            duration: "4:20"
+            genre: "Space Ambient"
+            album: "Celestial Breeze"
+          }
+          {
+            title: "Astral Reverie"
+            artist: "Dreamweaver"
+            year: 2021
+            duration: "4:28"
+            genre: "Ambient"
+            album: "Dreamscapes"
+          }
+          {
+            title: "Luminescent Dreams"
+            artist: "Stellar Reflections"
+            year: 2023
+            duration: "4:10"
+            genre: "Electronic"
+            album: "Stardust Symphony"
+          }
+          {
+            title: "Serenity's Embrace"
+            artist: "Whispering Pines"
+            year: 2022
+            duration: "5:05"
+            genre: "Chillout"
+            album: "Tranquil Moments"
+          }
+          {
+            title: "Eternal Horizon"
+            artist: "Celestial Sounds"
+            year: 2021
+            duration: "3:48"
+            genre: "Ambient"
+            album: "Horizon's Embrace"
+          }
+          {
+            title: "Celestial Lullaby"
+            artist: "Lunar Harmony"
+            year: 2023
+            duration: "4:42"
+            genre: "New Age"
+            album: "Cosmic Dreams"
+          }
+          {
+            title: "Whispers of Infinity"
+            artist: "Infinity Echoes"
+            year: 2022
+            duration: "5:25"
+            genre: "Ambient"
+            album: "Eternal Voyage"
+          }
+        ]
+        creator: "Asyrofuddien"
+        total_favorite: 12500
+      }
+      {
+        playlist_name: "indonesian hits song"
+        description: "hits songs in indonesia"
+        song_list: [
+          {
+            title: "Mimpi yang Sempurna"
+            artist: "Peterpan"
+            year: 2004
+            duration: "4:29"
+            genre: "Pop"
+            album: "Bintang di Surga"
+          }
+          {
+            title: "Cinta Luar Biasa"
+            artist: "Andmesh Kamaleng"
+            year: 2018
+            duration: "4:32"
+            genre: "Pop"
+            album: "Single"
+          }
+          {
+            title: "Tentang Rasa"
+            artist: "Astrid"
+            year: 2006
+            duration: "4:10"
+            genre: "Pop"
+            album: "Astrid"
+          }
+          {
+            title: "Katakan Saja"
+            artist: "Kotak"
+            year: 2008
+            duration: "3:48"
+            genre: "Pop"
+            album: "Energi"
+          }
+          {
+            title: "Biarlah Rahsia"
+            artist: "Siti Nurhaliza"
+            year: 1995
+            duration: "4:48"
+            genre: "Pop"
+            album: "Cindai"
+          }
+          {
+            title: "Sedalam-Dalamnya"
+            artist: "Siti Sarah"
+            year: 2008
+            duration: "4:19"
+            genre: "Rock"
+            album: "Siti Sarah"
+          }
+          {
+            title: "Malam Biru"
+            artist: "Sandy Canester"
+            year: 2004
+            duration: "4:14"
+            genre: "Rock"
+            album: "Cinta Yang Sempurna"
+          }
+          {
+            title: "Pelangi di Matamu"
+            artist: "Jamrud"
+            year: 1997
+            duration: "4:51"
+            genre: "Rock"
+            album: "Ningrat"
+          }
+          {
+            title: "Cobalah Mengerti"
+            artist: "Peterpan feat. Momonon"
+            year: 2008
+            duration: "4:36"
+            genre: "Rock"
+            album: "Sebuah Nama Sebuah Cerita"
+          }
+          {
+            title: "Mungkin Nanti"
+            artist: "Peterpan"
+            year: 2003
+            duration: "4:12"
+            genre: "Rock"
+            album: "Bintang di Surga"
+          }
+          {
+            title: "Menari"
+            artist: "RAN"
+            year: 2016
+            duration: "4:23"
+            genre: "R&B"
+            album: "RANZISM"
+          }
+          {
+            title: "Kisah Cintaku"
+            artist: "Peterpan"
+            year: 2002
+            duration: "4:44"
+            genre: "R&B"
+            album: "Bintang di Surga"
+          }
+          {
+            title: "Tak Bisa Memiliki"
+            artist: "Dewa19"
+            year: 1995
+            duration: "4:40"
+            genre: "R&B"
+            album: "Terbaik Terbaik"
+          }
+          {
+            title: "Mungkin"
+            artist: "Potret"
+            year: 1996
+            duration: "4:44"
+            genre: "R&B"
+            album: "Potret"
+          }
+          {
+            title: "Tentang Aku, Kau, dan Dia"
+            artist: "Kahitna"
+            year: 1996
+            duration: "4:15"
+            genre: "R&B"
+            album: "Cerita Cinta"
+          }
+          {
+            title: "Rindu Setengah Mati"
+            artist: "d'Masiv"
+            year: 2008
+            duration: "4:20"
+            genre: "Pop"
+            album: "Perubahan"
+          }
+          {
+            title: "Bintang Kehidupan"
+            artist: "Nike Ardilla"
+            year: 1993
+            duration: "4:51"
+            genre: "Pop"
+            album: "Bintang Kehidupan"
+          }
+          {
+            title: "Takkan Terulang"
+            artist: "Dewa19"
+            year: 1999
+            duration: "4:55"
+            genre: "Rock"
+            album: "Bintang Lima"
+          }
+          {
+            title: "Biarlah"
+            artist: "Nidji"
+            year: 2007
+            duration: "3:49"
+            genre: "Rock"
+            album: "Breakthru'"
+          }
+          {
+            title: "Malam Biru (Kasihku)"
+            artist: "Kasih Putih"
+            year: 1993
+            duration: "4:26"
+            genre: "R&B"
+            album: "Malam Biru"
+          }
+        ]
+        creator: "Johand"
+        total_favorite: 2200
+      }
+    ]
+
+[{"playlist_name":"For Dirve Playlist","description":"Listen the song if you gona sleep","song_list":[{"title":"Menunggu Kamu","artist":"Anji","year":2018,"duration":"4:17","genre":"Pop","album":"Suka Suka"},{"title":"Dia","artist":"Anji","year":2016,"duration":"4:09","genre":"Pop","album":"Suka Suka"},{"title":"Arjuna","artist":"Dewa19","year":2002,"duration":"5:13","genre":"Rock","album":"Suka Suka"},{"title":"Gossip Jalanan","artist":"Slank","year":2004,"duration":" 5:13","genre":"Rock","album":"Suka Suka"},{"title":"Tetap Dalam Jiwa","artist":"Isyana Saraswati","year":2015,"duration":"3:49","genre":"Pop","album":"Suka Suka"},{"title":"Bukan Untukku","artist":"Rio Febrian","year":2002,"duration":"4:16","genre":"Pop","album":"Suka Suka"},{"title":"Sempurna","artist":"Andra and The Backbone","year":2007,"duration":"4:21","genre":"Rock","album":"Suka Suka"},{"title":"Shape of You","artist":"Ed Sheeran","year":2017,"duration":"3:53","genre":"Pop","album":"Suka Suka"},{"title":"Bohemian Rhapsody","artist":"Queen","year":1975,"duration":"5:55","genre":"Rock","album":"Suka Suka"},{"title":"Uptown Funk","artist":"Mark Ronson ft. Bruno Mars","year":2014,"duration":"4:30","genre":"Funk","album":"Suka Suka"},{"title":"Kau Adalah","artist":"Isyana Saraswati","year":2015,"duration":"3:59","genre":"Pop","album":"Suka Suka"},{"title":"Winter Song","artist":"Isyana Saraswati","year":2017,"duration":"6:24","genre":"Pop","album":"Suka Suka"},{"title":"Blinding Lights","artist":"The Weeknd","year":2019,"duration":"3:20","genre":"R&B","album":"Suka Suka"},{"title":"Happy","artist":"Pharrell Williams","year":2013,"duration":"3:53","genre":"R&B","album":"Suka Suka"},{"title":"Whispers of Destiny","artist":"Voyageur","year":2023,"duration":"4:42","genre":"Ambient","album":"Journey Beyond"},{"title":"City Lights","artist":"Neon Skyline","year":2022,"duration":"3:55","genre":"Synthwave","album":"Urban Odyssey"},{"title":"Healing Waters","artist":"Serenity Waves","year":2021,"duration":"5:10","genre":"New Age","album":"Tranquil Rhythms"},{"title":"Heartbeat Symphony","artist":"Melodic Hearts","year":2023,"duration":"4:18","genre":"Orchestral","album":"Soulful Notes"},{"title":"Celestial Reverie","artist":"Stellar Dreams","year":2022,"duration":"4:45","genre":"Ambient","album":"Infinite Horizons"},{"title":"Rhythms of the Cosmos","artist":"Galactic Beats","year":2023,"duration":"5:02","genre":"Electronic","album":"Cosmic Harmony"}],"creator":"Uddien","total_favorite":450},{"playlist_name":"Sleep Well Playlist","description":"i dedicated to create this playlist for Wibu","song_list":[{"title":"NIGHT DANCER","artist":"Imase","year":2018,"duration":"3:31","genre":"Pop","album":"Suka Suka"},{"title":"Eternal Love","artist":"Aria Smith","year":2022,"duration":"4:45","genre":"Pop","album":"Suka Suka"},{"title":"Beyond the Stars","artist":"Lucas Sky","year":2021,"duration":"4:12","genre":"Electronic","album":"Cosmic Journeys"},{"title":"Dancing in the Moonlight","artist":"Stella Silver","year":2023,"duration":"3:58","genre":"Indie Pop","album":"Luminous Nights"},{"title":"Lost in Time","artist":"The Temporal Travelers","year":2023,"duration":"5:20","genre":"Synthwave","album":"Temporal Odyssey"},{"title":"Whispers of the Forest","artist":"Aurora Harmony","year":2022,"duration":"4:35","genre":"Ambient","album":"Enchanted Realms"},{"title":"Starry Nights","artist":"Luna Melodies","year":2022,"duration":"4:18","genre":"Dream Pop","album":"Celestial Dreams"},{"title":"Electric Dreams","artist":"Neon Pulse","year":2023,"duration":"3:52","genre":"Synthwave","album":"Cybernetic Chronicles"},{"title":"Golden Horizon","artist":"Aurora Skies","year":2021,"duration":"4:10","genre":"Indie Folk","album":"Horizon's Embrace"},{"title":"Whispers in the Rain","artist":"Misty Meadows","year":2022,"duration":"3:45","genre":"Acoustic","album":"Nature's Melodies"},{"title":"Eternal Serenade","artist":"Harmony Echoes","year":2022,"duration":"4:28","genre":"Classical Crossover","album":"Melodic Reverie"},{"title":"Echoes of the Past","artist":"Temporal Soundscapes","year":2023,"duration":"5:15","genre":"Ambient","album":"Chronicles of Time"},{"title":"Midnight Whispers","artist":"Lunar Enchantment","year":2022,"duration":"3:40","genre":"Chillout","album":"Nocturnal Reflections"},{"title":"Sunset Dreams","artist":"Crimson Horizon","year":2021,"duration":"4:05","genre":"Indie Pop","album":"Colorful Horizons"},{"title":"Silent Whispers","artist":"Ethereal Echoes","year":2021,"duration":"4:20","genre":"Chillout","album":"Serenity Sounds"},{"title":"Spectral Melodies","artist":"Phantom Harmonies","year":2023,"duration":"3:58","genre":"Experimental","album":"Ethereal Enigmas"},{"title":"Aurora Borealis","artist":"Northern Lights","year":2022,"duration":"4:32","genre":"Electronic","album":"Celestial Wonders"},{"title":"Whispers in the Wind","artist":"Zephyr Echoes","year":2021,"duration":"3:55","genre":"Ambient","album":"Soothing Zephyrs"},{"title":"Midnight Serenade","artist":"Lunar Elegance","year":2023,"duration":"4:10","genre":"Classical","album":"Moonlit Sonata"},{"title":"Harmonic Bliss","artist":"Melodic Harmony","year":2022,"duration":"4:18","genre":"Chillout","album":"Melodic Dreams"}],"creator":"Asyrof","total_favorite":250},{"playlist_name":"special4cvt","description":"i dedicated to create this playlist Cavita","song_list":[{"title":"Whispers of Eternity","artist":"Serenade","year":2022,"duration":"4:50","genre":"Ambient","album":"Infinite Horizons"},{"title":"Stardust Melodies","artist":"Celestial Harmony","year":2023,"duration":"5:12","genre":"Electronic","album":"Cosmic Fusion"},{"title":"Lullaby of the Cosmos","artist":"Galactic Serenity","year":2021,"duration":"4:30","genre":"Chillout","album":"Celestial Lullabies"},{"title":"Spectral Whispers","artist":"Ethereal Voices","year":2023,"duration":"4:18","genre":"Experimental","album":"Ethereal Enigmas"},{"title":"Dancing on Moonbeams","artist":"Lunar Motion","year":2022,"duration":"3:58","genre":"Indie Pop","album":"Nocturnal Rhythms"},{"title":"Reflections in a Raindrop","artist":"Aqueous Echoes","year":2023,"duration":"4:22","genre":"Ambient","album":"Ripple Effect"},{"title":"Ethereal Visions","artist":"Enchanted Realms","year":2022,"duration":"4:10","genre":"New Age","album":"Dreamscapes"},{"title":"Glimmering Horizons","artist":"Luminous Skies","year":2021,"duration":"5:05","genre":"Ambient","album":"Illuminate"},{"title":"Mystic Echoes","artist":"Whispering Shadows","year":2023,"duration":"3:48","genre":"Experimental","album":"Enigmatic Journeys"},{"title":"Astral Serenade","artist":"Orion's Melody","year":2022,"duration":"4:35","genre":"Space Ambient","album":"Cosmic Symphony"},{"title":"Dreamscape Reverie","artist":"Dreamweaver","year":2023,"duration":"4:18","genre":"Chillout","album":"Visions of Harmony"},{"title":"Soothing Rhythms","artist":"Tranquil Beats","year":2022,"duration":"3:55","genre":"Relaxation","album":"Calm Waters"},{"title":"Sunset Serenade","artist":"Crimson Skies","year":2021,"duration":"4:12","genre":"Indie Pop","album":"Horizon's Embrace"},{"title":"Eternal Echo","artist":"Ethereal Whispers","year":2023,"duration":"4:28","genre":"Ambient","album":"Whispers of Time"},{"title":"Harmony in the Rain","artist":"Raindrop Melodies","year":2022,"duration":"3:45","genre":"Chillout","album":"Serenity Showers"},{"title":"Starlit Symphony","artist":"Aurora Sounds","year":2021,"duration":"4:20","genre":"Electronic","album":"Celestial Sonata"},{"title":"Luminescent Lullaby","artist":"Moonbeam Serenity","year":2023,"duration":"4:10","genre":"Ambient","album":"Nocturnal Reverie"},{"title":"Enchanted Dreams","artist":"Mystic Harmony","year":2022,"duration":"5:08","genre":"New Age","album":"Dreamweaver's Tales"},{"title":"Echoes of Tranquility","artist":"Serenity Breezes","year":2021,"duration":"4:40","genre":"Chillout","album":"Tranquil Echoes"},{"title":"Galactic Drift","artist":"Interstellar Melodies","year":2023,"duration":"5:25","genre":"Space Ambient","album":"Journey to the Stars"}],"creator":"caco","total_favorite":2500},{"playlist_name":"Refreshing Playlist","description":"Relaxasing playlist","song_list":[{"title":"Whispers in the Twilight","artist":"Twilight Harmonies","year":2022,"duration":"4:15","genre":"Ambient","album":"Nocturnal Whispers"},{"title":"Harmony of the Spheres","artist":"Celestial Orchestration","year":2023,"duration":"5:32","genre":"Classical Crossover","album":"Orchestral Odyssey"},{"title":"Ethereal Journey","artist":"Spectral Voyager","year":2021,"duration":"3:58","genre":"Chillout","album":"Dreamscape Chronicles"},{"title":"Aurora Reverie","artist":"Luminescent Dreams","year":2023,"duration":"4:48","genre":"Ambient","album":"Celestial Horizons"},{"title":"Serenade of the Night","artist":"Nocturnal Melodies","year":2022,"duration":"3:45","genre":"Indie Pop","album":"Nightfall Serenade"},{"title":"Echoes of Euphoria","artist":"Euphoric Soundscape","year":2021,"duration":"4:25","genre":"Electronic","album":"Ethereal Dreams"},{"title":"Lullaby for Stardust","artist":"Stellar Lullabies","year":2023,"duration":"4:10","genre":"New Age","album":"Cosmic Lullabies"},{"title":"Tranquil Whispers","artist":"Soothing Serenades","year":2022,"duration":"3:55","genre":"Chillout","album":"Calm Retreat"},{"title":"Midnight Symphony","artist":"Nocturne Harmony","year":2021,"duration":"4:12","genre":"Classical Crossover","album":"Moonlit Sonata"},{"title":"Luminary Dreams","artist":"Astral Euphony","year":2023,"duration":"5:20","genre":"Ambient","album":"Stellar Reverie"},{"title":"Ethereal Aura","artist":"Spectral Harmony","year":2022,"duration":"4:35","genre":"Electronic","album":"Dreamweaver's Aura"},{"title":"Starlight Serenade","artist":"Celestial Lullabies","year":2021,"duration":"4:18","genre":"Ambient","album":"Lullabies of the Cosmos"},{"title":"Soothing Stardust","artist":"Luminous Whispers","year":2023,"duration":"3:58","genre":"Chillout","album":"Cosmic Lullabies"},{"title":"Whispers in the Galactic Breeze","artist":"Galactic Whispers","year":2022,"duration":"4:20","genre":"Space Ambient","album":"Celestial Breeze"},{"title":"Astral Reverie","artist":"Dreamweaver","year":2021,"duration":"4:28","genre":"Ambient","album":"Dreamscapes"},{"title":"Luminescent Dreams","artist":"Stellar Reflections","year":2023,"duration":"4:10","genre":"Electronic","album":"Stardust Symphony"},{"title":"Serenity's Embrace","artist":"Whispering Pines","year":2022,"duration":"5:05","genre":"Chillout","album":"Tranquil Moments"},{"title":"Eternal Horizon","artist":"Celestial Sounds","year":2021,"duration":"3:48","genre":"Ambient","album":"Horizon's Embrace"},{"title":"Celestial Lullaby","artist":"Lunar Harmony","year":2023,"duration":"4:42","genre":"New Age","album":"Cosmic Dreams"},{"title":"Whispers of Infinity","artist":"Infinity Echoes","year":2022,"duration":"5:25","genre":"Ambient","album":"Eternal Voyage"}],"creator":"Asyrof","total_favorite":12500},{"playlist_name":"indonesian hits song","description":"hits songs in indonesia","song_list":[{"title":"Malam Biru (Kasihku)","artist":"Kasih Putih","year":1993,"duration":"4:26","genre":"R&B","album":"Malam Biru"},{"title":"Mimpi yang Sempurna","artist":"Peterpan","year":2004,"duration":"4:29","genre":"Pop","album":"Bintang di Surga"},{"title":"Cinta Luar Biasa","artist":"Andmesh Kamaleng","year":2018,"duration":"4:32","genre":"Pop","album":"Single"},{"title":"Tentang Rasa","artist":"Astrid","year":2006,"duration":"4:10","genre":"Pop","album":"Astrid"},{"title":"Katakan Saja","artist":"Kotak","year":2008,"duration":"3:48","genre":"Pop","album":"Energi"},{"title":"Biarlah Rahsia","artist":"Siti Nurhaliza","year":1995,"duration":"4:48","genre":"Pop","album":"Cindai"},{"title":"Sedalam-Dalamnya","artist":"Siti Sarah","year":2008,"duration":"4:19","genre":"Rock","album":"Siti Sarah"},{"title":"Malam Biru","artist":"Sandy Canester","year":2004,"duration":"4:14","genre":"Rock","album":"Cinta Yang Sempurna"},{"title":"Pelangi di Matamu","artist":"Jamrud","year":1997,"duration":"4:51","genre":"Rock","album":"Ningrat"},{"title":"Cobalah Mengerti","artist":"Peterpan feat. Momonon","year":2008,"duration":"4:36","genre":"Rock","album":"Sebuah Nama Sebuah Cerita"},{"title":"Mungkin Nanti","artist":"Peterpan","year":2003,"duration":"4:12","genre":"Rock","album":"Bintang di Surga"},{"title":"Menari","artist":"RAN","year":2016,"duration":"4:23","genre":"R&B","album":"RANZISM"},{"title":"Kisah Cintaku","artist":"Peterpan","year":2002,"duration":"4:44","genre":"R&B","album":"Bintang di Surga"},{"title":"Tak Bisa Memiliki","artist":"Dewa19","year":1995,"duration":"4:40","genre":"R&B","album":"Terbaik Terbaik"},{"title":"Mungkin","artist":"Potret","year":1996,"duration":"4:44","genre":"R&B","album":"Potret"},{"title":"Tentang Aku, Kau, dan Dia","artist":"Kahitna","year":1996,"duration":"4:15","genre":"R&B","album":"Cerita Cinta"},{"title":"Rindu Setengah Mati","artist":"d'Masiv","year":2008,"duration":"4:20","genre":"Pop","album":"Perubahan"},{"title":"Bintang Kehidupan","artist":"Nike Ardilla","year":1993,"duration":"4:51","genre":"Pop","album":"Bintang Kehidupan"},{"title":"Takkan Terulang","artist":"Dewa19","year":1999,"duration":"4:55","genre":"Rock","album":"Bintang Lima"},{"title":"Biarlah","artist":"Nidji","year":2007,"duration":"3:49","genre":"Rock","album":"Breakthru'"},{"title":"Malam Biru (Kasihku)","artist":"Kasih Putih","year":1993,"duration":"4:26","genre":"R&B","album":"Malam Biru"}],"creator":"Johand","total_favorite":2200}]

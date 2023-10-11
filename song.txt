@@ -5,6 +5,7 @@
     year: 2018,
     duration: "4:17",
     genre: "Pop"
+    album: "Suka Suka"
   },
   {
     title: "Dia",
@@ -12,6 +13,7 @@
     year: 2016,
     duration: "4:09",
     genre: "Pop"
+    album: "Suka Suka"
   },
   {
     title: "Arjuna",
@@ -19,6 +21,7 @@
     year: "2002",
     duration: "5:13",
     genre: "Rock"
+    album: "Suka Suka"
   },
   {
     title: "Gossip Jalanan",
@@ -26,6 +29,7 @@
     year: 2004,
     duration:" 5:13",
     genre: "Rock"
+    album: "Suka Suka"
   },
   {
     title: "Tetap Dalam Jiwa",
@@ -33,6 +37,7 @@
     year: 2015,
     duration: "3:49",
     genre: "Pop"
+    album: "Suka Suka"
   },
   {
     title: "Bukan Untukku",
@@ -40,6 +45,7 @@
     year: 2002,
     duration: "4:16",
     genre: "Pop"
+    album: "Suka Suka"
   },
   {
     title: "Sempurna",
@@ -47,6 +53,7 @@
     year: 2007,
     duration: "4:21",
     genre: "Rock"
+    album: "Suka Suka"
   },
   {
     title: "Shape of You",
@@ -54,6 +61,7 @@
     year: 2017,
     duration: "3:53",
     genre: "Pop"
+    album: "Suka Suka"
   },
   {
     title: "Bohemian Rhapsody",
@@ -61,6 +69,7 @@
     year: 1975,
     duration: "5:55",
     genre: "Rock"
+    album: "Suka Suka"
   },
   {
     title: "Uptown Funk",
@@ -68,13 +77,15 @@
     year: 2014,
     duration: "4:30",
     genre: "Funk"
+    album: "Suka Suka"
   },
   {
     title: "Kau Adalah",
     artist: "Isyana Saraswati",
-    "year": 2015,
-    "duration": "3:59",
-    "genre": "Pop"
+    year: 2015,
+    duration: "3:59",
+    genre: "Pop"
+    album: "Suka Suka"
   },
   {
     title: "Winter Song",
@@ -82,6 +93,7 @@
     year: 2017,
     duration: "6:24",
     genre: "Pop"
+    album: "Suka Suka"
   },
   {
     title: "Blinding Lights",
@@ -89,6 +101,7 @@
     year: 2019,
     duration: "3:20",
     genre: "R&B"
+    album: "Suka Suka"
   },
   {
     title: "Happy",
@@ -96,6 +109,7 @@
     year: 2013,
     duration: "3:53",
     genre: "R&B"
+    album: "Suka Suka"
   }
 ]
  [
