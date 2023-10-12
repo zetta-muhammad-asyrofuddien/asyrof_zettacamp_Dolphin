@@ -22,7 +22,7 @@ const jwtAuthMiddleware = (req, res, next) => {
     const verified = jwt.verify(userpass, secret);
 
     if (verified) {
-      console.log(verified); //if passed
+      // console.log(verified); //if passed
       next();
     } else {
       // Access Denied exp,invalid

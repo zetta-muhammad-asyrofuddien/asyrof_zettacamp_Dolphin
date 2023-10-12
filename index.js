@@ -2,12 +2,12 @@ const route = require('./routes/route'); //import modul route
 const express = require('express'); //import modul express
 const app = express();
 const port = 3005; //defind port
-const bodyParser = require('body-parser'); //import bodyparser custom
 const conn = require('./conn');
 const connGraph = require('./connGraphQL');
+// const jwtAuthMiddleware = require('./middleware/jwtVeriv');
 
-// app.use(bodyParser.json());
-
+app.use(express.json());
+// app.use(jwtAuthMiddleware);
 route(app);
 connGraph.conn(app);
 conn();

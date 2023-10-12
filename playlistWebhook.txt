@@ -1,10 +1,49 @@
 Today Score Assessment
 Create mutation to send request to webhook.site
-- Create new mutation in song playlist project (2)
-- Send a post request to webhook.site using fetch (1)
-- The request should send the parameter from mutation as a request body (1)
+- Create new mutation in song playlist project (2) ✅
+- Send a post request to webhook.site using fetch (1) ✅
+- The request should send the parameter from mutation as a request body (1) ✅
 - Explain webhook (1)
 
+A webhook is a method for web applications to communicate with each other in real-time. It is a way to send automated, HTTP POST requests from one server to another when a specific event or trigger occurs. Webhooks are commonly used in various scenarios, such as in web development, online services, and automation.
+
+
+
+
+
+
+
+
+
+
+
+
+
+Here's how webhooks work and why they are useful:
+
+Event Trigger: Webhooks are typically set up to respond to specific events or changes in one system. These events could be things like a new user signing up, a new message arriving, a file being uploaded, or any other event that a web application might want to be notified of.
+
+Registration: The receiving system (often referred to as the "listener") provides a unique URL or endpoint where it expects to receive incoming webhook notifications. This URL is usually provided by the listener and is configured by the sender.
+
+Configuration: The sender, which is the system that generates the event and wants to notify others about it, configures the webhook to send a POST request to the specified URL when the event occurs.
+
+Real-Time Notification: When the specified event happens, the sender's system automatically sends an HTTP POST request with relevant data to the URL provided by the listener.
+
+Processing: The listener's system receives the incoming webhook request and processes the data included in the request, typically triggering some specific action in response to the event.
+
+Webhooks are valuable because they enable real-time or near-real-time communication between different systems without the need for continuous polling or manual intervention. They are widely used in a variety of applications, such as:
+
+Integrations: Webhooks are commonly used to integrate different web services or applications, allowing them to communicate and share data seamlessly.
+
+Notifications: They can be used to send alerts, updates, or notifications about specific events, such as new email arrivals, payment confirmations, or social media interactions.
+
+Automation: Webhooks are often used in workflow automation to trigger actions when specific conditions are met, making them a key component in modern automation platforms.
+
+Data Synchronization: They are used for keeping data synchronized across systems, ensuring that changes in one system are reflected in another.
+
+Customization: Webhooks provide developers with a way to customize and extend the functionality of a platform by responding to specific events.
+
+Overall, webhooks are a powerful tool for enabling seamless, real-time communication and automation between web applications and services, improving efficiency and enabling more robust integrations.
 input: [
       {
         playlist_name: "For Dirve Playlist"

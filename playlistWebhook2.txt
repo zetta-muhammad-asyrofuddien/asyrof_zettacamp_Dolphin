@@ -1,0 +1,13 @@
+Today Score Assessment
+Create new REST Api for webhook 
+- REST Api will have method post (1) ✅
+- REST Api have jwt auth for authorization (1) ✅
+- REST Api will update song data to songs collection based on input of request body (2) ✅
+- Able to be run from postman (1) ✅
+
+title
+artist
+year
+duration
+genre
+1099 

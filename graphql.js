@@ -63,6 +63,7 @@ const typeDefs = gql`
     start_time: String
     end_time: String
   }
+
   type WebhookResponse {
     msg: String
     playlist_name: [String]
@@ -70,13 +71,14 @@ const typeDefs = gql`
     total_playlist: Int
     total_songs: Int
   }
+
   type Webhook {
     msg: String
     playlist_name: String
     description: String
     song_list: [Song]
     creator: String
-    total_favorite: Int
+    total_favorite: String
   }
   input RegistrationInput {
     username: String!
@@ -105,7 +107,7 @@ const typeDefs = gql`
     description: String
     song_list: [SongInput]
     creator: String
-    total_favorite: Int
+    total_favorite: String
   }
 
   type Query {
@@ -758,18 +760,15 @@ const resolvers = {
        Webhooks are commonly used in various scenarios, such as in web development, online services, and automation.
        */
       try {
-        verifyJWT(contex);
+        // verifyJWT(contex);
         // console.log(input.song_list[0].title);
         let songCount = 0; // just for check total song
         let playlistCount = 0; // just for check total playlist
-        const setPlaylistName = new Set();
-        const setCreator = new Set();
+
         //sanity check
         if (input && input.length) {
           for (const playlist of input) {
             playlistCount++;
-            setPlaylistName.add(playlist.playlist_name);
-            setCreator.add(playlist.creator);
             if (
               playlist.playlist_name &&
               playlist.description &&
@@ -793,8 +792,13 @@ const resolvers = {
             body: JSON.stringify(input),
             headers: { 'Content-Type': 'application/json' },
           });
-
+          //add sanity response
           const data = await response.json();
+
+          if (!data) {
+            throw new Error('Data not fetched');
+          }
+
           const result = data.map((dataPlaylist) => {
             return {
               msg: `${dataPlaylist.playlist_name} playlist successfully created`,

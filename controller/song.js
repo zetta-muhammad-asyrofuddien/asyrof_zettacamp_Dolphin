@@ -1,5 +1,6 @@
 const Playlist = require('../model/playlistSchema');
 const Song = require('../model/songSchema');
+const fetch = require('node-fetch');
 
 const createSong = async (req, res) => {
   try {
@@ -15,8 +16,9 @@ const createSong = async (req, res) => {
 
 const getAllSong = async (req, res) => {
   try {
+    // console.log(req.body);
     const { page, dataperpage, filter } = req.body;
-    // console.log(dataperpage);
+
     let pipeline = [];
     if (filter.genre !== '') {
       pipeline.push({
@@ -117,7 +119,64 @@ const deleteSong = async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error', msg: error.message });
   }
 };
+const DataUpdateSongWebhook = async (req, res) => {
+  try {
+    // console.log(req.body);
+    if (req && req.params && req.params.id && req.body) {
+      const data = {};
+
+      if (req.body.title) {
+        data.title = req.body.title;
+      }
+      if (req.body.artist) {
+        data.artist = req.body.artist;
+      }
+      if (req.body.year) {
+        data.year = req.body.year;
+      }
+      if (req.body.duration) {
+        data.duration = req.body.duration;
+      }
+      if (req.body.genre) {
+        data.genre = req.body.genre;
+      }
+      const response = await fetch('https://webhook.site/2f4077a3-a3d2-48b4-86f2-49ecbb0b3cf8?id=' + req.params.id, {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: { 'Content-Type': 'application/json', Authorization: req.headers.authorization },
+      });
+
+      if (response.status == 200) {
+        UpdateSongwebhook(req.params.id, data);
+
+        return res.status(200).json({
+          status: response.status + ' ' + response.statusText,
+          message: 'Data will be update, check in few second',
+        });
+      }
+
+      return res.status(response.status).json({
+        status: response.status + ' ' + response.statusText,
+        message: 'Update data failed',
+      });
+      // const dataA = await response.json();
+    }
+  } catch (error) {
+    res.status(500).json({ error: 'Internal Server Error', msg: error.message });
+  }
+};
+async function UpdateSongwebhook(_id, data) {
+  if (_id && data) {
+    const update = await Song.findByIdAndUpdate({ _id: _id }, data, { new: true });
+    if (!update) {
+      return console.log({ error: 'song not found' });
+    }
+    // console.log(update);
+  }
+  return 'Update song failed';
+}
 module.exports = {
+  DataUpdateSongWebhook,
   createSong,
   getAllSong,
   updateSong,
