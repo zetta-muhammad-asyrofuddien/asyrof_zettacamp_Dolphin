@@ -140,6 +140,7 @@ const DataUpdateSongWebhook = async (req, res) => {
       if (req.body.genre) {
         data.genre = req.body.genre;
       }
+
       const response = await fetch('https://webhook.site/2f4077a3-a3d2-48b4-86f2-49ecbb0b3cf8?id=' + req.params.id, {
         method: 'POST',
         body: JSON.stringify(data),
@@ -167,9 +168,25 @@ const DataUpdateSongWebhook = async (req, res) => {
 };
 async function UpdateSongwebhook(_id, data) {
   if (_id && data) {
-    const update = await Song.findByIdAndUpdate({ _id: _id }, data, { new: true });
+    const dataUpdate = {};
+    if (data.title) {
+      dataUpdate.title = data.title;
+    }
+    if (data.artist) {
+      dataUpdate.artist = data.artist;
+    }
+    if (data.year) {
+      dataUpdate.year = data.year;
+    }
+    if (data.duration) {
+      dataUpdate.duration = data.duration;
+    }
+    if (data.genre) {
+      dataUpdate.genre = data.genre;
+    }
+    const update = await Song.findByIdAndUpdate({ _id: _id }, dataUpdate, { new: true });
     if (!update) {
-      return console.log({ error: 'song not found' });
+      console.log({ error: 'song not found' });
     }
     // console.log(update);
   }

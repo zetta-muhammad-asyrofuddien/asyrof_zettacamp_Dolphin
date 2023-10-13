@@ -21,6 +21,13 @@ const songSchema = new mongoose.Schema({
     ref: 'Playlist',
     default: null,
   },
+  is_already_played: {
+    type: Boolean,
+    default: false,
+  },
+  last_played: {
+    type: String,
+  },
 });
 const Song = mongoose.model('Song', songSchema);
 module.exports = Song;

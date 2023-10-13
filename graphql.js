@@ -8,7 +8,6 @@ const moment = require('moment');
 const fetch = require('node-fetch');
 const util = require('util');
 const { calculateDurationInSeconds, formatDuration } = require('./controller/calculateDuration');
-var bodyParser = require('body-parser');
 const typeDefs = gql`
   type Song {
     _id: ID!

@@ -1,0 +1,6 @@
+Today Score Assessment
+Implement cron job functionality
+- Create a function to play a song and marked already played (1) ✅
+- Song already played cannot be play anymore (1) ✅
+- Create a cron job that run every 5 minutes to run the play song function (2) ✅
+- Explain cron job (1)
