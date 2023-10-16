@@ -759,7 +759,7 @@ const resolvers = {
         throw new Error(error.message);
       }
     },
-    Webhook: async (_, { input }, contex) => {
+    Webhook: async (_, { input }, context) => {
       /*
        A webhook is a method for web applications to communicate with each other in real-time. 
        It is a way to send automated, HTTP POST requests from one server to another when a specific event or trigger occurs. 
@@ -840,7 +840,7 @@ const resolvers = {
         if (song) {
           return 'Playing Song';
         } else {
-          return 'Song not availible';
+          return 'Song not availaible';
         }
       } catch (error) {
         return "Can't Playing song every 5 minute";

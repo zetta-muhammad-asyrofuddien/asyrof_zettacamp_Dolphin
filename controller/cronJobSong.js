@@ -25,7 +25,7 @@ const min = moment().format('mm');
 // console.log(sec);
 const job = new CronJob(
   // '* * * * * *', // every minute is 8
-  '0 */5 * * * *',
+  '0 */1 * * * *',
   //   `${sec} ${min}/5 * * * *`,
   async function () {
     PlaySong();
