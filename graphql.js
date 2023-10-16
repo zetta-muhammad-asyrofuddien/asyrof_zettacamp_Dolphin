@@ -8,6 +8,7 @@ const moment = require('moment');
 const fetch = require('node-fetch');
 const util = require('util');
 const { calculateDurationInSeconds, formatDuration } = require('./controller/calculateDuration');
+const { PlaySong } = require('./controller/cronJobSong');
 const typeDefs = gql`
   type Song {
     _id: ID!
@@ -47,6 +48,11 @@ const typeDefs = gql`
     userId: ID
     msg: String
     token: String
+  }
+  type TriggeredCornSong {
+    playing: String
+    artist: String
+    duration: String
   }
   type PlaylistArtist {
     artist: String
@@ -136,6 +142,7 @@ const typeDefs = gql`
     UpdatePlaylistRmvSong(playlist_name: String!, songId: ID!): Playlist
     DeletePlaylist(genre: String!): detelePlaylist
     Webhook(input: [PlaylistInput]): [Webhook]
+    PlaySong: String
   }
 `;
 
@@ -825,6 +832,18 @@ const resolvers = {
         };
       } catch (error) {
         throw new Error(error.message);
+      }
+    },
+    PlaySong: async () => {
+      try {
+        const song = await PlaySong();
+        if (song) {
+          return 'Playing Song';
+        } else {
+          return 'Song not availible';
+        }
+      } catch (error) {
+        return "Can't Playing song every 5 minute";
       }
     },
   },

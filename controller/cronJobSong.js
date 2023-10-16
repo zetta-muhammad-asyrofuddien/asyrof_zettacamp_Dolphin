@@ -24,7 +24,7 @@ const sec = moment().format('ss');
 const min = moment().format('mm');
 // console.log(sec);
 const job = new CronJob(
-  //   '1 * * * *', // every minute is 8
+  // '* * * * * *', // every minute is 8
   '0 */5 * * * *',
   //   `${sec} ${min}/5 * * * *`,
   async function () {
@@ -37,25 +37,29 @@ const job = new CronJob(
 
 async function PlaySong() {
   try {
-    const song = await Song.findOne({ is_already_played: false });
-    console.log('------------------------------');
-    if (song) {
-      await Song.findByIdAndUpdate({ _id: song._id }, { is_already_played: true, last_played: moment().format('DD/MM/YYYY HH:mm:ss') });
+    const songs = await Song.find({}).sort({ title: 1 });
 
-      console.log('Played at ' + moment().format('DD/MM/YYYY HH:mm:ss'));
-      return console.table({
-        playing: song.title,
-        artist: song.artist,
-        duration: song.duration,
-      });
-    } else {
-      return console.log('song unavalaible');
+    console.log('------------------------------');
+    for (const song of songs) {
+      if (!song.is_already_played) {
+        await Song.updateOne({ _id: song._id }, { is_already_played: true, last_played: moment().format('DD/MM/YYYY HH:mm:ss') });
+        console.log('Played at ' + moment().format('DD/MM/YYYY HH:mm:ss'));
+        const result = {
+          playing: song.title,
+          artist: song.artist,
+          duration: song.duration,
+        };
+        console.table(result);
+        return result;
+      }
+
       //   console.log('Song will be restart');
       //   await Song.updateMany({}, { is_already_played: false });
     }
+    return console.log('song unavalaible');
   } catch (error) {
     throw new Error(error.message);
   }
 }
 
-module.exports = job;
+module.exports = { job, PlaySong };

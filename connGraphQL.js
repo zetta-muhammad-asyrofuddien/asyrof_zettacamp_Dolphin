@@ -19,6 +19,7 @@ const executableSchema = makeExecutableSchema({ typeDefs, resolvers }); // Creat
 const protectedSchema = applyMiddleware(executableSchema); // Apply middleware to the executable schema to add functionality like authentication and authorization
 const { songLoader, PlaylistLoader } = require('./loader');
 // Create an Apollo Server instance with the protected schema and context setup
+
 const conn = (app) => {
   const server = new ApolloServer({
     schema: protectedSchema, // Set the schema to the protected schema (with applied middleware)
@@ -30,6 +31,7 @@ const conn = (app) => {
       };
     },
   });
+
   const port = 4000; // Define the port on which the server will run
   server.applyMiddleware({ app }); // Apply the Apollo Server middleware to the Express application
   app.listen({ port: port }, () => console.log(`Connected at http://localhost:${port}${server.graphqlPath}`)); // Start the server to listen on the specified port

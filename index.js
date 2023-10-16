@@ -4,8 +4,7 @@ const app = express();
 const port = 3005; //defind port
 const conn = require('./conn');
 const connGraph = require('./connGraphQL');
-
-const job = require('./controller/cronJobSong');
+const { job } = require('./controller/cronJobSong');
 // const jwtAuthMiddleware = require('./middleware/jwtVeriv');
 
 app.use(express.json());
@@ -13,7 +12,7 @@ app.use(express.json());
 route(app);
 connGraph.conn(app);
 conn();
-job.start();
+job.start(); //Cron job must run with GraphQL server simultaneously
 try {
   app.listen(port, () => {
     console.log(`Server running in ${port}`);

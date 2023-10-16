@@ -1,0 +1,5 @@
+Today Score Assessment
+Update previous task cron job functionality
+- Update cron play song to play song order by name alphabetically (2) ✅
+- Create a mutation to trigger cron job function regardless of time (2) ✅
+- Cron job must run with GraphQL server simultaneously (1) ✅
